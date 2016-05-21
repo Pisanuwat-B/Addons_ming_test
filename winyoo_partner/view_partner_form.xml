@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+   
+ 
+ 		<record id="winyoo_view_partner_form" model="ir.ui.view">
+            <field name="name">winyoo.view.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+            <!-- 
+				<field name="is_company" position="attributes">
+					<attribute name="attrs">{'readonly':[('is_lead','=',True)]}</attribute>
+				</field>
+			 -->
+				<field name="is_company" position="before">
+	            	<field name="is_lead" class="oe_inline"/> <label for="is_lead" string="Lead ผู้สนใจ(ยังไม่เป็นลูกค้า)"/>)<br/>(
+				</field>
+				
+             	<field name="parent_id" position="attributes">
+             		<attribute name="options">{"no_open":True,"no_create_edit":True}</attribute>
+					<!-- <attribute name="attrs">{'readonly':[('is_lead','=',True)]}</attribute> -->             		
+             	</field>
+             	<field name="category_id" position="attributes">
+             		<attribute name="options">{"no_open":True,"no_create_edit":True}</attribute>
+             	</field>          
+            
+             	<xpath expr="//field[@name='city']" position="attributes">
+             		<!--Avoid Country_id and zip_code overlap-->
+             		<attribute name="style">width:49%%</attribute>
+             		<attribute name="placeholder">จังหวัด</attribute>
+             	</xpath>
+             	
+
+             	
+             	<xpath expr="//field[@name='state_id']" position="replace">
+					<field name='state_id'
+						class="oe_no_button"
+						placeholder="State"
+						style="width: 49%%"
+						options='{"no_open":True,"no_create_edit":True}'
+						on_change="onchange_state(state_id)"
+						attrs="{
+							'readonly':[('use_parent_address','=',True)], 
+							'invisible':['|',('country_id','!=',235),('country_id','=',False)]
+							}"
+					/>
+				</xpath>
+				<xpath expr="//field[@name='country_id']" position="attributes">
+             		<attribute name="placeholder">ประเทศ (ประเทศไทยไม่ต้องใส่)</attribute>
+             	</xpath>
+     	        <field name="website" position="after">
+             		<br/><h5>จังหวัด ตำบล อำเภอ ซอย ถนน ให้ใช้ตัวย่อ จ.ต.อ.ซ.ถ. เช่น จ.กรุงเทพฯ</h5>
+             	</field>    
+             	<field name="phone" position="attributes">
+             		<attribute name="placeholder">เช่น  02-729-8888</attribute>
+             	</field>   
+             	<field name="mobile" position="attributes">
+             		<attribute name="placeholder">เช่น  089-888-8888</attribute>
+             	</field>   
+             	<field name="email" position="replace">
+             		<field name="email_print"/>
+             	</field>
+				<!-- <xpath expr="//field[@name='child_ids']/kanban/templates//field[@name='email']" position="replace">
+             		<field name="email_print"/>
+             	</xpath> -->             	
+				<!-- <xpath expr="//field[@name='child_ids']" position="attributes">
+             		<attribute name="context">{'default_parent_id': active_id, 
+             			'default_street': street, 'default_street2': street2, 
+             			'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 
+             			'default_country_id': country_id, 
+             			'default_supplier': supplier, 'default_customer': customer, 
+             			'default_use_parent_address': True,
+             			'deault_user_id': active_id}  555555555
+             		</attribute>
+             	</xpath> -->   
+             	             	
+								             	
+                <!--<field name="pid" attrs='{'required':[('is_company','=',True)]}'/>-->
+                              				
+				<xpath expr="//field[@name='title']" position="attributes">
+             		<attribute name="attrs">{'invisible':[('is_company','=',True)]}</attribute>
+             		<attribute name="options">{"no_open":True,"no_create_edit":True}</attribute>
+             		
+             	</xpath>
+             	<field name="comment" position="attributes">
+             		<attribute name="placeholder">สำหรับบริษัท ให้ใส่ข้อกำหนดในการส่ง ซึ่งจะไปแสดงในหน้า DO เช่น ผู้จัดส่งต้องมีร้องเท้าและหมวกเซฟตี้                    สำหรับบุคคลทั่วไปให้ใส่รายละเอียดทั่วไปเกี่ยวกับคนนั้นที่เราอยากใส่เช่นวันเกิด
+             		</attribute>
+             	</field>
+             	<xpath expr="//page[@name='sales_purchases']/group/group[2]" position="inside">
+             		<field name="supplier_type" attrs="{
+             			'required':[('supplier','=',True)],
+             			'readonly':[('supplier','=',False)]             			
+             			}"
+             		/>
+             	</xpath>
+             	<xpath expr="//page[@name='sales_purchases']/group/group[1]//field[@name='user_id']" position="replace">
+             		<field name="user_id" 
+             			attrs="{'required':[('customer','=',True)], 'readonly':[('supplier','=',True)] }"
+             			context="{'default_groups_ref': ['base.group_partner_manager']}"/>
+             			
+             		/>
+             	</xpath>      	
+             	
+
+             	 
+             	<!--  <xpath expr="//form[@string='Contact']" position="inside">
+             		<label for="is_lead"/>
+             		<field name="is_lead"/>
+             	</xpath>-->
+             	
+             	<form string="Contact" position="replace">
+             		<form string="Contact">
+               			<sheet>
+                    		<field name="image" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'/>
+                                        <div class="oe_title">
+                                            	<label for="name" class="oe_edit_only"/>
+                                            	<h2><field name="name" style="width: 70%%"/></h2>
+                                        	<group>
+                                            	<field name="is_lead"/>                                        	                                            
+                                            	<field name="user_id" attrs="{'required':[('customer','=',True)],
+             										'invisible':[('supplier','=',True)]}"/> 
+											</group>
+
+
+                                            <!-- <label for="user_id"/><field name="user_id" required="True" context="{'default_user_id':user_id}"/> -->                                            
+                                            <field name="category_id" invisible="True" widget="many2many_tags" placeholder="Tags..." style="width: 70%%" options='{"no_open": True,"no_create_edit":True}'/>
+                                            
+                                        </div>
+                                        <group>
+                                            <field name="function" placeholder="e.g. Sales Director"/>
+                                            <field name="email_print"/>
+                                            <field name="phone"/>
+                                            <field name="mobile"/>
+                                        </group>
+                                        <div>
+                                            <field name="use_parent_address"/><label for="use_parent_address"/>
+                                        </div>
+                                        <group>
+                                            <label for="type"/>
+                                            <div name="div_type">
+                                                <field class="oe_inline" name="type"/>
+                                            </div>
+                                            <label for="street" string="Address" attrs="{'invisible': [('use_parent_address','=', True)]}"/>
+                                            <div attrs="{'invisible': [('use_parent_address','=', True)]}" name="div_address">
+                                                <field name="street" placeholder="Street..."/>
+                                                <field name="street2"/>
+                                                <div class="address_format">
+                                                    <field name="city" placeholder="City" style="width: 40%%"/>
+                                                    <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True,"no_create_edit":True}' on_change="onchange_state(state_id)"/>
+                                                    <field name="zip" placeholder="ZIP" style="width: 20%%"/>
+                                                </div>
+                                                <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True,"no_create_edit":True}'/>
+                                            </div>
+                                        </group>
+                                        <field name="supplier" invisible="True"/>
+                                        <field name="customer" invisible="True"/>
+                                    </sheet>
+                                </form>
+                     	</form>
+                     	
+                     	
+
+             	
+             	
+             	<!-- แก้ช่อง Saleperson ให้เห็นทุกคนยกเว้น SalesCo--> 
+             	<!--<field name="user_id" position="attributes">
+             		<attribute name="domain">[('user_id','child_of',[res_groups(71).users])]
+             		</attribute>
+             	</field>-->
+             	<!--<field name="user_id" position="attributes">
+             		<attribute name="domain">[('base.group_sale_salesco','in',[groups_id])]
+             		</attribute>
+             	</field>-->   				
+				<!--<field name="user_id" position="replace">
+             		<field name="user_id" 
+                    	context="{'default_groups_ref': ['base.group_sale_salesman']}"/>             		
+             	</field>-->
+             	<!--<field name="user_id" position="attributes">
+             		<attribute name="domain">[('sale_groups_id','in',[g.id for g in user.sale_groups_id])]
+             		</attribute>
+             	</field>-->               	
+
+		    </field>
+		</record>
+
+        <record id="winyoo_view_partner_property_form" model="ir.ui.view">
+            <field name="name">winyoo.res.partner.property.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="product.view_partner_property_form"/>
+            <field name="arch" type="xml">
+            
+                            
+            	<field name="property_payment_term" position="attributes">
+                	<attribute name="attrs">{'required':[('customer','=',True),('is_lead','=',False),('is_company','=',True)]}</attribute>
+                </field>
+                <field name="property_supplier_payment_term" position="attributes">
+                	<attribute name="attrs">{'required':[('supplier','=',True),('is_company','=',True)]}</attribute>
+                </field>
+            	<field name="property_account_receivable" position="attributes">
+                	<attribute name="attrs">{'required':[('is_lead','=',False)]}</attribute>
+             		<attribute name="groups">account.group_account_invoice,purchase.group_purchase_user</attribute>
+
+                </field>
+            	<field name="property_account_payable" position="attributes">
+                	<attribute name="attrs">{'required':[('is_lead','=',False)]}</attribute>
+             		<attribute name="groups">account.group_account_invoice,purchase.group_purchase_user</attribute>
+
+                </field>                                  
+             	<xpath expr="//page[@name='accounting']" position="attributes">
+             		<attribute name="groups">account.group_account_invoice,base.group_sale_salesman,base.group_sale_salesco,purchase.group_purchase_user</attribute>
+             	</xpath>
+
+            </field>
+        </record>
+
+       <record model="ir.actions.act_window" id="lead_list_action">
+            <field name="name">Lead Name (รายชื่อผู้สนใจ ยังไม่เป็นลูกค้า แต่ต้องการออก Quotation)</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Lead Name
+                </p>
+            </field>
+            <field name="domain">[('is_lead','=',True)]</field>
+            <field name="context">{'default_customer': 1,'default_is_lead':1}</field>            
+            
+        </record>
+        
+        
+        <record id="winyoo_view_partner_tree" model="ir.ui.view">
+            <field name="name">winyoo.view.partner.tree</field>
+            <field name="model">res.partner</field>
+	      	<field name="inherit_id" ref="base.view_partner_tree"/>            
+            <field name="arch" type="xml">
+	        	<field name="email" position="replace">
+	        		<field name="email_print" />
+	        	</field>                    
+            </field>
+        </record>        
+        
+        
+        
+
+        <!-- the following menuitem should appear *after*
+             its parent sales_menu and *after* its
+             action course_list_action -->
+        <menuitem id="lead_menu" name="Lead Name (รายชื่อผู้สนใจ)" parent="base.menu_sales" 
+        	sequence="2"
+            action="lead_list_action"/>
+		
+		<!--  แก้ Customer menu ให้ไม่ขึ้น is_lead และขึ้นเฉพาะ customers-->
+       <record model="ir.actions.act_window" id="base.action_partner_form">
+            <field name="domain">[('customer','=',1),('is_lead','=',False)]</field>
+            <field name="context">{'search_default_type_company': 1}</field>
+            <field name="limit">40</field>
+            <field name="view_mode">tree,kanban,form</field>                         
+        </record>
+		
+		<!--  แก้ Supplier menu ให้ไม่ขึ้น is_lead และ ขึ้นเฉพาะ Suppliers -->
+       	<record model="ir.actions.act_window" id="base.action_partner_supplier_form">
+           	<field name="domain">[('supplier','=',1),('is_lead','=',False)]</field>
+            <field name="context">{'default_customer': 0,'default_supplier': 1,'search_default_type_company': 1}</field>
+            <field name="limit">40</field>
+            <field name="view_mode">tree,kanban,form</field>             
+       	</record>
+  
+ 
+    </data>
+</openerp>
+

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_winyoo_product_tree" model="ir.ui.view">
+            <field name="name">winyoo.product.tree</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <tree string="Product">
+                    <field name="default_code" />
+                    <field name="print_name" />
+                    <field name="name"/>                
+                    <field name="qty_available" />
+                    <field name="qty_available2" string="Packing On Hand" />
+                    <field name="qty_available_quarter" />
+                    <field name="qty_available_year" />
+                    <field name="incoming_qty" />
+                    <field name="qty_forcast_quarter" />
+                    <field name="qty_usage_quarter" />
+                    <field name="qty_usage_year" />
+                    <field name="type" invisible="1" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="winyoo_product_normal_action" model="ir.actions.act_window">
+            <field name="name">Tinnakorn Stock</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{"search_default_filter_to_sell":1}</field>
+            <field name="view_id" ref="view_winyoo_product_tree"/>
+            <field name="search_view_id" ref="product.product_search_form_view"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new product.
+              </p><p>
+                You must define a product for everything you sell, whether it's
+                a physical product, a consumable or a service you offer to
+                customers.
+              </p><p>
+                The product form contains information to simplify the sale
+                process: price, notes in the quotation, accounting data,
+                procurement methods, etc.
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_products_thinnakorn"
+                  action="winyoo_product_normal_action"
+                  parent="base.menu_product"
+                  groups="base.group_no_one" sequence="15"/>
+
+ 		<record id="winyoo_product_template_tree_view" model="ir.ui.view">
+            <field name="name">winyoo.product.template.tree.view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+            
+		    	<field name="name" position="before">
+		    		<field name="default_code"/>
+		    		<field name="print_name"/>
+		    		
+		    	</field>            
+            
+
+		    </field>
+		</record>
+
+
+ 		<record id="winyoo_product_template_form_view" model="ir.ui.view">
+            <field name="name">winyoo.product.template.common.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+            
+            	<field name="uom_id" position="attributes">
+		    		<attribute name="string">หน่วยขาย (Unit of Measture)</attribute>	    		
+		    	</field>
+            	<field name="uom_id" position="after">
+		    		<br/><h5>จำนวนครั้งใช้ "time" จำนวนเครื่องใช้ "set"</h5>	    		
+		    	</field>		    	
+
+		        <field name="list_price" position="after">
+		    		<field name="manu_short"
+		    			attrs="{'required':[('sale_ok','=',True)],'invisible':[('sale_ok','=',False)]}"  
+		    			placeholder="เช่น GADOT (ไม่ใช่ชื่อsupplier)"/>		     
+		    		<field name="origin_country"
+		    			attrs="{'required':[('sale_ok','=',True)],'invisible':[('sale_ok','=',False)]}" 
+		    			placeholder="เช่น Germany" />
+		    		<field name="package" 
+		    			attrs="{'required':[('sale_ok','=',True)],'invisible':[('sale_ok','=',False)]}" 
+		    			placeholder="เช่น 25 kg/drum"/>
+		    		<field name="pack"
+		    			attrs="{'required':[('sale_ok','=',True)]}"  
+		    			placeholder="เช่น drum"/>
+		    		<field name="nperpack" 
+		    			attrs="{'required':[('sale_ok','=',True)],'invisible':[('sale_ok','=',False)]}" 		    		
+		    			placeholder="เช่น 25"/><br/>
+		    		<h5>ระวัง! สินค้าขนาดถุง 25 kg <br/>ถ้าหน่วยขายเป็น'kg' ขนาดคือ 25<br/>ถ้าหน่วยขายเป็น'ถุง' ขนาดคือ 1</h5>
+ 
+		    	</field>
+
+		    	<field name="description" position="after">
+		    		<label for="receive_warning" class="oe_edit_only"/>
+		    		<field name="receive_warning" placeholder="เช่น ห้ามโยนสินค้า รับเข้าห้องเย็นทันที สินค้าเป็นสารอันตราย"/>
+		    		<label for="deliver_warning" class="oe_edit_only"/>
+		    		<field name="deliver_warning" placeholder="แสดงใน DOP เช่น ติดสติกเกอร์ด้วย เคาะฟังเสียงข้างถัง"/>
+		    	</field>
+		    	<field name="description" position="attributes">
+		    		<attribute name="placeholder">รายละเอียดเกี่ยวกับสินค้า ใส่ไว้ดูเองภายใน</attribute>
+		    	</field>
+
+		    	<field name="type" position="before">
+					<h5>ให้ใส่ข้อมูลทั้งหมดเป็นภาษาอังกฤษ(เรามีออกPOต่างชาติ ยกเว้นของใช้)</h5><br/> 
+		    		<field name="print_name"
+		    			string="Print Name(ชื่อลูกค้าเห็น)" 
+		    			placeholder="ชื่อสำหรับพิมพ์ เช่น Citric Acid" 
+		    			required="True"/>
+		    	</field>   	
+		    	
+		    	
+
+				<xpath expr="//button[@string='⇒ Update']" position="attributes">
+					<attribute name="groups">base.group_erp_manager</attribute>
+             	</xpath>		    	 
+		    	
+		    	<!-- Warranty(warranty) and Customers Lead Time(sale_delay) 
+		    	<group name="sale_condition" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </group>--> 
+		    	
+		    	<!-- Website 
+		    	<group name="website_and_pos" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </group>--> 
+
+				<!-- ดึงมาทั้งทอนเพื่อแก้ส่วน Separator ช่วงล่าง Description for Purchase Order-->
+                <page string="Procurements" position="replace">
+                <page string="Procurements" groups="base.group_user">
+                 	<group name="procurement">
+                  		<group name="general">
+                 			<field name="standard_price"/>
+                		</group>
+                   		<group name="procurement_uom" groups="product.group_uom" string="Purchase">
+                    		<field name="uom_po_id"/>
+                   		</group>
+                 	</group>
+            		<separator string="Suppliers"/>
+                	<field name="seller_ids"/>
+                   	<separator string="คำอธิบายเพิ่มเติมสำหรับผู้ขาย (ขึ้นในใบสั่งซื้อใต้ชื่อสินค้า)"/>
+                    <field name="description_purchase" placeholder="ใส่ข้อมูลที่ต้องการให้ขึ้นทุกครั้งตอนออกใบสั่งซื้อ PO"/>
+                </page>
+				</page>
+				
+				<!-- ดึงมาทั้งทอนเพื่อแก้ส่วน sale_dalay, warantee และ Separator ช่วงล่าง Description for Quotation-->
+				<page string="Sales" position="replace">              
+
+             		<page string="Sales" attrs="{'invisible':[('sale_ok','=',False)]}" name="sales">
+                   		<group name="sale">
+                 			<group name="sale_condition" string="Sale Conditions" colspan="3">
+                              	<label for="sale_delay"/>
+                    			<div>
+                        			<field name="sale_delay" 
+                        				attrs="{'readonly':[('sale_ok','=',False)]}" 
+                        				class="oe_inline" 
+                        				style="vertical-align:baseline"/> days (ระยะเวลาที่บอกลูกค้า)
+                    			</div>                 			
+                        		<label for="warranty" invisible="True"/>
+                            	<div invisible="True">
+                                	<field name="warranty" class="oe_inline"/> months
+                              	</div>
+                        	</group>
+                       		<group groups="product.group_uos" string="Unit of Measure">
+                          		<field name="uos_id"/>
+                            	<field name="uos_coeff"/>
+                           		<field name="mes_type"/>
+                       		</group>
+                      	</group>
+                       	<group name="website_and_pos" col="2" invisible="1">
+                        </group>
+                        <separator string="คำอธิบายเพิ่มเติมสำหรับผู้ซื้อ (ขึ้นในใบเสนอราคาและDO ใต้ชื่อสินค้า)"/>
+                        <field name="description_sale" placeholder="ใส่ข้อมูลที่ต้องการให้ขึ้นทุกครั้งตอนออก quotation หรือ DO"/>
+            		</page>                
+            	</page>                
+                
+                
+                
+               
+
+		    </field>
+		</record>
+
+		<record id="winyoo_product_template_only_form_view" model="ir.ui.view">
+            <field name="name">winyoo.product.template.product.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+            
+		        <field name="default_code" position="replace">
+		        	<field name="default_code" attrs="{'invisible': [('product_variant_count', '>', 1)], 'required':[('sale_ok','=',True)]}"/>
+		        	<!-- <field name="default_code" attrs="{'invisible': [('product_variant_count', '>', 1)]}"/>-->
+		        	<h5><br/> ต้อง! ลงทะเบียนสินค้าใน product registration ก่อนจะใส่ในโปรแกรม 
+		        	<br/><br/>Note: stockable = สินค้าซื้อขาย
+		        	<br/>      consumable = สินค้าซื้อมาใช้ 
+		        	<br/>      service = บริการ
+		        	<br/>อย่าลืมติ๊ก full lot traciblity สำหรับสินค้า stockable (เพื่อเก็บเลขlot)    	
+		        	</h5>		        	
+		    	</field>
+		    	<!-- คนทั่วไปไม่สามารถกด inactive สินค้าได้ (สินค้าซื้อขายแล้วต้องบอก admin)-->
+				<field name="active" position="replace">
+					<field name="active" groups="base.group_erp_manager"/>
+				</field>
+		    	<field name="ean13" position="replace">
+		    		<field name="ean13" invisible='0'/>
+					<!-- <field name="ean13" attrs="{'invisible': [('product_variant_count', '>', 1)]}"/>-->
+		    	</field>   
+
+
+
+		    </field>
+		</record>
+		
+		
+		
+		
+		<!--  แก้ Product menu (Sale) ให้ขึ้นเฉพาะ sale_ok -->
+       	<record model="ir.actions.act_window" id="product.product_template_action">
+           	<field name="domain">[('sale_ok','=',1)]</field>
+            <field name="context">{}</field>
+            <field name="limit">30</field>
+            <field name="view_mode">kanban,tree,form</field>             
+       	</record>		
+		<!--  แก้ Product menu (Purchase) ให้ขึ้นเฉพาะ purchase_ok -->
+       	<record model="ir.actions.act_window" id="purchase.product_normal_action_puchased">
+           	<field name="domain">[('purchase_ok','=',1)]</field>
+            <!-- <field name="context">{"default_track_all":1}</field>-->
+            <field name="context">{}</field>
+            <field name="limit">30</field>
+            <field name="view_mode">kanban,tree,form</field>             
+       	</record>	
+
+
+
+    </data>
+</openerp>
+

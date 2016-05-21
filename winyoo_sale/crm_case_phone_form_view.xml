@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+  
+    	<record model="ir.ui.view" id="winyoo_crm_case_phone_form_view">
+        	<field name="name">winyoo.crm.case.phone.form.view</field>
+        	<field name="model">crm.phonecall</field>
+        	<field name="inherit_id" ref="crm.crm_case_phone_form_view"/>
+            <field name="arch" type="xml">        	
+				
+				<!-- <label for="duration" position="attributes">        	
+             		<attribute name="invisible">True</attribute>
+             	</label>	
+             	<field name="duration" position="attributes">        	
+             		<attribute name="invisible">True</attribute>
+             	</field>-->	
+             	<field name="name" position="attributes">        	
+             		<attribute name="placeholder">หัวข้องาน</attribute>
+             	</field>
+             	<field name="partner_id" position="attributes">        	
+             		<attribute name="options">{"no_open":True,"no_create_edit":True}</attribute>
+             	</field>
+             	<field name="partner_mobile" position="attributes">        	
+             		<attribute name="invisible">True</attribute>
+             	</field>
+             	<field name="opportunity_id" position="attributes">        	
+             		<attribute name="invisible">True</attribute>
+             	</field>
+             	<field name="categ_id" position="attributes">        	
+             		<attribute name="required">True</attribute>
+             	</field>
+             	<field name="description" position="attributes">        	
+             		<attribute name="placeholder">ใส่รายละเอียดการติดต่อ หรือ รายละเอียดงาน</attribute>
+             		<attribute name="required">True</attribute>
+             	</field>
+             	
+             	
+             </field>
+    	</record>
+    	
+   		<!-- Logged Phonecalls Tree View -->
+    	<record model="ir.ui.view" id="winyoo_crm_case_inbound_phone_tree_view">
+	        <field name="name">winyoo.crm.case.inbound.phone.tree.view</field>
+    	    <field name="model">crm.phonecall</field>
+    	    <field name="inherit_id" ref="crm.crm_case_inbound_phone_tree_view"/>
+        	<field name="arch" type="xml">
+               	<field name="categ_id" position="replace"></field>
+				
+               	<field name="date" postion="after">
+               	    <field name="categ_id" widget="selection" require="True"
+                    	domain="[('object_id.model', '=', 'crm.phonecall')]"
+                    	invisible="0"/>
+                </field>
+                <field name="name" position="after">
+               		<field name="description" required="True" placeholder="รายละเอียด"/>
+               	</field>
+
+               	
+
+
+        	</field>
+    	</record>
+    	
+    	
+    </data>
+
+</openerp>

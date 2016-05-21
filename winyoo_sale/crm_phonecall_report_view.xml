@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+<!--  use thier old action -->
+        <record id="crm.action_report_crm_phonecall" model="ir.actions.act_window">
+            <field name="name">All Phone Calls Analysis</field>
+            <field name="res_model">crm.phonecall.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+            <field name="context">{'group_by_no_leaf':1,'group_by':[],'search_default_Salesperson':1}</field>
+            <field name="view_id" ref="crm.view_report_crm_phonecall_graph"/>
+            <field name="search_view_id" ref="crm.view_report_crm_phonecall_filter"/>
+            <field name="help">From this report, you can analyse the performance of your sales team, based on their phone calls. You can group or filter the information according to several criteria and drill down the information, by adding more groups in the report.</field>
+        </record>
+<!--  copy to make a new action -->        
+        <record id="crm.action_report_crm_phonecall_personal" model="ir.actions.act_window">
+            <field name="name">Personal Phone Calls Analysis</field>
+            <field name="res_model">crm.phonecall.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+            <field name="domain">[('user_id', '=',uid)]</field>            
+            <field name="context">{'group_by_no_leaf':1,'group_by':[],'search_default_Salesperson':1}</field>
+            <field name="view_id" ref="crm.view_report_crm_phonecall_graph"/>
+            <field name="search_view_id" ref="crm.view_report_crm_phonecall_filter"/>
+            <field name="help">From this report, you can analyse the performance of your sales team, based on their phone calls. You can group or filter the information according to several criteria and drill down the information, by adding more groups in the report.</field>
+        </record>          
+  
+<!-- Beware the parent of this menu is next_id_64 -->
+        <menuitem name="All Calls Analysis"
+            groups="base.group_sale_salesman_all_leads"
+            action="crm.action_report_crm_phonecall"
+            id="crm.menu_report_crm_phonecalls_tree" parent="base.next_id_64" sequence="20"/>
+        <menuitem name="Personal Calls Analysis"
+            groups="base.group_sale_salesman"
+            action="crm.action_report_crm_phonecall_personal"
+            id="crm.menu_report_crm_phonecalls_personal_tree" parent="base.next_id_64" sequence="21"/>            
+    	
+    </data>
+
+</openerp>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="0">
+	
+	<!-- Create group "SalesCo" -->
+    <record id="base.group_sale_salesco" model="res.groups">
+        <field name="name">SalesCo</field>
+        <field name="category_id" ref="base.module_category_sales_management"/>
+        <field name="comment">the user will have access to all records of everyone in the sales application, and partly of Warehouse applicatoin.</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!--<record model="ir.ui.menu" id="base.menu_base_partner">
+        <field eval="[(4, ref('base.group_sale_salesman'))]" name="groups_id"/>
+    </record>-->
+
+</data>
+<data noupdate="1">
+
+    <!-- Multi - Salesmen sales order assignation rules -->
+
+    <record id="salesco_sale_order_see_all" model="ir.rule">
+        <field name="name">SalesCo All Orders</field>
+        <field ref="model_sale_order" name="model_id"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_sale_salesco'))]"/>
+    </record>
+
+    <record id="salesco_sale_order_report_see_all" model="ir.rule">
+        <field name="name">SalesCo All Orders Analysis</field>
+        <field ref="model_sale_report" name="model_id"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_sale_salesco'))]"/>
+    </record>
+
+    <record id="salesco_sale_order_line_see_all" model="ir.rule">
+        <field name="name">SalesCo All Orders Lines</field>
+        <field ref="model_sale_order_line" name="model_id"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_sale_salesco'))]"/>
+    </record>
+
+</data>
+</openerp>

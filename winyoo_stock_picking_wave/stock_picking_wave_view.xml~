@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+ 		<menuitem action="stock_picking_wave.action_picking_wave" 
+ 			id="stock_picking_wave.menu_action_picking_wave" 
+ 			name="Delivery Order Planning"
+ 			parent="base.menu_sales" sequence="8"/> 
+ 
+ 		<record id="winyoo_view_picking_wave_form" model="ir.ui.view">
+ 			<field name="name">winyoo.picking.wave.form</field>
+		 	<field name="model">stock.picking.wave</field>
+		 	<field name="inherit_id" ref="stock_picking_wave.view_picking_wave_form"/>
+		 	<field name="arch" type="xml">
+		 	<!-- <button name="action_assign" position="replace">
+        	     <button name="action_assign" invisible="True" 
+        	     	string="Confirm picking" type="object" 
+        	     	icon="gtk-apply" 
+        	     	attrs="{'invisible': [('state', 'in', ('done', 'cancel', 'confirmed', 'assigned'))]}"/>
+                </button> 
+			-->
+			<!-- 
+			<button name="done" position="replace">
+                        <button name="done" states="in_progress" string="Done" type="object" class="oe_highlight" groups="base.group_root"/>
+            </button>
+            <button name="cancel_picking" position="replace">
+                        <button name="cancel_picking" string="Cancel" type="object" states="in_progress" groups="base.group_root"/>                        			
+            </button>
+			 -->
+			<button name="done" position="attributes">
+						<attribute name="groups">base.group_root</attribute>
+            </button>
+            <button name="cancel_picking" position="attributes">
+                        <attribute name="groups">base.group_root</attribute>                        			
+            </button>
+
+			    <field name="picking_ids" position="replace">
+                	<field name="picking_ids" widget="many2many" domain="[('state', 'not in', ('done', 'cancel'))]">
+                   		<tree>
+                    		<field name="name" invisible="True"/>
+                    		<field name="origin"/>
+                    		<field name="min_date"/>
+							<field name="partner_id"/>                    		                    		
+                    		<field name="backorder_id"/>
+                    		<field name="date" invisible="True"/>
+                    		<field name="state"/>
+                    		<button name="action_assign" string="Confirm picking" type="object" icon="gtk-apply" attrs="{'invisible': [('state', 'in', ('done', 'cancel', 'confirmed', 'assigned'))]}"/>
+                           	<button name="force_assign" invisible="True" 
+								string="Force availability" type="object" 
+								icon="gtk-go-forward" 
+								attrs="{'invisible': [('state', 'in', ('done', 'cancel', 'draft', 'assigned'))]}"/>                       
+                            <button name="action_cancel" invisible="True" string="Cancel picking" 
+								type="object" icon="gtk-cancel" 
+								attrs="{'invisible': [('state', 'in', ('done', 'cancel'))]}"/>
+                    	</tree>
+             		</field> 
+                </field>               
+			    			                    
+				<field name="user_id" position="replace">
+					<field name="user_id" invisible="True"/>
+				</field>
+				<field name="name" position="replace">
+					<field name="name" string="DOP" class="oe_inline" readonly="1"/>
+					<h3>
+						<field name="create_date" readonly="True"/>						
+					</h3>			
+					
+				</field>
+				
+				<xpath expr="//separator[@string='Pickings']" position="before">
+             		<label for="ref_old_dop"/>
+             		<field name="ref_old_dop" string="อ้างอิง DOP ที่แก้ไข"/>
+             	</xpath>
+             	
+             	
+			</field>		
+		</record>
+
+
+    </data>
+</openerp>
+

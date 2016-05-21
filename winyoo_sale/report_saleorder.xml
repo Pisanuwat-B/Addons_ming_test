@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<!--Below is from report_saleorder_document2-->
+<template id="report_saleorder_document2">
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+            <h3>
+                <span t-if="o.state not in ['draft','sent']">Order N° </span>
+                <span t-if="o.state in ['draft','sent']">Quotation N° </span>
+                <span t-field="o.name"/>
+            </h3>
+            <br/>
+
+            <div class="row">
+                <div class="col-xs-8">
+                   	<strong>Company:</strong>
+        			<span t-field="o.partner_id"/>
+        			<strong  t-if="o.state not in ['draft','sent']">     Ref.Customer PO:</strong>
+        			<span t-field="o.client_order_ref" t-if="o.state not in ['draft','sent']"/>
+	        		<br/>
+        			<strong>Contact person:</strong>
+        			<span t-field="o.partner_id.name"/>
+        			<span t-field="o.partner_id.phone"/>
+                </div>
+                
+                <div t-if="o.state in ['draft','sent']" class="col-xs-4">
+            		<strong> No: </strong>
+            		<span t-field="o.name"/>
+            		<br/>
+            		<strong> Issue Date:</strong>
+            		<span t-field="o.date_order" t-field-options="{&quot;format&quot;: &quot;d MMM y&quot;}"/> (<span t-field="o.date_order" t-field-options="{&quot;format&quot;:&quot;dd/MM/yyyy&quot;}"/>)
+            		<br/>
+            		<strong>Salesperson:</strong>
+            		<span t-field="o.user_id.name"/>
+        		</div>
+        		<div t-if="o.state not in ['draft','sent']" class="col-xs-3">
+            		<strong> No: </strong>
+            		<span t-field="o.name"/>
+            		<br/>
+            		<strong>Delivery Date:</strong>
+            		<span t-field="o.date_order" t-field-options="{&quot;format&quot;: &quot;d MMM y&quot;}"/> (<span t-field="o.date_order" t-field-options="{&quot;format&quot;:&quot;dd/MM/yyyy&quot;}"/>)
+            		<br/>
+            		<strong>Salesperson:</strong>
+            		<span t-field="o.user_id.name"/>
+        		</div>	
+        		
+        	</div>
+            
+        	<div class="row">
+          		<div class="col-xs-6">
+          			<p t-if="o.partner_shipping_id == o.partner_invoice_id">
+            			<strong><font size="-2">Invoice and shipping address:</font></strong>
+            		</p>
+            		<p t-if="o.partner_shipping_id != o.partner_invoice_id">
+            			<strong><font size="-2">Invoice address: </font></strong>
+            		</p>
+            		<div t-field="o.partner_invoice_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;,&quot;fax&quot;], &quot;no_marker&quot;: true}"/>
+            		<p t-if="o.partner_id.vat">Tax ID: <span t-field="o.partner_id.vat"/></p>
+          		</div>
+	        	
+	        	<div class="col-xs-6">
+            		<div t-if="o.partner_shipping_id != o.partner_invoice_id">
+              			<p>
+                			<strong><font size="-2">Shipping address :</font></strong>
+              			</p>
+              			<div t-field="o.partner_shipping_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;,&quot;fax&quot;], &quot;no_marker&quot;: true}"/>
+          			</div>
+        		</div>
+        	</div>
+                  
+         <br/><br/>
+         
+          <table class="table table-condensed">
+                  <thead>
+                    <tr>
+                        <th>Description</th>
+                        <!--<th>Taxes</th>-->
+                        <th class="text-right">Unit Price</th>
+                        <th class="text-right">Quantity</th>
+                        <th groups="sale.group_discount_per_so_line">Disc.(%)</th>
+                        <!--<th class="text-right">Price</th>-->
+                    </tr>
+               </thead>
+               <tbody class="sale_tbody">
+                    <tr t-foreach="o.order_line" t-as="l">
+                        <td>
+                           <span t-field="l.name"/>
+                        </td>
+                        <!--<td>
+                            <span t-esc="', '.join(map(lambda x: x.name, l.tax_id))"/>
+                        </td>-->
+                        <!-- I modified below to get currency and unit after price-->
+                        <td class="text-right"> 
+                            <span t-field="l.price_unit" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
+                            <span>/</span>
+                            <span groups="product.group_uom" t-field="l.product_uom"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="l.product_uom_qty"/>
+                            <span groups="product.group_uom" t-field="l.product_uom"/>
+                        </td>
+                        <td groups="sale.group_discount_per_so_line">
+                            <span t-field="l.discount"/>
+                        </td>
+                        <!--<td class="text-right">
+                            <span t-field="l.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
+
+                        </td>-->
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="row">
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td><strong>Total Without Taxes</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.amount_untaxed" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Taxes</td>
+                            <td class="text-right">
+                                <span t-field="o.amount_tax" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td><strong>Total</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.amount_total" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+
+            <p t-field="o.note"/>
+            <p t-if="o.credit_term_id.note">
+                <strong>Credit Term:</strong>
+                <span t-field="o.credit_term_id.note"/>
+            </p>
+            <br/><br/><br/><br/>
+        	<p t-if="o.state in ['draft','sent']" align="right"> Best Regards  <br/> <br/><br/><br/><br/>
+          	Prayoon Kongkavitool <br/> 
+          	(Managing Director)</p>
+        	<br/>
+            
+            <div class="oe_structure"/>
+        </div>
+    </t>
+ 
+</template>
+
+<!--Below is from report_saleorder2-->
+<template id="report_saleorder2">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'winyoo_sale.report_saleorder_document2')"/>
+        </t>
+    </t>
+</template>
+
+<!--Below is Command to put button to choose print1/2 from sale_report.xml-->
+	<report
+		 id="report_sale_order2"
+         string="Delivery Order(DO)"
+         model="sale.order" 
+         report_type="qweb-pdf"
+         file="winyoo_sale.report_saleorder2" 
+         name="winyoo_sale.report_saleorder2" 
+     />
+
+
+</data>
+</openerp>

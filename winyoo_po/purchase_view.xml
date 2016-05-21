@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+<!-- สร้าง filter สำหรับ menu draft po -->
+        <record id="view_search_draft_po" model="ir.ui.view">
+            <field name="name">view.search.draft.po</field>
+            <field name="model">purchase.order</field>
+            <field name="arch" type="xml">
+                <search string="Search Purchase Order">
+                	<field name="po_name" string="PO number"/>
+                    <field name="name" string="Reference"/>
+                    <field name="partner_id" operator="child_of"/>
+                    <field name="product_id"/>
+                    <field name="create_uid"/>
+                    <filter name="draft_wait" string="Draft" domain="[('state','in',('draft','sent','bid','confirmed'))]"/>
+                    <filter name="approved" string="Purchase Orders" domain="[('state','not in',('draft','cancel'))]"/>
+                    <filter name="exception" string="Exception" domain="[('state','in',('except_invoice','except_picking'))]"/>
+                    <separator/>
+                    <filter name="not_invoiced" string="Not Invoiced" domain="[('invoice_ids','=', False)]"/>
+                    <separator/>
+                    <filter string="New Mail" name="message_unread" domain="[('message_unread','=',True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Supplier" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Order Month" icon="terp-go-month" domain="[]" context="{'group_by':'date_order'}"/>
+                        <filter string="Expected Month" icon="terp-go-month" domain="[]" context="{'group_by':'minimum_planned_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+    
+<!-- สร้างactionสำหรับmenu Draft PO ตัวอย่างมาจาก action "purchase_rfq" -->
+
+        <record id="action_draft_po" model="ir.actions.act_window">
+            <field name="name">Draft PO action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="context">{'search_default_draft_wait': 1}</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">tree,form,graph,calendar</field>
+            <field name="search_view_id" ref="view_search_draft_po"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a request for quotation.
+              </p><p>
+                The quotation contains the history of the discussion/negotiation
+                you had with your supplier. Once confirmed, a request for
+                quotation (RFQ) is converted into a purchase order.
+              </p><p>
+                Most propositions of purchase orders are created automatically
+                by Odoo based on inventory needs.
+              </p>
+            </field>
+        </record>    
+       	<menuitem action="action_draft_po" id="purchase.menu_purchase_rfq"
+        	parent="purchase.menu_procurement_management" 
+            name="Draft PO(or RFQ)"
+            sequence="0"/>
+            
+        <!-- <record id="view_purchase_order_filter" model="ir.ui.view">
+            <field name="name">purchase.order.list.select</field>
+            <field name="model">purchase.order</field>
+            <field name="arch" type="xml">
+                <search string="Search Purchase Order">
+                    <field name="name" string="Reference"/>
+                    <field name="partner_id" operator="child_of"/>
+                    <field name="product_id"/>
+                    <field name="create_uid"/>
+                    <filter name="draft" string="Quotations" domain="[('state','in',('draft','sent'))]"/>
+                    <filter name="approved" string="Purchase Orders" domain="[('state','not in',('draft','cancel'))]"/>
+                    <filter name="exception" string="Exception" domain="[('state','in',('except_invoice','except_picking'))]"/>
+                    <separator/>
+                    <filter name="not_invoiced" string="Not Invoiced" domain="[('invoice_ids','=', False)]"/>
+                    <separator/>
+                    <filter string="New Mail" name="message_unread" domain="[('message_unread','=',True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Supplier" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Order Month" icon="terp-go-month" domain="[]" context="{'group_by':'date_order'}"/>
+                        <filter string="Expected Month" icon="terp-go-month" domain="[]" context="{'group_by':'minimum_planned_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>-->          
+                      
+		<record id="winyoo_view_purchase_order_filter" model="ir.ui.view">
+            <field name="name">winyoo.filter.purchase.order.list.select</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="arch" type="xml">
+                <filter name="not_invoiced" position="after">
+                    <filter name="not_shipped" string="Not Transferred" domain="[('shipped','=', False),('state','not in',('draft','cancel'))]"/>
+                    <filter name="ok_shipped" string="Transferred" domain="[('shipped','=', True)]"/>
+                </filter>
+                <!-- Kwan:เวลาพิมพ์ในช่อง search  ให้PO Numberขึ้นด้วย-->
+                <field name="name" position="before">
+                    <field name="po_name" string="PO number"/>
+                </field>
+                
+            </field>
+        </record>
+
+
+
+
+        <record id="purchase_for_sell_form_action" model="ir.actions.act_window">
+            <field name="name">Purchase Orders For Sell</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">tree,form,graph,calendar</field>
+            <field name="context">{'search_default_not_shipped': 1}</field>
+            <field name="domain">[('state','not in',('draft','sent','bid', 'confirmed')),('po_type','=','a')]</field>
+            <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a quotation that will be converted into a purchase order. 
+              </p><p>
+                Use this menu to search within your purchase orders by
+                references, supplier, products, etc. For each purchase order,
+                you can track the related discussion with the supplier, control
+                the products received and control the supplier invoices.
+              </p>
+            </field>
+        </record>
+        <record id="purchase_for_use_form_action" model="ir.actions.act_window">
+            <field name="name">Purchase Orders For Use</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">tree,form,graph,calendar</field>
+            <field name="context">{'search_default_not_shipped': 1}</field>
+            <field name="domain">[('state','not in',('draft','sent','bid', 'confirmed')),('po_type','=','b')]</field>
+            <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a quotation that will be converted into a purchase order. 
+              </p><p>
+                Use this menu to search within your purchase orders by
+                references, supplier, products, etc. For each purchase order,
+                you can track the related discussion with the supplier, control
+                the products received and control the supplier invoices.
+              </p>
+            </field>
+
+        </record> 
+        <menuitem id="purchase.menu_procurement_for_sell" name="PO for sell"
+        	action="purchase_for_sell_form_action"        
+            parent = "purchase.menu_purchase_form_action"/>
+            
+        <menuitem id="purchase.menu_procurement_for_use" name="PO for use"
+           	action="purchase_for_use_form_action"
+            parent = "purchase.menu_purchase_form_action"/>
+
+        <record id="winyoo_purchase_order_tree" model="ir.ui.view">
+            <field name="name">winyoo_purchase_order_tree</field>
+            <field name="model">purchase.order</field>
+	      	<field name="inherit_id" ref="purchase.purchase_order_tree"/>            
+            <field name="arch" type="xml">
+            	<tree string="Purchase Order" position="attributes">
+            		<attribute name="default_order">minimum_planned_date</attribute>	
+            	</tree>
+	        	<field name="name" position="after">
+	        		<field name="po_name" />
+	        	</field>                    
+            </field>
+        </record>                         
+
+<!-- Menu for supplier name -->
+        <record id="action_partner_supplier_sell_form" model="ir.actions.act_window">
+            <field name="name">Suppliers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('supplier_type','=','a')]</field>            
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_type_company': 1,
+            		'default_customer': 0,'default_supplier': 1, 'default_supplier_type':'a'}</field>
+            <field name="filter" eval="True"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+              </p><p>
+                Odoo helps you easily track all activities related to
+                a supplier: discussions, history of purchases,
+                documents, etc.
+              </p>
+            </field>
+        </record>
+        <record id="action_partner_supplier_use_form" model="ir.actions.act_window">
+            <field name="name">Suppliers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('supplier_type','=','b')]</field>            
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_type_company': 1,
+            		'default_customer': 0,'default_supplier': 1, 'default_supplier_type':'b'}</field>
+            <field name="filter" eval="True"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+              </p><p>
+                Odoo helps you easily track all activities related to
+                a supplier: discussions, history of purchases,
+                documents, etc.
+              </p>
+            </field>
+        </record>        
+
+
+    
+	    <menuitem id="base.supplier_name_sell" name="Supplier for sell"
+    	    parent="base.menu_procurement_management_supplier_name"
+        	action="action_partner_supplier_sell_form" sequence="16"/>
+
+	    <menuitem id="base.supplier_name_use" name="Supplier for use and service"
+    	    parent="base.menu_procurement_management_supplier_name"
+        	action="action_partner_supplier_use_form" sequence="17"/>
+                   
+        <!-- <record id="menu_purchase_rfq" model="ir.ui.view">
+        	<field name="name">"Draft PO (or RFQ)"</field>
+        </record> -->
+        
+ 		<record id="winyoo_purchase_order_line_form" model="ir.ui.view">
+            <field name="name">winyoo.purchase.order.line.form</field>
+            <field name="model">purchase.order.line</field>
+            <field name="inherit_id" ref="purchase.purchase_order_line_form"/>
+            <field name="arch" type="xml">
+
+		    	<field name="name" position="before">
+		    		<h4> ใส่ข้อความส่วนที่เพิ่มเติมจากชื่อ จะขึ้นใต้ชื่อสินค้า 
+		    		</h4>	    		
+		    	</field>
+		    	<!-- <field name="name" position="replace">
+		    		<field name="name" required="False"/>    		
+		    	</field>  -->		    	
+		    	<!-- <field name="name" position="attributes">
+		    		<attribute name="placeholder">ใส่ข้อความส่วนที่เพิ่มเติมจากชื่อ จะขึ้นใต้ชื่อสินค้า</attribute>	    		
+		    	</field>  -->
+		    	<!-- <page string="Notes" position="replace">
+					<label string="Quotation " attrs="{'invisible': [('state','not in',('draft'))]}"/>
+		    	</label> -->
+
+
+ 		    </field>
+		</record>
+        
+ 
+ 		<record id="winyoo_purchase_purchase_order_form" model="ir.ui.view">
+            <field name="name">winyoo.purchase.purchase_order_form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <!--<field name="mode">primary</field>-->
+            <field name="arch" type="xml">
+            
+            	<!-- <field name="partner_id" position="replace">
+					<field name="partner_id" on_change="onchange_partner_id(partner_id, context)" 
+						context="{'search_default_supplier':1, 'default_supplier':1, 'default_customer':0}" 
+						domain="[('supplier','=',True)]"/>
+				</field> -->
+		    	<field name="partner_ref" position="attributes">
+		    		<attribute name="string">เลขใบเสนอราคาผู้ขาย</attribute>	    		
+		    	</field>
+		    	<field name="minimum_planned_date" position="replace"></field>
+            	<field name="date_order" position="after">
+		    		<field name="po_name" required="True"/>
+		    		<!-- <field name="po_name" 
+		    			attrs="{'required':[('state','!=','draft')]}"/>-->		    			
+		    		<field name="pr_name" />
+		    		<field name="minimum_planned_date" />		    		
+		    	</field>
+                <field name="partner_ref" position="after">
+		    		<field name="po_type"/>	    		
+		    	</field>		    	
+		    	<field name="incoterm_id" position="replace"></field>		    	
+            	<field name="picking_type_id" position="after">
+		    		<field name="po_authority" required="True" />
+		    		<field name="incoterm_id"
+						attrs="{
+						'invisible':[('po_type','=','b')],
+						'required':[('po_type','=','a')]
+						}"
+						options='{"no_create_edit":True}'
+					/>		    		
+		    	</field>
+		    	<xpath expr="//notebook" position="before">
+		    		<group colspan='5' col='10'>
+		    			<group colspan='5'></group>
+		    			<group colspan='5'>
+		    				<h5>ภายในประเทศ: 
+		    				<br/>Exwork(เราไปรับเอง) หรือ  Delivery At Place(ส่งถึงที่)) 
+		        			<br/><br/>ภายนอกประเทศ: 
+		        			<br/>  Exw(Exwork)--> FOB(Free On Board)
+		        			<br/>  --> CFR(Cost And Freight)--> CIF(Cost Insurance Freight)  
+		        			<br/>  --> DDP(Delivery Duty Paid)/DAP(Delivery At Place) 	
+		        			</h5>
+		        		</group>		
+		    		</group>
+		    		
+		    	
+		    	</xpath>
+		    	
+		    	<field name="shipped" position="after">
+		    		<group name="logistic_cost" invisible="True">
+		    			<field name="freight_cost" />
+		    			<field name="local_charge" />
+		    			<field name="port_charge" />
+		    			<field name="port_storage" />
+		    			<field name="shipping_charge" />
+		    			<field name="transport_internal" />
+		    			<field name="import_tax" />
+		    			<field name="other_logistic" />
+		    			<field name="total_logistic" />
+		    		</group>
+		    	</field>
+		    	<field name="date_approve" position="after">
+		    		<field name="freight_company" string="บริษัทขนส่งหลัก" />
+		    		<field name="shipping_company" string="บริษัทเคลียสินค้า" />
+		    	</field>
+             	<xpath expr="//page[@string='RFQ &amp; Bid']" position="replace">
+		    		<page invisibile="True"></page>
+		    	</xpath>
+		    	<field name="payment_term_id" position="replace"></field>		    	
+		    	<field name="po_type" position="after">
+		    		<field name="payment_term_id"/>
+		    	</field>
+		    	
+		    	
+
+ 
+ <!-- Delete editable = "bottom" -->
+				<tree string="Purchase Order Lines" position="replace">
+					<tree string="Purchase Order Lines">
+						            <field name="product_id" on_change="onchange_product_id(parent.pricelist_id,product_id,0,False,parent.partner_id, parent.date_order,parent.fiscal_position,date_planned,False,False,parent.state,context)"/>
+                                    <field name="name"/>
+                                    <field name="date_planned"/>
+                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                    <field name="account_analytic_id" groups="purchase.group_analytic_accounting" domain="[('type','not in',('view','template'))]"/>
+                                    <field name="product_qty" on_change="onchange_product_id(parent.pricelist_id,product_id,product_qty,product_uom,parent.partner_id,parent.date_order,parent.fiscal_position,date_planned,name,False,parent.state,context)"/>
+                                    <field name="product_uom" groups="product.group_uom" on_change="onchange_product_uom(parent.pricelist_id,product_id,product_qty,product_uom,parent.partner_id, parent.date_order,parent.fiscal_position,date_planned,name,False,parent.state,context)"/>
+                                    <field name="price_unit"/>
+                                    <field name="taxes_id" widget="many2many_tags" domain="[('parent_id','=',False),('type_tax_use','!=','sale')]"/>
+                                    <field name="price_subtotal"/>
+                                    <field name="state" invisible="1"/>
+                     </tree>
+				</tree>
+				
+				
+ 		    </field>
+		</record>
+ 
+ 
+    </data>
+</openerp>
+

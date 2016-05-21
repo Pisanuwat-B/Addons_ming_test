@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+ <!-- Insert Menu Calendar Delivery in Sales  -->
+ <!-- picking_type_id: 1=in 2=out 3=internalTransfer 4=pack 5=pick FOR WH
+ 6-10 is the same but for another location-->	
+ 
+         <record model="ir.ui.view" id="sale_stock_picking_calendar_deli">
+            <field name="name">Delivery calendar ready</field>
+            <field name="model">stock.picking</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View" date_start="min_date" color="state_confirm_receive">
+                    <field name="origin"/>
+                    <field name="partner_id"/>
+                    <!-- <field name="product_id"/> ติดปัญหาเลือกได้แค่สินค้าตัวบนสุด อยากให้จำนวนด้วย-->
+                </calendar>
+            </field>
+        </record>
+ 
+        <record id="action_delivery_calendar" model="ir.actions.act_window">
+            <field name="name">Delivery Calendar Ready</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">calendar</field>
+            <field name="view_id" ref="sale_stock_picking_calendar_deli"/> <!-- ไม่ใส่ก็ได้ แต่ถ้าใส่ก็จะไปเรียกวิวที่เราต้องการ ซึ่งทำให้เราสามารถสร้างและแก้ไขวิวเองได้ -->
+            <field name="domain">[('picking_type_id.code', '=','outgoing'),('state','in',('confirmed', 'waiting','assigned', 'partially_available'))]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+        </record>
+
+		<menuitem id="menu_calendar_receive_delivery" 
+				name="Calendar Receive and Delivery" parent="base.menu_base_partner" 
+				sequence="3"/>
+ 
+		<menuitem action="action_delivery_calendar" id="calendar_delivery" 
+			name="Calendar Delivery" parent="menu_calendar_receive_delivery" 
+			sequence="1"/> 
+
+<!-- Insert Menu Calendar Receive in Sales  -->
+<!-- จริงแล้ว ถ้าดึงเป็น stock.move ก็จะดีกว่า เพราะเวลาเราสั่งหลายๆตัวแล้วของมันเข้ามาต่างวันกัน Calendar มันจะแสดงเป็นช่วงยาวยึด  แต่ในstock.move ไม่มีชื่อpartnerและstate_confirm_receive -->	
+        <record model="ir.ui.view" id="sale_stock_picking_calendar_recei">
+            <field name="name">Receive calendar ready</field>
+            <field name="model">stock.picking</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View" date_start="min_date" date_stop="max_date" color="state_confirm_receive">
+                    <field name="origin"/>
+                    <field name="state_confirm_receive"/><!-- ติดปัญหาอยากให้มัดึงเป็น name ไว้แสดงแทน ไม่ใช่ id -->
+                    <!-- <field name="product_id"/>  เหมือนกับข้างบนได้แต่ชื่ออันดับแรก และอยากจะใส่จำนวนด้วย-->
+                </calendar>
+            </field>
+        </record>
+
+
+        <record id="action_receive_calendar_ready" model="ir.actions.act_window">
+            <field name="name">Receive Calendar Ready</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">calendar</field>
+            <!-- <field name="view_id" ref="view_warehouse_orderpoint_tree"/> -->
+            <field name="view_id" ref="sale_stock_picking_calendar_recei"/> <!-- ไม่ใส่ก็ได้ แต่ถ้าใส่ก็จะไปเรียกวิวที่เราต้องการ ซึ่งทำให้เราสามารถสร้างและแก้ไขวิวเองได้ -->
+            <field name="domain">[('picking_type_id.code', '=','incoming'),('state','in',('confirmed', 'waiting','assigned', 'partially_available'))]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+        </record>
+		<menuitem action="action_receive_calendar_ready" id="calendar_receive" 
+			name="Calendar Receive" parent="menu_calendar_receive_delivery" 
+			sequence="3"/>
+
+
+<!--Delivery Product by office-->
+        <record id="action_delivery_product_office_ready" model="ir.actions.act_window">
+            <field name="name">Office Delivery Ready Transfers</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('picking_type_id.code', '=','outgoing'),('picking_type_id.warehouse_id', '!=',1),('state','in',('assigned', 'partially_available'))]</field>
+            <field name="context">{}
+            </field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+        </record>
+        <!-- ('picking_type_id', '=',1),('state','in',('assigned', 'partially_available')),('picking_type_id.warehouse_id','!=',1) -->
+
+<!--                'search_default_picking_type_id': 1,
+                    'default_picking_type_id': active_id,
+                    'contact_display': 'partner_address',
+                    'search_default_available': 1, -->
+            
+      	<menuitem id="menu_delivery_product_sale" 
+      		name="Delivery Product" parent="base.menu_base_partner" sequence="8"/>
+     	<menuitem action="action_delivery_product_office_ready" id="menu_action_delivery_product_office_ready"
+     		name="Delivery Product by Office(ส่งของโดยออฟฟิส)"
+            parent="menu_delivery_product_sale" sequence="1"/>
+
+ 
+ 
+ 
+    </data>
+</openerp>
+

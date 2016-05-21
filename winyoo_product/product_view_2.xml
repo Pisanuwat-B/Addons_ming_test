@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="winyoo_product_category_list_view" model="ir.ui.view">
+            <field name="name">winyoo.product.category.list</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_list_view"/>
+            <field name="arch" type="xml">
+                <tree string="Product Categories" position="attributes">
+                    <attribute name="default_order">parent_left,name asc</attribute>
+                </tree>
+            </field>
+        </record>
+        <record id="winyoo_product_uom_tree_view" model="ir.ui.view">
+            <field name="name">winyoo.product.uom.tree</field>
+            <field name="model">product.uom</field>
+            <field name="inherit_id" ref="product.product_uom_tree_view"/>
+            <field name="arch" type="xml">
+                <tree string="Units of Measure" position="attributes">
+                    <attribute name="default_order">category_id,name asc</attribute>
+                </tree>
+            </field>
+        </record>
+        
+
+
+
+
+
+    </data>
+</openerp>
+

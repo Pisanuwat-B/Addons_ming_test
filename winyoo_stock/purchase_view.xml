@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+ <!-- Insert Menu Calendar Receive in Purchase  -->
+        <record id="action_receive_calendar_ready_purchase" model="ir.actions.act_window">
+            <field name="name">Receive Calendar Ready</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">calendar</field>
+            <!-- <field name="view_id" ref="view_warehouse_orderpoint_tree"/> -->
+            <field name="view_id" ref="sale_stock_picking_calendar_recei"/> <!-- ไม่ใส่ก็ได้ แต่ถ้าใส่ก็จะไปเรียกวิวที่เราต้องการ ซึ่งทำให้เราสามารถสร้างและแก้ไขวิวเองได้ -->
+            <field name="domain">[('picking_type_id.code', '=','incoming'),('state','in',('confirmed', 'waiting','assigned', 'partially_available'))]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+        </record>
+
+		<menuitem id="menu_calendar_receive_purchase" 
+			name="Calendar Receive" parent="base.menu_purchase_root" 
+			sequence="3"/>
+		<menuitem action="action_receive_calendar_ready_purchase" id="calendar_receive_purchase" 
+			name="Calendar Receive" parent="menu_calendar_receive_purchase" 
+			sequence="1"/> 
+ 
+ 
+ 
+<!--Receive Product by office-->
+        <record id="action_receiving_product_office_ready" model="ir.actions.act_window">
+            <field name="name">Office Receive Ready Transfers</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('picking_type_id.code', '=','incoming'),('picking_type_id.warehouse_id', '!=',1),('state','in',('assigned', 'partially_available'))]</field>
+            <field name="context">{}
+            </field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+        </record>
+        <!-- ('picking_type_id', '=',1),('state','in',('assigned', 'partially_available')),('picking_type_id.warehouse_id','!=',1) -->
+
+<!--                'search_default_picking_type_id': 1,
+                    'default_picking_type_id': active_id,
+                    'contact_display': 'partner_address',
+                    'search_default_available': 1, -->
+            
+      	<menuitem id="menu_receive_product_purchase" 
+      		name="Receive Product" parent="base.menu_purchase_root" sequence="4"/>
+     	<menuitem action="action_receiving_product_office_ready" id="menu_action_receipt_stock_picking__office"
+     		name="Receive Product by Office (รับของโดยออฟฟิส)"
+            parent="menu_receive_product_purchase" sequence="1"/>
+  
+  
+  
+    </data>
+    
+</openerp>
+
