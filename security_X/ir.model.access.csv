@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ineco_sale_forecast,ineco.sale.forecast.user,model_ineco_sale_forecast,base.group_user,1,0,0,0
+access_ineco_sale_forecast_sale_manager,ineco.sale.forecast.manager,model_ineco_sale_forecast,base.group_sale_manager,1,1,1,1
+access_ineco_sale_forecast_line,ineco.sale.forecast.line.user,model_ineco_sale_forecast_line,base.group_user,1,0,0,0
+access_ineco_sale_forecast_sale_line_manager,ineco.sale.forecast.line.manager,model_ineco_sale_forecast_line,base.group_sale_manager,1,1,1,1
