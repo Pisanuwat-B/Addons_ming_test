@@ -94,7 +94,7 @@
                 <!-- Kwan:เวลาพิมพ์ในช่อง search  ให้PO Number และ PR Number ขึ้นด้วย-->
                 <field name="name" position="before">
                     <field name="po_name" string="PO number"/>
-		    		<field name="pr_name" string="PR number"/>
+		    <field name="pr_name" string="PR number"/>
                 </field>
 		
                 
