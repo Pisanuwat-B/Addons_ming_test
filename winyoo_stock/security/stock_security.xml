@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 <data noupdate="0">
-     
-    <record id="base.group_stock_observer" model="res.groups">
+	<delete id="stock.group_comfirm_transfer" model="res.groups"/>
+	<delete id="stock.group_confirm_transfer" model="res.groups"/>
+	
+	<record id="base.group_stock_observer" model="res.groups">
         <field name="name">Observer</field>
         <field name="category_id" ref="base.module_category_warehouse_management"/>
-        <!-- <field name="comment">Observe menu "all operation".</field> -->
+        <field name="comment"> สามารเห้น "all operation" แต่ไม่สามารถแก้ไขหรือสร้างเพิ่มได้</field>
         <field name="implied_ids" eval="[(4, ref('base.group_user')),(4, ref('stock.group_locations'))]"/>
     </record>
 
@@ -24,10 +26,16 @@
         <field name="name">Click-Cancel Transfer</field>
         <field name="category_id" ref="base.module_category_warehouse_management"/>
     </record> 
-	<record id="stock.group_comfirm_transfer" model="res.groups">
-		<field name="name">Click-Transfer</field>
+	<record id="stock.group_confirm_transfer_wh" model="res.groups">
+		<field name="name">Click-Transfer(Warehouse)</field>
+		<field name="comment">สามารถ transfer สินค้าเข้าออกโกดังได้</field>
 		<field name="category_id" ref="base.module_category_warehouse_management"/>
 	</record>    
+	<record id="stock.group_office_inventory_controller" model="res.groups">
+		<field name="name">Inventory Controller(Main office)</field>
+		<field name="comment">พนักงานคนนี้จะสามารถ transfer ของที่เข้าหรือออก จากออฟฟิสได้(และที่อื่นๆที่นอกเหนือจากโกดัง).</field>
+		<field name="category_id" ref="base.module_category_warehouse_management"/>
+	</record>
 
 </data>
 

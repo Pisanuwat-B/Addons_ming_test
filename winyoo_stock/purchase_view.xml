@@ -27,7 +27,7 @@
  
 <!--Receive Product by office-->
         <record id="action_receiving_product_office_ready" model="ir.actions.act_window">
-            <field name="name">Office Receive Ready Transfers</field>
+            <field name="name">Office Receive : Ready Transfers</field>
             <field name="res_model">stock.picking</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>

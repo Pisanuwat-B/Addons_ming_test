@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <search string="Search Purchase Order">
                 	<field name="po_name" string="PO number"/>
+               		<field name="pr_name" string="PR number"/>
                     <field name="name" string="Reference"/>
                     <field name="partner_id" operator="child_of"/>
                     <field name="product_id"/>
@@ -90,10 +91,12 @@
                     <filter name="not_shipped" string="Not Transferred" domain="[('shipped','=', False),('state','not in',('draft','cancel'))]"/>
                     <filter name="ok_shipped" string="Transferred" domain="[('shipped','=', True)]"/>
                 </filter>
-                <!-- Kwan:เวลาพิมพ์ในช่อง search  ให้PO Numberขึ้นด้วย-->
+                <!-- Kwan:เวลาพิมพ์ในช่อง search  ให้PO Number และ PR Number ขึ้นด้วย-->
                 <field name="name" position="before">
                     <field name="po_name" string="PO number"/>
+		    		<field name="pr_name" string="PR number"/>
                 </field>
+		
                 
             </field>
         </record>

@@ -33,7 +33,16 @@
                     groups="stock.group_stock_user"/>                
                 </button>
                 <button name="do_enter_transfer_details" position="replace">
-                    <button name="do_enter_transfer_details" states="assigned,partially_available" string="Transfer" groups="stock.group_stock_manager,base.group_erp_manager,stock.group_comfirm_transfer" type="object" class="oe_highlight"/>                
+                    <button name="do_enter_transfer_details" states="assigned,partially_available" 
+                    	string="Transfer(WH)" 
+                    	attrs="{'invisible': ['|',('picking_type_id','not in',[1,2,3,4,5])]}"
+                    	groups="stock.group_stock_manager,base.group_erp_manager,stock.group_confirm_transfer_wh" 
+                    	type="object" class="oe_highlight"/> 
+                    <button name="do_enter_transfer_details" states="assigned,partially_available" 
+                    	string="Transfer(Office)"
+                    	attrs="{'invisible': ['|',('picking_type_id','in',[1,2,3,4,5])]}"
+                    	groups="stock.group_stock_manager,base.group_erp_manager,stock.group_office_inventory_controller" 
+                    	type="object" class="oe_highlight"/>                 
                 </button>
                 <button name="do_print_picking" position="replace">
                     <button name="do_print_picking" string="Print Picking List" groups="stock.group_stock_user" type="object" attrs="{'invisible': ['|', ('picking_type_code', '=', 'outgoing'), ('state', '!=', 'assigned')]}"/>                
