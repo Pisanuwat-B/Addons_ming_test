@@ -285,16 +285,20 @@
             action="action_picking_type_form_office_only"
             id="menu_action_picking_type_form_office_only"
             parent="stock.menu_stock_warehouse_mgmt" sequence="3"
-            groups="stock.group_stock_user,base.group_stock_observer"/>
+            groups="stock.group_stock_user,base.group_stock_observer,stock.group_office_inventory_controller"/>
             <!-- groups="stock.group_stock_user,base.group_sale_salesco,base.group_stock_observer" -->
 
 <!-- แก้สิทธิ menu item -->
+		<!-- Menu: Warehouse หัวข้อใหญ่อันบนสุด-->
         <menuitem name="Warehouse"
             id="stock.menu_stock_root"
-            groups="stock.group_stock_manager,stock.group_stock_user,base.group_stock_observer"
+            groups="stock.group_stock_manager,stock.group_stock_user,base.group_stock_observer,stock.group_office_inventory_controller"
             sequence="70"/>        
            <!-- groups="stock.group_stock_manager,stock.group_stock_user,base.group_sale_salesco,purchase.group_purchase_user,base.group_stock_observer" -->
-            
+		
+		<!-- พวก traceablility กับ inventory control ถ้ามีสิทธิใน module จะเห็น menu ขึ้นมาเอง 
+		เพราว่า เค้าตั้งให้ menu ขึ้นอัตโนมัติถ้ามีสิทธิ-->            
+		
 		<menuitem
 			action="stock.action_picking_type_form"
             id="stock.menu_action_picking_type_form"

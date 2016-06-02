@@ -30,7 +30,9 @@ Winyoo create 2015
     """,
     'author': 'Winyoo Kongkavitool',
     'depends': ['stock'], # depends--> look at folder's name
-    'data': ['security/stock_security.xml','stock_view.xml','sale_view.xml','purchase_view.xml'], #XML File that included in my module
+    'data': ['security/stock_security.xml',
+             #'security/ir.model.access.csv',
+             'stock_view.xml','sale_view.xml','purchase_view.xml'], #XML File that included in my module
     'demo': [], #CSV Sample Data
     'installable': True, #  False mean no button to install
     'auto_install': False, #dangerous put auto_install
