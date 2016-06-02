@@ -27,7 +27,7 @@
  
 <!--Receive Product by office-->
         <record id="action_receiving_product_office_ready" model="ir.actions.act_window">
-            <field name="name">Office Receive : Ready Transfers</field>
+            <field name="name">Office Receive : Ready Transfers จัดซื้อรับของได้</field>
             <field name="res_model">stock.picking</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
@@ -43,14 +43,28 @@
                     'default_picking_type_id': active_id,
                     'contact_display': 'partner_address',
                     'search_default_available': 1, -->
+<!--Receive Product by warehouse(observe)-->
+        <record id="action_receiving_product_warehouse_ready" model="ir.actions.act_window">
+            <field name="name">Warehouse Receive : Ready Transfers จัดซื้อดูเท่านั้น</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('picking_type_id.code', '=','incoming'),('picking_type_id.warehouse_id', '=',1),('state','in',('assigned', 'partially_available'))]</field>
+            <field name="context">{}
+            </field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+        </record>                    
             
       	<menuitem id="menu_receive_product_purchase" 
       		name="Receive Product" parent="base.menu_purchase_root" sequence="4"/>
      	<menuitem action="action_receiving_product_office_ready" id="menu_action_receipt_stock_picking__office"
-     		name="Receive Product by Office (รับของโดยออฟฟิส)"
+     		name="Receive by Office (รับของโดยออฟฟิส)"
             parent="menu_receive_product_purchase" sequence="1"/>
-  
-  
+     	<menuitem action="action_receiving_product_warehouse_ready" id="menu_action_receipt_stock_picking__warehouse"
+     		name="Receive by Warehouse (รับของโดยโกดัง)"
+            parent="menu_receive_product_purchase" sequence="2"/>
+    
   
     </data>
     
