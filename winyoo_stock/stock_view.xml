@@ -60,19 +60,19 @@
             
 		    	<field name="backorder_id" position="after">
 		    		<br/><br/><br/><br/><br/><br/>
-		    		<h3 attrs="{'invisible': [('picking_type_id','!=',1)]}"><font color='blue'>เอกสารสำคัญขาเข้า</font></h3><br/>
-		    		<field name="ro_ref" attrs="{'invisible': [('picking_type_id','!=',1)]}"/>
-		    		<field name="invoice_sup_ref" attrs="{'invisible': [('picking_type_id','!=',1)]}"/>
+		    		<h3 attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}"><font color='blue'>เอกสารสำคัญขาเข้า</font></h3><br/>
+		    		<field name="ro_ref" attrs="{'invisible': [('picking_type_code','!=','incoming')]}"/>
+		    		<field name="invoice_sup_ref" attrs="{'invisible': [('picking_type_code','!=','incoming')]}"/>
 		    		
 		    	</field>
 		    			    	
 		    	<field name="origin" position="after">
-		    		<field name="state_confirm_receive" attrs="{'invisible': [('picking_type_id','!=',1)],'required': [('picking_type_id','=',1)]}"/><!-- รอเติมว่าและตัง้ default เป็น X ด้วย ถ้าstatusเป็น transfer น่าจะมาเปลี่ยนตรงนี้เป็นส่งแล้วด้วย (หรือจะละไว้ก่อนได้) -->
+		    		<field name="state_confirm_receive" attrs="{'invisible': [('picking_type_code','!=','incoming')],'required': [('picking_type_code','=','incoming')]}"/><!-- รอเติมว่าและตัง้ default เป็น X ด้วย ถ้าstatusเป็น transfer น่าจะมาเปลี่ยนตรงนี้เป็นส่งแล้วด้วย (หรือจะละไว้ก่อนได้) -->
 		    		<br/><br/>
-		    		<h3 attrs="{'invisible': [('picking_type_id','!=',2)]}"><font color='blue'>เอกสารสำคัญขาออก</font></h3><br/>
-		    		<field name="dop_ref" attrs="{'invisible': [('picking_type_id','!=',2)]}" />
-		    		<field name="invoice_ref" attrs="{'invisible': [('picking_type_id','!=',2)]}" />
-		    		<field name="picker_name" attrs="{'invisible': [('picking_type_id','!=',2)]}" />
+		    		<h3 attrs="{'invisible': [('picking_type_code','!=','outgoing')]}"><font color='blue'>เอกสารสำคัญขาออก</font></h3><br/>
+		    		<field name="dop_ref" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}" />
+		    		<field name="invoice_ref" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}" />
+		    		<field name="picker_name" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}" />
 		    		
 		    		
 		    	</field>
@@ -220,7 +220,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="wait_to_delivery"/>
-            <field name="domain">[('picking_type_id', '=',2)]</field>
+            <field name="domain">[('picking_type_code', '=','outgoing')]</field>
             <field name="context" eval="{'search_default_confirmed': 1,'search_default_available' : 1}"/>
             <!-- <field name="context" eval="{'search_default_confirmed': 1,'search_default_available' : 1,'search_default_picking_type_id': 2}"/>-->
         </record>
