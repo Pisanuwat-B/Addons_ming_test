@@ -167,6 +167,7 @@
 				<field name="min_date" position="replace">
 					<field name="min_date" invisible="0"/>
 					<field name="picking_type_code" invisible="1"/>
+					<field name="state_confirm_receive"/>
 					<field name="product_type"/>
 				</field>
 				<!-- <tree string="Picking list" position="attributes"> -->
