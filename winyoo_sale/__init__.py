@@ -20,6 +20,7 @@
 ##############################################################################
 
 import sale #import file py in folder, or library  of python
+import crm_phonecall
 #import sale_report
 #from odoo-tkc.openerp.addons.crm import crm
 
