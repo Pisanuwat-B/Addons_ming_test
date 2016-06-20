@@ -26,6 +26,7 @@
 from openerp import models, fields, api #import file "model.py", "fields.py", "api.py"  from folder openerp
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
+from openerp.exceptions import ValidationError
 
 class stock_picking(models.Model):
 
@@ -52,6 +53,18 @@ class stock_picking(models.Model):
     #    'min_date':fields.date(string='Scheduled Date (วันกำหนดส่ง)', select=1, help="Scheduled time for the first part of the shipment to be processed. Setting manually a value here would set it as expected date for all the stock moves.", 
     #        track_visibility='onchange'),
     #}
+    
+    #and self.picking_type_id.code == 'incoming'
+    @api.one
+    @api.constrains('note')
+    def _check_note(self):
+        #print "---------------------------------------------------------------------------"
+        #print "self.picking_type_id.code: ", self.picking_type_id.code
+        if len(self.note)>31 and self.picking_type_id.code == 'incoming':
+            raise ValidationError("คุณใส่ตัวอักษรในหมายเหตุ เกินกำหนด(30 ตัวอักษร)")
+
+    
+    
 class stock_incoterms(models.Model):
     # เพิ่มคำอธิบายลงไปใน incoterm ช่องนึง
     _inherit = ['stock.incoterms']

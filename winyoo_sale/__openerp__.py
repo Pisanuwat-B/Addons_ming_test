@@ -32,7 +32,7 @@ Winyoo create 2015
     'depends': ['sale','sale_order_dates','sale_quotation_number'], # depends--> look at folder's name
     'data': ['sale_view.xml',
              'report_saleorder.xml',
-             'security/sale_security.xml',
+             #'security/sale_security.xml',  ระวังให้ประกาศ group(xml) ขึ้นก่อน data(csv) เผิ้อว่าตัว csv มันเรียก group
              #'security/ir.model.access.csv',
              #'data/crm.case.categ.csv',
              'crm_case_phone_form_view.xml',
@@ -41,7 +41,8 @@ Winyoo create 2015
              #'sale_report_view.xml',
              ], #XML File that included in my module
              
-    'demo': [], #CSV Sample Data
+    'demo': [
+            ], #CSV Sample Data
     'installable': True, #  False mean no button to install
     'auto_install': False, #dangerous put auto_install
 }

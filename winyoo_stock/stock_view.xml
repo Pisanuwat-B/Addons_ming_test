@@ -72,10 +72,12 @@
 		    		<h3 attrs="{'invisible': [('picking_type_code','!=','outgoing')]}"><font color='blue'>เอกสารสำคัญขาออก</font></h3><br/>
 		    		<field name="dop_ref" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}" />
 		    		<field name="invoice_ref" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}" />
-		    		<field name="picker_name" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}" />
-		    		
-		    		
+		    		<field name="picker_name" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}" />		    				    		
 		    	</field>
+		    	
+            	<xpath expr="/form/sheet/notebook/page/field[@name='note']" position="attributes">              
+                	<attribute name="placeholder">ใส่หมายเหตุการรับ/ส่งสินค้าเช่น  "ส่งบางส่วน" หรือ "ส่งเพิ่มเติม" (ไม่เกิน 30 ตัวอักษร)</attribute>
+            	</xpath>		    	
 
 		    </field>
 		</record>

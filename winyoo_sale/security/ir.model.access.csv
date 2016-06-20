@@ -1,32 +1,10 @@
-﻿id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_account_account_ salesco,account_account salesco,account.model_account_account,base.group_sale_salesco,1,0,0,0
-access_account_fiscalyear_ salesco,account.fiscalyear.user salesco,account.model_account_fiscalyear,base.group_sale_salesco,1,0,0,0
-access_account_invoice_ salesco,account_invoice salesco,account.model_account_invoice,base.group_sale_salesco,1,1,1,0
-access_account_invoice_line_ salesco,account_invoice.line salesco,account.model_account_invoice_line,base.group_sale_salesco,1,1,1,0
-access_account_invoice_report_ salesco,account.invoice.report salesco,account.model_account_invoice_report,base.group_sale_salesco,1,0,0,0
-access_account_invoice_tax_ salesco,account_invoice_tax salesco,account.model_account_invoice_tax,base.group_sale_salesco,1,1,0,0
-access_sale_account_journal_ salesco,account.journal sale order.user salesco,account.model_account_journal,base.group_sale_salesco,1,0,0,0
-access_account_move_line_ salesco,account.move.line invoice salesco,account.model_account_move_line,base.group_sale_salesco,1,0,0,0
-access_account_payment_term_ salesco,account_payment_term salesco,account.model_account_payment_term,base.group_sale_salesco,1,0,0,0
-access_account_tax_ salesco,account.tax.user salesco,account.model_account_tax,base.group_sale_salesco,1,0,0,0
-access_account_analytic_account_ salesco,account_analytic_account salesco,analytic.model_account_analytic_account,base.group_sale_salesco,1,1,1,0
-access_ir_attachment_ salesco,ir.attachment.salesco,base.model_ir_attachment,base.group_sale_salesco,1,1,1,0
-access_ir_property_ salesco,ir.property.salesco,base.model_ir_property,base.group_sale_salesco,1,1,1,0
-access_res_partner_ salesco,res.partner.salesco,base.model_res_partner,base.group_sale_salesco,1,1,1,0
-access_res_partner_bank_type_ salesco,res.partner.bank.type.salesco,base.model_res_partner_bank_type,base.group_sale_salesco,1,0,0,0
-access_res_partner_bank_type_field_ salesco,res.partner.bank.type.field.salesco,base.model_res_partner_bank_type_field,base.group_sale_salesco,1,0,0,0
-access_sale_order _salesco,sale.order salesco,model_sale_order,base.group_sale_salesco,1,1,1,0
-access_sale_order_line_ salesco,sale.order.line salesco,model_sale_order_line,base.group_sale_salesco,1,1,1,1
-access_sale_report_ salesco,sale.report salesco,model_sale_report,base.group_sale_salesco,1,1,1,1
-access_pricelist_partnerinfo_ salesco,pricelist.partnerinfo salesco,product.model_pricelist_partnerinfo,base.group_sale_salesco,1,0,0,0
-access_product_category_ salesco,product.category salesco,product.model_product_category,base.group_sale_salesco,1,0,0,0
-access_product_price_type_ salesco,product.price.type salesco,product.model_product_price_type,base.group_sale_salesco,1,0,0,0
-access_product_pricelist_ salesco,product.pricelist salesco,product.model_product_pricelist,base.group_sale_salesco,1,0,0,0
-access_product_pricelist_type_ salesco,product.pricelist.type salesco,product.model_product_pricelist_type,base.group_sale_salesco,1,0,0,0
-access_product_pricelist_version_ salesco,product.pricelist.version salesco,product.model_product_pricelist_version,base.group_sale_salesco,1,0,0,0
-access_product_product_ salesco,product.product salesco,product.model_product_product,base.group_sale_salesco,1,0,0,0
-access_product_supplierinfo_ salesco,product.supplierinfo salesco,product.model_product_supplierinfo,base.group_sale_salesco,1,0,0,0
-access_product_template_ salesco,product.template salesco,product.model_product_template,base.group_sale_salesco,1,0,0,0
-access_product_ul_ salesco,product.ul salesco,product.model_product_ul,base.group_sale_salesco,1,0,0,0
-access_product_uom_ salesco,product.uom salesco,product.model_product_uom,base.group_sale_salesco,1,0,0,0
-access_product_uom_categ_ salesco,product.uom.categ salesco,product.model_product_uom_categ,base.group_sale_salesco,1,0,0,0
+"id","name","model_id/id","group_id/id","perm_create","perm_read","perm_write","perm_unlink"
+"__export__.ir_model_access_745","Picking Wave Salesco","stock_picking_wave.model_stock_picking_wave","base.group_sale_salesco","True","True","True","False"
+"__export__.ir_model_access_746","Invoice Statistic Salesco","account.model_account_invoice_report","base.group_sale_salesco","False","True","False","False"
+"__export__.ir_model_access_747","res_partner Salesco","account.model_res_partner","base.group_sale_salesco","True","True","True","False"
+"__export__.ir_model_access_748","Sales Order Line","delivery.model_sale_order_line","base.group_sale_salesco","True","True","True","False"
+"__export__.ir_model_access_749","Sales Order","delivery.model_sale_order","base.group_sale_salesco","True","True","True","False"
+"__export__.ir_model_access_750","Picking List","delivery.model_stock_picking","base.group_sale_salesco","True","True","True","False"
+"__export__.ir_model_access_751","Stock Move","delivery.model_stock_move","base.group_sale_salesco","False","True","True","False"
+"__export__.ir_model_access_752","Lead/Opportunity","crm.model_crm_lead","base.group_sale_salesco","True","True","True","False"
+"__export__.ir_model_access_754","Picking Operation Salsco","stock.model_stock_pack_operation","base.group_sale_salesco","True","True","True","false"

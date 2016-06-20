@@ -139,6 +139,7 @@ class purchase_order_line(models.Model):
         #call name_get() with partner in the context to eventually match name and description in the seller_ids field
         if not name or not uom_id:
             # The 'or not uom_id' part of the above condition can be removed in master. See commit message of the rev. introducing this line.
+            # ----Winyoo fixed here----
             #dummy, name = product_product.name_get(cr, uid, product_id, context=context_partner)[0]
             dummy =' '
             name = ' '
@@ -146,7 +147,6 @@ class purchase_order_line(models.Model):
                 name += product.description_purchase
             res['value'].update({'name': name})
             
-
         # - set a domain on product_uom
         res['domain'] = {'product_uom': [('category_id','=',product.uom_id.category_id.id)]}
 
