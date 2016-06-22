@@ -15,7 +15,9 @@
 				</field>
 			 -->
 				<field name="is_company" position="before">
-	            	<field name="is_lead" class="oe_inline"/> <label for="is_lead" string="Lead ผู้สนใจ(ยังไม่เป็นลูกค้า)"/>)<br/>(
+	            	<field name="is_lead" class="oe_inline" attrs="{'invisible':[('customer','=',False)]}"/> 
+	            	<label for="is_lead" string="Lead ผู้สนใจ(ยังไม่เป็นลูกค้า)" 
+	            		attrs="{'invisible':[('customer','=',False)]}"/>)<br/>(
 				</field>
 				
              	<field name="parent_id" position="attributes">
