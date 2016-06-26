@@ -11,29 +11,11 @@
 		 	<field name="model">stock.picking.wave</field>
 		 	<field name="inherit_id" ref="stock_picking_wave.view_picking_wave_form"/>
 		 	<field name="arch" type="xml">
-		 	<!-- <button name="action_assign" position="replace">
-        	     <button name="action_assign" invisible="True" 
-        	     	string="Confirm picking" type="object" 
-        	     	icon="gtk-apply" 
-        	     	attrs="{'invisible': [('state', 'in', ('done', 'cancel', 'confirmed', 'assigned'))]}"/>
-                </button> 
-			-->
-			<!-- 
-			<button name="done" position="replace">
-                        <button name="done" states="in_progress" string="Done" type="object" class="oe_highlight" groups="base.group_erp_manager"/>
-            </button>
-            <button name="cancel_picking" position="replace">
-                        <button name="cancel_picking" string="Cancel" type="object" states="in_progress" groups="base.group_erp_manager"/>                        			
-            </button>
-			 -->
-			 <!-- 
-			<button name="done" position="attributes">
-						<attribute name="groups">base.group_erp_manager</attribute>
-            </button>
-             -->
-            <button name="cancel_picking" position="attributes">
-                        <attribute name="groups">base.group_erp_manager</attribute>                        			
-            </button>
+
+	            <button name="cancel_picking" position="attributes">
+                        <attribute name="groups">base.group_erp_manager</attribute> 
+                        <attribute name="confirm" > คุณแน่ใจที่จะ "ยกเลิก" เอกสารนี้ใช่หรือไม่ </attribute>                       			
+    	        </button>
 
 			    <field name="picking_ids" position="replace">
                 	<field name="picking_ids" widget="many2many" domain="[('state', 'not in', ('done', 'cancel'))]">
@@ -51,15 +33,16 @@
 								icon="gtk-go-forward" 
 								attrs="{'invisible': [('state', 'in', ('done', 'cancel', 'draft', 'assigned'))]}"/>                       
                             <button name="action_cancel" invisible="True" string="Cancel picking" 
-								type="object" icon="gtk-cancel" 
+								type="object" icon="gtk-cancel"
 								attrs="{'invisible': [('state', 'in', ('done', 'cancel'))]}"/>
                     	</tree>
              		</field> 
                 </field>               
 			    			                    
-				<field name="user_id" position="replace">
-					<field name="user_id" invisible="True"/>
+				<field name="user_id" position="attributes">
+					<attribute name="invisible">True</attribute>
 				</field>
+				
 				<field name="name" position="replace">
 					<field name="name" string="DOP" class="oe_inline" readonly="1"/>
 					<h3>

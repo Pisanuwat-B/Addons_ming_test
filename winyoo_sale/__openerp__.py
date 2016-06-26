@@ -37,8 +37,8 @@ Winyoo create 2015
              #'data/crm.case.categ.csv',
              'crm_case_phone_form_view.xml',
              'crm_phonecall_report_view.xml',
+             'cancel_confirmation.xml',
              #'sale_sequence.xml',
-             #'sale_report_view.xml',
              ], #XML File that included in my module
              
     'demo': [

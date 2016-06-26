@@ -30,7 +30,9 @@ Winyoo create 2015
     """,
     'author': 'Winyoo Kongkavitool',
     'depends': ['stock_picking_wave'], # depends--> look at folder's name
-    'data': ['stock_picking_wave_view.xml'], #XML File that included in my module
+    'data': ['stock_picking_wave_view.xml',
+             #'cancel_confirmation.xml'
+             ], #XML File that included in my module
     'demo': [], #CSV Sample Data
     'installable': True, #  False mean no button to install
     'auto_install': False, #dangerous put auto_install

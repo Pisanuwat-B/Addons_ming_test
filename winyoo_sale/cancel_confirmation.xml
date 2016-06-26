@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data> 
+        <record id="cancel_sale_view_order_form" model="ir.ui.view">
+            <field name="name">cancel.sale.view.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='cancel']" position="attributes">
+                    <attribute name="confirm" > คุณแน่ใจที่จะ "ยกเลิก" เอกสารนี้ใช่หรือไม่ </attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_cancel']" position="attributes">
+                    <attribute name="confirm" > คุณแน่ใจที่จะ "ยกเลิก" เอกสารนี้ใช่หรือไม่ </attribute>
+                </xpath>
+                <xpath expr="//button[@name='invoice_cancel']" position="attributes">
+                    <attribute name="confirm" > คุณแน่ใจที่จะ "ยกเลิก" เอกสารนี้ใช่หรือไม่ </attribute>
+                </xpath>              
+                
+            </field>
+        </record>
+
+    </data>
+</openerp>
+
