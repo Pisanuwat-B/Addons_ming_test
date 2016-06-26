@@ -77,7 +77,10 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
-            
+
+                <page string="Inventory" position="attributes">
+                     <attribute name="attrs">{'invisible':['|',('type','=','consu'),('type','=','service')]}</attribute>
+                </page>            	            
             	<field name="uom_id" position="attributes">
 		    		<attribute name="string">หน่วยขาย (Unit of Measture)</attribute>	    		
 		    	</field>
@@ -102,8 +105,12 @@
 		    			attrs="{'required':[('sale_ok','=',True)],'invisible':[('sale_ok','=',False)]}" 		    		
 		    			placeholder="เช่น 25"/><br/>
 		    		<h5>ระวัง! สินค้าขนาดถุง 25 kg <br/>ถ้าหน่วยขายเป็น'kg' ขนาดคือ 25<br/>ถ้าหน่วยขายเป็น'ถุง' ขนาดคือ 1</h5>
- 
-		    	</field>
+ 		    	</field>
+		    	
+		    	<!-- คนทั่วไปไม่สามารถกด inactive สินค้าได้ (สินค้าซื้อขายแล้วต้องบอก admin)-->    	
+                <field name="active" position="attributes">
+					<attribute name="groups">base.group_erp_manager</attribute>
+                </field>
 
 		    	<field name="description" position="after">
 		    		<label for="receive_warning" class="oe_edit_only"/>
@@ -139,25 +146,18 @@
                     <attribute name="invisible">True</attribute>
                 </group>--> 
 
-				<!-- ดึงมาทั้งทอนเพื่อแก้ส่วน Separator ช่วงล่าง Description for Purchase Order-->
-                <page string="Procurements" position="replace">
-                <page string="Procurements" groups="base.group_user">
-                 	<group name="procurement">
-                  		<group name="general">
-                 			<field name="standard_price"/>
-                		</group>
-                   		<group name="procurement_uom" groups="product.group_uom" string="Purchase">
-                    		<field name="uom_po_id"/>
-                   		</group>
-                 	</group>
-            		<separator string="Suppliers"/>
-                	<field name="seller_ids"/>
-                   	<separator string="คำอธิบายเพิ่มเติมสำหรับผู้ขาย (ขึ้นในใบสั่งซื้อใต้ชื่อสินค้า)"/>
-                    <field name="description_purchase" placeholder="ใส่ข้อมูลที่ต้องการให้ขึ้นทุกครั้งตอนออกใบสั่งซื้อ PO"/>
-                </page>
-				</page>
+				<!-- แก้ส่วน Separator ช่วงล่าง Description for Purchase Order-->
+				<separator string="Description for Suppliers" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</separator>
+				<separator string="Description for Suppliers" position="after">
+					<separator string="คำอธิบายเพิ่มเติมสำหรับผู้ขาย (ขึ้นในใบสั่งซื้อใต้ชื่อสินค้า)"/>
+				</separator>
+				<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 				
-				<!-- ดึงมาทั้งทอนเพื่อแก้ส่วน sale_dalay, warantee และ Separator ช่วงล่าง Description for Quotation-->
+
+		
+				<!-- ดึงมาทั้งทอนเพื่อแก้ส่วน sale_dalay, warranty(invisible) และ Separator ช่วงล่าง Description for Quotation-->
 				<page string="Sales" position="replace">              
 
              		<page string="Sales" attrs="{'invisible':[('sale_ok','=',False)]}" name="sales">
@@ -187,10 +187,7 @@
                         <field name="description_sale" placeholder="ใส่ข้อมูลที่ต้องการให้ขึ้นทุกครั้งตอนออก quotation หรือ DO"/>
             		</page>                
             	</page>                
-                
-                
-                
-               
+                <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 
 		    </field>
 		</record>
@@ -211,12 +208,9 @@
 		        	<br/>อย่าลืมติ๊ก full lot traciblity สำหรับสินค้า stockable (เพื่อเก็บเลขlot)    	
 		        	</h5>		        	
 		    	</field>
-		    	<!-- คนทั่วไปไม่สามารถกด inactive สินค้าได้ (สินค้าซื้อขายแล้วต้องบอก admin)-->
-				<field name="active" position="replace">
-					<field name="active" groups="base.group_erp_manager"/>
-				</field>
-		    	<field name="ean13" position="replace">
-		    		<field name="ean13" invisible='0'/>
+
+		    	<field name="ean13" position="attributes">
+		    		<attribute name="invisible">0</attribute>
 					<!-- <field name="ean13" attrs="{'invisible': [('product_variant_count', '>', 1)]}"/>-->
 		    	</field>   
 
