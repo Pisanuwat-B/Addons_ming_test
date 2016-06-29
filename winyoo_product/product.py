@@ -42,7 +42,7 @@ class product_template(models.Model):
         help="The size and package ขนาดและชนิดของบรรจุภัณฑ์ เช่น 25 kg/bag")
     pack = fields.Char('ชนิดบรรจุภัณฑ์ (Package)',size=10, translate=True,
         help="package ชนิดของบรรจุภัณฑ์ เช่น drum, bag")
-    nperpack = fields.Float('จำนวนขนาด (Quantity per pack)',digits=(8,3), required=True,
+    nperpack = fields.Float('จำนวนขนาด (Quantity per pack)',digits=(8,3),
         help="จำนวนเท่าของหน่วยขายต่อขนาดที่ขาย  เช่น สินค้าถุง25kg ถ้าราคาเป็นต่อ kg ขนาดคือ 25  ถ้าราคาเป็นต่อถุง ขนาดคือ 1")
     origin_country = fields.Char('ประเทศผู้ผลิต (Country of Origin)',size=20,
         help="The country of origin, ประเทศที่ผลิต")

@@ -30,11 +30,11 @@ Winyoo create 2015
     """,
     'author': 'Winyoo Kongkavitool',
     'depends': ['sale','sale_order_dates','sale_quotation_number'], # depends--> look at folder's name
-    'data': ['sale_view.xml',
-             'report_saleorder.xml',
-             #'security/sale_security.xml',  ระวังให้ประกาศ group(xml) ขึ้นก่อน data(csv) เผิ้อว่าตัว csv มันเรียก group
+    'data': ['security/sale_security.xml', # ระวังให้ประกาศ group(xml) ขึ้นก่อน data(csv) เผิ้อว่าตัว csv มันเรียก group
              #'security/ir.model.access.csv',
              #'data/crm.case.categ.csv',
+             'sale_view.xml',
+             'report_saleorder.xml',
              'crm_case_phone_form_view.xml',
              'crm_phonecall_report_view.xml',
              'cancel_confirmation.xml',
