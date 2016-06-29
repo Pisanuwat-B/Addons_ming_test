@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #########################################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -66,6 +67,7 @@ class hr_overtime_multiple(models.Model):
     notes = fields.Text(string='Notes',)
     department_id = fields.Many2one('hr.department', string='Department', required=True)
     category_id = fields.Many2one('hr.employee.category', string="Category", readonly=False, states={'validate':[('readonly', True)]}, help='Category of Employee')
+    ot_type = fields.Selection([("OT","OT"),("work_on_holiday","ทำงานในวันหยุด"),("OT_on_holiday","OT ในวันหยุด")])
     company_id = fields.Many2one('res.company', string='Company', required=True, readonly=False, states={'validate':[('readonly', True)]},default=lambda self: self.env['res.company']._company_default_get('hr.overtime.multiple'))
     approve_hr_manager_id = fields.Many2one('res.users', string='Approved By', readonly=True, copy=False)
     approve_dept_manager_id = fields.Many2one('res.users', string='Department Manager', readonly=True, copy=False)
@@ -168,6 +170,7 @@ class hr_overtime_multiple(models.Model):
             'manager_id' : self.manager_id and self.manager_id.id or False,
             'notes' : self.notes,
             'category_id': self.category_id.id,
+            'ot_type':self.ot_type,
             'company_id': self.company_id.id,
             'approve_hr_manager_id': self.approve_hr_manager_id.id,
             'approve_dept_manager_id' : self.approve_dept_manager_id.id,

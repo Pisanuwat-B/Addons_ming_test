@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #########################################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -75,6 +76,8 @@ class hr_overtime(models.Model):
     notes = fields.Text(string='Notes',)
     department_id = fields.Many2one(related='employee_id.department_id', string='Department', type='many2one', relation='hr.department', readonly=True, store=True)
     category_id = fields.Many2one('hr.employee.category', string="Category", readonly=False, states={'validate':[('readonly', True)]}, help='Category of Employee')
+    #Add new field    
+    ot_type = fields.Selection([("OT","OT"),("work_on_holiday","ทำงานในวันหยุด"),("OT_on_holiday","OT ในวันหยุด")])
     company_id = fields.Many2one('res.company', string='Company', required=True, readonly=False, states={'validate':[('readonly', True)]})
     approve_hr_manager_id = fields.Many2one('res.users', string='Approved By', readonly=True, copy=False)
     approve_dept_manager_id = fields.Many2one('res.users', string='Department Manager', readonly=True, copy=False)

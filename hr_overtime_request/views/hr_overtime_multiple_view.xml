@@ -89,6 +89,7 @@
                             <group>
                                 <field name="date_to" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/><!--Removed on_change="onchange_date_from(date_to, date_from)"-->
                                 <field name="category_id"  invisible="True" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="ot_type" required="1" string="Type OT" widget="selection" attrs="{'readonly': [('state', '!=', 'draft')]}"/>   <!--  Add more  -->                                
                                 <field name="include_payroll" attrs="{'readonly': [('state', 'in', ('validate', 'cancel'))]}"/> 
                                 <field name="approve_date"/> 
                                 <field name="approve_dept_manager_id" /> 
