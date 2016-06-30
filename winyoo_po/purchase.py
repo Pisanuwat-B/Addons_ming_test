@@ -47,7 +47,7 @@ class purchase_order(models.Model):
         help="PO Number for print to supplier เช่น GADOT07/15")
     pr_name = fields.Char('PR Number',size=25,
         help="PR Number เลขที่ PR ")
-    po_type = fields.Selection([('a','For Sell'),('b','For Use')], string="PO Type", required=True,
+    po_type = fields.Selection([('a','For Sell'),('b','For Use')], string="PO Type",
         help="Type of PO ซื้อมาขาย หรือ ซื้อมาใช้")  
 
     # ----------Below are fields for logistic cost ------------- 

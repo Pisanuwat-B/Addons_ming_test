@@ -37,10 +37,10 @@ Add information about samples given to partners
         'product',
     ],
     'data': [
-        'partner_view.xml',
-        'partner_sample_view.xml',
-        'security/partner_sample_security.xml',
-        'security/ir.model.access.csv',
+#        'partner_view.xml',
+#        'partner_sample_view.xml',
+#        'security/partner_sample_security.xml',
+#        'security/ir.model.access.csv',
     ],
     'demo': [
     ],

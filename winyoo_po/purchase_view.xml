@@ -274,7 +274,7 @@
 		    		<field name="minimum_planned_date" />		    		
 		    	</field>
                 <field name="partner_ref" position="after">
-		    		<field name="po_type"/>	    		
+		    		<field name="po_type" required="True"/>	    		
 		    	</field>		    	
 		    	<field name="incoterm_id" position="replace"></field>		    	
             	<field name="picking_type_id" position="after">
