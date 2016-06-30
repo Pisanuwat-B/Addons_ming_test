@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+       <record model="ir.actions.act_window" id="lead_list_action">
+            <field name="name">Lead Name (รายชื่อผู้สนใจ ยังไม่เป็นลูกค้า แต่ต้องการออก Quotation)</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Lead Name
+                </p>
+            </field>
+            <field name="domain">[('is_lead','=',True)]</field>
+            <field name="context">{'default_customer': 1,'default_is_lead':1}</field>            
+            
+        </record>
+
+        <!-- the following menuitem should appear *after*
+             its parent sales_menu and *after* its
+             action course_list_action -->
+        <menuitem id="lead_menu" name="Lead Name (รายชื่อผู้สนใจ)" parent="base.menu_sales" 
+        	sequence="2"
+            action="lead_list_action"/>
+		
+		<!--  แก้ Customer menu ให้ไม่ขึ้น is_lead และขึ้นเฉพาะ customers-->
+       <record model="ir.actions.act_window" id="base.action_partner_form">
+            <field name="domain">[('customer','=',1),('is_lead','=',False)]</field>
+            <field name="context">{'search_default_type_company': 1}</field>
+            <field name="limit">40</field>
+            <field name="view_mode">tree,kanban,form</field>                         
+        </record>
+		
+		<!--  แก้ Supplier menu ให้ไม่ขึ้น is_lead และ ขึ้นเฉพาะ Suppliers -->
+       	<record model="ir.actions.act_window" id="base.action_partner_supplier_form">
+           	<field name="domain">[('supplier','=',1),('is_lead','=',False)]</field>
+            <field name="context">{'default_customer': 0,'default_supplier': 1,'search_default_type_company': 1}</field>
+            <field name="limit">40</field>
+            <field name="view_mode">tree,kanban,form</field>             
+       	</record>
+
+		<!-- Change sequence of view -->
+        <record id="base.action_partner_form_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+			<!--  <field name="view_mode">kanban</field>
+            <field name="view_id" ref="res_partner_kanban_view"/>
+            <field name="act_window_id" ref="action_partner_form"/> -->
+        </record>
+			<!-- <record id="base.action_partner_form_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_partner_form"/>
+            <field name="act_window_id" ref="action_partner_form"/>
+        </record> -->
+        <record id="base.action_partner_tree_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0"/>
+			<!-- <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_partner_tree"/>
+            <field name="act_window_id" ref="action_partner_form"/> -->
+        </record>       	
+  		<!-- xxxxxxxxxxxxxxxxxxxxxxxxxx -->
+ 
+    </data>
+</openerp>
+

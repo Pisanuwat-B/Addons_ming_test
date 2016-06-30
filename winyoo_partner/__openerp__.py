@@ -31,7 +31,8 @@ Winyoo create 2015
     'author': 'Winyoo Kongkavitool',
     'depends': ['base','crm'], # depends--> look at folder's name
     'data': [
-             'view_partner_form.xml'
+             'view_partner_form.xml',
+             'view_partner_menu.xml'
              ], #XML File that included in my module
     'demo': [], #CSV Sample Data
     'installable': True, #  False mean no button to install
