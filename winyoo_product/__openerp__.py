@@ -30,7 +30,10 @@ Winyoo create 2015
     """,
     'author': 'Winyoo Kongkavitool',
     'depends': ['product','stock'], # depends--> look at folder's name
-    'data': ['product_view.xml','product_view_2.xml'], #XML File that included in my module
+    'data': ['product_view.xml',
+             'product_view_2.xml',
+             'product_menu.xml'
+             ], #XML File that included in my module
     'demo': [], #CSV Sample Data
     'installable': True, #  False mean no button to install
     'auto_install': False, #dangerous put auto_install
