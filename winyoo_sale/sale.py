@@ -88,14 +88,14 @@ class SaleOrderLine(models.Model):
             date_order=date_order, packaging=packaging,
             fiscal_position=fiscal_position, flag=flag)
         print "2SaleOrderLine+++++++++++++++++++++++++++++++++++++++++++++++++++++"
-        print "name: ", name
-        print "product: ", product
+#         print "name: ", name
+#         print "product: ", product
         if product:
             product_obj = self.env['product.product']
             product = product_obj.browse(product)
             #name =' '
-            print "product2: ", product
-            print "product.description_sale", product.description_sale
+#             print "product2: ", product
+#             print "product.description_sale", product.description_sale
             if 'value' not in res:
                 res['value'] = {}
             if product.description_sale:
