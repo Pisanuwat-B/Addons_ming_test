@@ -26,6 +26,7 @@
 from openerp import models, fields, api #import file "model.py", "fields.py", "api.py"  from folder openerp
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
+from openerp.exceptions import ValidationError
 
 class sale_order(models.Model):
 
@@ -63,6 +64,12 @@ class sale_order(models.Model):
 #     def button_mycancel(self):
 #         ctx=dict(self._context)
 #         return self.with_context(ctx).write({'state':'cancel'})
+
+    @api.one
+    @api.constrains('client_order_ref')
+    def _client_order_ref(self):
+        if(self.env['sale.order'].search([('client_order_ref','=',self.client_order_ref.rstrip()),('id','!=',self.id)]).name)!=False:
+            raise ValidationError("PO ลูกค้าออกแล้ว : this PO number is already existed.")
     
 
 class SaleOrderLine(models.Model):

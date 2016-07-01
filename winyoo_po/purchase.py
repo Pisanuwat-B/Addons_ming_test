@@ -28,6 +28,7 @@ from dateutil.relativedelta import relativedelta
 from datetime import datetime
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP
 from openerp.tools.float_utils import float_compare
+from openerp.exceptions import ValidationError
 # from openerp.osv import fields, osv
 
 class purchase_order(models.Model):
@@ -95,6 +96,15 @@ class purchase_order(models.Model):
         help="Shipping company (Customs Broker) ชื่อบริษัทที่เคลียสินค้า")
     freight_company = fields.Char('Freight Company',size=20, translate=True,
         help="Freight company ชื่อบริษัทผู้ขนส่งสินค้าข้ามประเทศ")    
+    
+    @api.one
+    @api.constrains('po_name')
+    def _po_number(self):
+        if(self.env['purchase.order'].search([('po_name','=',self.po_name.rstrip()),('id','!=',self.id)]).name)!=False:
+            raise ValidationError("PO ซ้ำ : this PO number is already existed.")
+        # else:
+        #     self.po_name = self.po_name.rstrip()    
+    
     
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
