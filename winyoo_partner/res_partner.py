@@ -49,10 +49,17 @@ class res_partner(models.Model):
     @api.onchange('supplier')
     def onchange_supplier(self):
         supplier=self.supplier
+        #print "supplier: ", supplier
+        #print "self: ", self
+        #print "self.fields_get(): ", self.fields_get()
+        
+        
         if supplier==True:
+            #print "1user_id: ", self.user_id
+            self.user_id=None
+            #print "2user_id: ", self.user_id
             self.is_lead=False
             self.customer=False
-            self.user_id=None
         if supplier==False:
             self.supplier_type=None
             self.customer=True
