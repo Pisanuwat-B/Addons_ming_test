@@ -32,7 +32,8 @@ Winyoo create 2015
     'depends': ['product','stock'], # depends--> look at folder's name
     'data': ['product_view.xml',
              'product_view_2.xml',
-             'product_menu.xml'
+             'product_menu.xml',
+             'product_source_view.xml'
              ], #XML File that included in my module
     'demo': [], #CSV Sample Data
     'installable': True, #  False mean no button to install

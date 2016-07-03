@@ -36,7 +36,9 @@ class product_template(models.Model):
         #required=False,
         help="ชื่อที่ใช้ print ในใบเสนอราคาและ DO")
     #ดึงตัว uom_id มาเพือเปลี่ยนค่า default
-        
+    buy_from = fields.Selection([("a","สินค้าซื้อจากต่างประเทศ"),
+                                 ("b","สินค้าซื้อจากในประเทศ"),
+                                 ("a_and_b","สินค้าซื้อได้จากในและต่างประเทศ")])        
 
     package = fields.Char('Package Size',size=20, translate=True,
         help="The size and package ขนาดและชนิดของบรรจุภัณฑ์ เช่น 25 kg/bag")
