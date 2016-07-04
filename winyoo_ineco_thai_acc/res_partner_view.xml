@@ -10,18 +10,18 @@
 					<field name="pid" position="replace"> 
                     	<field name="pid"
                     			string="Tax ID (เลข 13 หลัก)" 
-                                attrs="{'required':[('is_company','=',True),('customer','=',True)]}"/> 
+                                attrs="{'required':[('is_company','=',True),('customer','=',True),('is_lead','=',False)]}"/> 
                     </field>
                     <field name="tax_detail" position="replace">                    
                     	<field name="tax_detail"
                     		string="Branch NO(เลขสาขา 5 ตัว)"
                     		placeholder="5 หลัก เช่น 00000 สำหรับสำนักงานใหญ่" 
-                    		attrs="{'required':[('is_company','=',True),('customer','=',True)]}" />
+                    		attrs="{'required':[('is_company','=',True),('customer','=',True),('is_lead','=',False)]}" />
                     </field>
                     <field name="with_holding_type" position="replace">
                     	<field name="with_holding_type" 
                     		string="Withholding tax(ภพ53/ภพ3)" 
-                    		attrs="{'required':[('is_company','=',True),('customer','=',True)]}"/>
+                    		attrs="{'required':[('is_company','=',True),('customer','=',True),('is_lead','=',False)]}"/>
                     </field>
 
 			</field>
