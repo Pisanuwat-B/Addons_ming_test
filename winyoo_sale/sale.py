@@ -68,8 +68,13 @@ class sale_order(models.Model):
     @api.one
     @api.constrains('client_order_ref')
     def _client_order_ref(self):
-        if(self.env['sale.order'].search([('client_order_ref','=',self.client_order_ref.rstrip()),('id','!=',self.id)]).name)!=False:
+        if (self.client_order_ref==False):
+            pass
+        elif (self.client_order_ref.rstrip()=='-'):
+            pass
+        elif (self.env['sale.order'].search([('client_order_ref','=',self.client_order_ref.rstrip()),('id','!=',self.id)]).name)!=False:
             raise ValidationError("PO ลูกค้าออกแล้ว : this PO number is already existed.")
+
     
 
 class SaleOrderLine(models.Model):
