@@ -2,7 +2,7 @@
 <openerp>
     <data>
         <record id="winyoo_product_normal_action" model="ir.actions.act_window">
-            <field name="name">Tinnakorn Stock</field>
+            <field name="name">Product Product Tinnakorn Stock</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.product</field>
             <field name="view_mode">tree,form</field>
@@ -25,10 +25,11 @@
             </field>
         </record>
 
-        <menuitem id="menu_products_thinnakorn"
-                  action="winyoo_product_normal_action"
-                  parent="base.menu_product"
-                  groups="base.group_no_one" sequence="15"/>
+        <menuitem id="menu_products_tinnakorn"
+        		name="Tinnakorn Stock"
+                action="winyoo_product_normal_action"
+                parent="base.menu_product"
+                groups="base.group_no_one" sequence="15"/>
 
 		<!--  แก้ Product menu (Sale) ให้ขึ้นเฉพาะ sale_ok -->
        	<record model="ir.actions.act_window" id="product.product_template_action">

@@ -21,18 +21,17 @@
 
 
 {
-    'name': 'Tinnakorn Module for purchase request',
+    'name': 'Tinnakorn Module for Security(Update Last)',
     'version': '0.1',
     'category': 'Tools',
     'description': """
-Module for Purchase request!! Tinnakorn
+Module for Security!! Tinnakorn
 Winyoo create 2016
     """,
     'author': 'Winyoo Kongkavitool',
-    'depends': ['base','purchase_request'], # depends--> look at folder's name
-    'data': ['security/ir.model.access.csv',
-             'security/purchase_request_security.xml',
-             'view_purchase_request.xml',
+    'depends': ['base','purchase','sale','stock'], # depends--> look at folder's name
+    'data': [
+             'security.xml'
              ], #XML File that included in my module
     'demo': [], #CSV Sample Data
     'installable': True, #  False mean no button to install

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
-#
+#    
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 EANG COMPANY
+#    Copyright (C) 2004-2010 Tinnakorn Group 
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -15,27 +15,13 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.     
 #
 ##############################################################################
 
 
-{
-    'name': 'Tinnakorn Module for purchase request',
-    'version': '0.1',
-    'category': 'Tools',
-    'description': """
-Module for Purchase request!! Tinnakorn
-Winyoo create 2016
-    """,
-    'author': 'Winyoo Kongkavitool',
-    'depends': ['base','purchase_request'], # depends--> look at folder's name
-    'data': ['security/ir.model.access.csv',
-             'security/purchase_request_security.xml',
-             'view_purchase_request.xml',
-             ], #XML File that included in my module
-    'demo': [], #CSV Sample Data
-    'installable': True, #  False mean no button to install
-    'auto_install': False, #dangerous put auto_install
-}
+
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

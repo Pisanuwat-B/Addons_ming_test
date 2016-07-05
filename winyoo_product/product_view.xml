@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
+    <!-- NOTE: product.product_template_form_view will show in product.template and product.product
+    product.product_template_only_form_view will show onlin in product.template
+     -->
 
         <record id="view_winyoo_product_tree" model="ir.ui.view">
             <field name="name">winyoo.product.tree</field>

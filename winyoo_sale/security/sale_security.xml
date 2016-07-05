@@ -7,7 +7,10 @@
         <field name="name">SalesCo</field>
         <field name="category_id" ref="base.module_category_sales_management"/>
         <field name="comment">the user will have access to all records of everyone in the sales application, and partly of Warehouse applicatoin.</field>
-        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user')),
+        	(4, ref('sale.group_delivery_invoice_address')),
+        	(4, ref('product.group_sale_pricelist'))
+        	]"/>
     </record>
 
     <!--<record model="ir.ui.menu" id="base.menu_base_partner">

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="0">
+
+	<!-- Add implied_ids -->
+    <record id="purchase.group_purchase_user" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), 
+        (4, ref('purchase_request.group_purchase_request_manager'))]"/>
+    </record>
+    
+</data>
+
+</openerp>
