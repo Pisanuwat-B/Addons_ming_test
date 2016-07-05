@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    <!-- เติม group ให้ เห็นเฉพาะ purchase_request_manager -->
+        <menuitem
+            id="purchase_request.menu_purchase_request_line_act"
+            sequence="10"
+            parent="purchase_request.menu_purchase_request"
+            action="purchase_request.purchase_request_line_form_action"
+            groups="purchase_request.group_purchase_request_manager"
+            />
+        <menuitem
+            id="purchase_request.menu_purchase_request_line"
+            parent="purchase.menu_procurement_management"
+            action="purchase_request.purchase_request_line_form_action"
+            groups="purchase_request.group_purchase_request_manager"
+            />
+            
+     <!-- Crate new menu for คน approve-->
+        <record id="purchase_request_line_approver_action"
+                model="ir.actions.act_window">
+            <field name="name">PR Wait for Approver</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.request.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('request_state','=','to_approve')]</field>
+        </record>    
+            <!-- <field name="search_view_id" ref="purchase_request.purchase_request_line_search"/>     -->   
+
+        <menuitem
+            id="menu_purchase_request_approve"
+            sequence="20"
+            name="Purchase Request To Approve"
+            parent="purchase_request.parent_menu_purchase_request"
+            groups="purchase_request.group_purchase_request_manager"
+            />
+
+
+        <menuitem
+            id="menu_purchase_request_line_approver"
+            sequence="10"
+            parent="menu_purchase_request_approve"
+            action="purchase_request_line_approver_action"
+            groups="purchase_request.group_purchase_request_manager"
+            />
+
+    </data>
+</openerp>
+
