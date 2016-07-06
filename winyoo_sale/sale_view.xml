@@ -69,9 +69,6 @@
                 <field name="partner_shipping_id" position="after">
                 	<field name="order_policy"/>
                 </field>		    	
-
-
-
 		    	
 		    	<!--<field name="date_order" position="replace" >
 		    		<field name="date_order" string="Delivery Date(ค.ศ.)"/>
@@ -91,9 +88,21 @@
 		    	
 		    	
 		    	<field name="client_order_ref" position="attributes">
-		    		<attribute name="string">อ้างอิงPOลูกค้า"</attribute> 
-		    		<attribute name="attrs">{'invisible':[('state','in',('draft'))]}</attribute>
+		    		<attribute name="string">อ้างอิงPOลูกค้า</attribute> 
+		    		<attribute name="attrs">{'invisible':[('state','in',('draft'))],'required':[('state','not in','draft')]}</attribute>
 		    	</field>
+                <field name="client_order_ref" position="after">
+                    <label for="old_po" attrs="{'invisible':[('state','in','draft')]}"/>/>
+                    <div>
+                        <field name="old_po" 
+                            class="oe_inline" 
+                            attrs="{'invisible':[('state','in','draft')]}"/>
+                        <field name="times" 
+                            class="oe_inline" 
+                            placeholder='ครั้งที่ (POส่งหลายครั้ง)'  
+                            attrs="{'required':[('old_po','=',True)],'invisible':[('state','in','draft')],'readonly':[('old_po','=',False)]}"/>
+                    </div>
+                </field>		    	
 
 		    	<field name="pricelist_id" position="after">
 		    			<field name="sale_authority" placeholder="ชื่อคนเซ็นต์อนุมัติ" attrs="{'invisible':[('state','not in',('draft'))]}"/>	

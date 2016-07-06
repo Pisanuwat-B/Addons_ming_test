@@ -75,6 +75,38 @@ class sale_order(models.Model):
         elif (self.env['sale.order'].search([('client_order_ref','=',self.client_order_ref.rstrip()),('id','!=',self.id)]).name)!=False:
             raise ValidationError("PO ลูกค้าออกแล้ว : this PO number is already existed.")
 
+#++++ Check Client_order_ref ไม่ให้ซ้ำ ++++
+
+    old_po = fields.Boolean('ใช้เลข PO เดิม(ระบุครั้งที่)', help='กรณีลูกค้าออกPO อันเดียว แต่ให้เราส่งหลายครั้ง', copy=False)
+    times = fields.Char(help='ครั้งที่ส่งสำหรับ PO นี้', copy=False)
+
+    @api.onchange('old_po')
+    def onchange_old_po(self):
+        old_po=self.old_po
+        if old_po==False:
+            self.times=None
+    @api.one
+    @api.constrains('client_order_ref','old_po','times')
+    def _client_order_ref(self):
+        cor_strip=''
+        for cor in self:
+            if cor.client_order_ref != False:
+                cor_strip=cor.client_order_ref.rstrip()
+        old_po=self.old_po
+        if old_po==False:
+            if (self.client_order_ref==False):
+                pass
+            elif(cor_strip=='-'):
+                pass
+            else:
+                for rec in self.env['sale.order'].search([('client_order_ref','=',cor_strip),('id','!=',self.id)]):
+                    if(rec.name)!=False:
+                        raise ValidationError("PO ลูกค้าออกแล้ว : this PO number is already existed.")
+        elif old_po==True:
+            for rec2 in self.env['sale.order'].search([('client_order_ref','=',cor_strip),('id','!=',self.id),('times','=',self.times)]):
+                if(rec2.times)!=False:
+                    raise ValidationError("เลขระบุจำนวนครั้ง มันซ้ำนะตัวเอง : the number of times is repeated.")
+
     
 
 class SaleOrderLine(models.Model):
