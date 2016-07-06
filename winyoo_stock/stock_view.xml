@@ -79,7 +79,7 @@
 		    </field>
 		</record>
  	
-		
+<!-- +++++++++++++++++++++STOCK.MOVE++++++++++++++++++++++++ -->		
         <record id="winyoo_view_move_form" model="ir.ui.view">
             <field name="name">winyoo.stock.move.form</field>
             <field name="model">stock.move</field>
@@ -100,11 +100,65 @@
 				</button>
             </field>
         </record>
-		
-		
+        <record id="winyoo_view_move_picking_form" model="ir.ui.view">
+            <field name="name">winyoo.stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_picking_form"/>
+            <field name="arch" type="xml">
+					<!--                 
+                        <button name="action_confirm" states="draft" string="Confirm" type="object" groups="base.group_user"/>
+ 					--> 					
+ 						<button name="force_assign" position="attributes">
+ 							<attribute name="groups">base.group_erp_manager</attribute>
+                        </button>
+                        <button name="do_unreserve" position="attributes">
+                        	<attribute name="groups">base.group_erp_manager,base.group_sale_salesco</attribute>
+                        	<attribute name="string">Unreserve(เลิกจอง)</attribute>
+						</button>          
+ 			</field>
+ 		</record>		
+		<record id="view_move_tree_receipt_picking_kwan" model="ir.ui.view">
+            <field name="name">stock.move.tree2_kwan</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
+            <field name="priority" eval="6"/>
+            <field name="arch" type="xml">
+            	
+				<field name="date_expected" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</field>
+
+             	<field name="date" position="after">
+                    	<field name="date_expected" string="Expected Date"/>
+                </field> 
+                
+                <tree string="Moves" position="attributes">
+					<attribute name="default_order">date_expected</attribute>
+				</tree>
+
+            </field>
+        </record>		
+        <record model="ir.ui.view" id="winyoo_view_move_picking_tree">
+            <field name="name">winyoo.stock.move.tree</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_picking_tree"/>
+            <field name="arch" type="xml">
+            
+                    
+                <xpath expr="/tree/field[@name='location_id']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                    <attribute name="string">location</attribute>
+                </xpath>
+		<!-- สร้าง field เพิ่มเพื่อโชว์ Lot ทั้งหมด output:
+    		Product 80g : Lot=0004,0003,0002,0001 ในแถวเดียวกัน -->
+                <field name="location_id" position="after">
+                    <field name="lot_ids" groups="stock.group_production_lot" />
+                </field>
+
+            </field>
+        </record>   
  
- 
-         <!-- Stock incoterms -->
+<!-- +++++++++++++++++++++++STOCK INCOTERMS+++++++++++++++++++++++ -->
         <record id="winyoo_view_incoterms_tree" model="ir.ui.view">
             <field name="name">winyoo.stock.incoterms.tree</field>
             <field name="model">stock.incoterms</field>
@@ -130,23 +184,7 @@
             </field>	
         </record>
 
-        <record id="winyoo_view_move_picking_form" model="ir.ui.view">
-            <field name="name">winyoo.stock.move.form</field>
-            <field name="model">stock.move</field>
-            <field name="inherit_id" ref="stock.view_move_picking_form"/>
-            <field name="arch" type="xml">
-					<!--                 
-                        <button name="action_confirm" states="draft" string="Confirm" type="object" groups="base.group_user"/>
- 					--> 					
- 						<button name="force_assign" position="attributes">
- 							<attribute name="groups">base.group_erp_manager</attribute>
-                        </button>
-                        <button name="do_unreserve" position="attributes">
-                        	<attribute name="groups">base.group_erp_manager,base.group_sale_salesco</attribute>
-                        	<attribute name="string">Unreserve(เลิกจอง)</attribute>
-						</button>          
- 			</field>
- 		</record>
+
  		
  		 <!-- Bam: แก้ให้หน้า stock picking เรียงตาม schedule date  ตอนนี้ใช้งานไม่ได้ไม่รู้ทำไม-->
  		 <record id="stock_vpicktree_winyoo" model="ir.ui.view">
@@ -174,27 +212,7 @@
 			</field>
 		</record>
 
-		<record id="view_move_tree_receipt_picking_kwan" model="ir.ui.view">
-            <field name="name">stock.move.tree2_kwan</field>
-            <field name="model">stock.move</field>
-            <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
-            <field name="priority" eval="6"/>
-            <field name="arch" type="xml">
-            	
-				<field name="date_expected" position="attributes">
-					<attribute name="invisible">True</attribute>
-				</field>
 
-             	<field name="date" position="after">
-                    	<field name="date_expected" string="Expected Date"/>
-                </field> 
-                
-                <tree string="Moves" position="attributes">
-					<attribute name="default_order">date_expected</attribute>
-				</tree>
-
-            </field>
-        </record>
              
          <record id="winyoo_view_inventory_form" model="ir.ui.view">
             <field name="name">winyoo.stock.inventory.form</field>
