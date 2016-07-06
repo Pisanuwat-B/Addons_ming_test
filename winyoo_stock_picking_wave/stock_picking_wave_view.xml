@@ -43,17 +43,18 @@
 					<attribute name="invisible">True</attribute>
 				</field>
 				
-				<field name="name" position="replace">
-					<field name="name" string="DOP" class="oe_inline" readonly="1"/>
+				<field name="name" position="attributes">
+					<attribute name="string">DOP</attribute>
+				</field>
+				<field name="name" position="after">
 					<h3>
 						<field name="create_date" readonly="True"/>						
-					</h3>			
-					
+					</h3>								
 				</field>
 				
 				<xpath expr="//separator[@string='Pickings']" position="before">
              		<label for="ref_old_dop"/>
-             		<field name="ref_old_dop" string="อ้างอิง DOP ที่แก้ไข"/>
+             		<field name="ref_old_dop" string="กรณีแก้ไข: อ้างอิง DOP ที่แก้ไข"/>
              	</xpath>
              	
              	
