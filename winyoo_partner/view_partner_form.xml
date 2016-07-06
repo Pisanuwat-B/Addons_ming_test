@@ -65,7 +65,13 @@
              	<field name="mobile" position="attributes">
              		<attribute name="placeholder">เช่น  089-888-8888</attribute>
              	</field>   
-             	<field name="email" position="replace">
+             	<field name="email" position="attributes">
+             		<attribute name="string">Email(ของระบบเท่านั้น)</attribute>
+             		<attribute name="groups">base.group_erp_manager</attribute>
+             		<!-- <field name="email" widget="email" attrs="{'required': [('user_ids','!=', [])]}"/> -->
+             		<attribute name="attrs"></attribute>
+             	</field>
+             	<field name="email" position="after">
              		<field name="email_print"/>
              	</field>
 				<!-- <xpath expr="//field[@name='child_ids']/kanban/templates//field[@name='email']" position="replace">
