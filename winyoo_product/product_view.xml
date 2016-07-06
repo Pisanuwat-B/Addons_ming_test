@@ -96,16 +96,19 @@
                 <field name="active" position="attributes">
 					<attribute name="groups">base.group_erp_manager</attribute>
                 </field>
-
+                <field name="description" position="attributes">
+		    		<attribute name="placeholder">รายละเอียดเกี่ยวกับสินค้า ใส่ไว้ดูเองภายใน</attribute>
+		    	</field>
+				<field name="description" position="before">
+					<label for ="description" string="รายละเอียดเกี่ยวกับสินค้า (ใส่ไว้ดูเองภายใน)"/>
+				</field>
 		    	<field name="description" position="after">
 		    		<label for="receive_warning" class="oe_edit_only"/>
 		    		<field name="receive_warning" placeholder="เช่น ห้ามโยนสินค้า รับเข้าห้องเย็นทันที สินค้าเป็นสารอันตราย"/>
 		    		<label for="deliver_warning" class="oe_edit_only"/>
 		    		<field name="deliver_warning" placeholder="แสดงใน DOP เช่น ติดสติกเกอร์ด้วย เคาะฟังเสียงข้างถัง"/>
 		    	</field>
-		    	<field name="description" position="attributes">
-		    		<attribute name="placeholder">รายละเอียดเกี่ยวกับสินค้า ใส่ไว้ดูเองภายใน</attribute>
-		    	</field>
+
 
 			<!-- PROCUREMENTS PAGE -->
 			<!-- จริงๆตัว general อยู่ในตัวที่เค้า inherite มาอีกที แต่ก็ใช้ได้! -->
@@ -194,9 +197,10 @@
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
             
-		        <field name="default_code" position="replace">
-		        	<field name="default_code" attrs="{'invisible': [('product_variant_count', '>', 1)], 'required':[('sale_ok','=',True)]}"/>
-		        	<!-- <field name="default_code" attrs="{'invisible': [('product_variant_count', '>', 1)]}"/>-->
+		        <field name="default_code" position="attributes">
+		        	<attribute name="attrs">{'invisible': [('product_variant_count', '>', 1)], 'required':[('sale_ok','=',True)]}</attribute>
+		        </field>
+		        <field name="default_code" position="after">
 		        	<h5><br/> ต้อง! ลงทะเบียนสินค้าใน product registration ก่อนจะใส่ในโปรแกรม 
 		        	<br/><br/>Note: stockable = สินค้าซื้อขาย
 		        	<br/>      consumable = สินค้าซื้อมาใช้ 

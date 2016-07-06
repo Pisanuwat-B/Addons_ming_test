@@ -327,8 +327,8 @@
 		    		<field name="freight_company" string="บริษัทขนส่งหลัก" />
 		    		<field name="shipping_company" string="บริษัทเคลียสินค้า" />
 		    	</field>
-             	<xpath expr="//page[@string='RFQ &amp; Bid']" position="replace">
-		    		<page invisibile="True"></page>
+             	<xpath expr="//page[@string='RFQ &amp; Bid']" position="attributes">
+		    		<attribute name="invisibile">True</attribute>
 		    	</xpath>
 		    	<field name="payment_term_id" position="replace"></field>		    	
 		    	<field name="po_type" position="after">
