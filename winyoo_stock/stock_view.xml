@@ -181,7 +181,9 @@
             <field name="priority" eval="6"/>
             <field name="arch" type="xml">
             	
-				<field name="date_expected" position="replace"></field>
+				<field name="date_expected" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</field>
 
              	<field name="date" position="after">
                     	<field name="date_expected" string="Expected Date"/>

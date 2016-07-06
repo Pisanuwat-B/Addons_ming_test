@@ -28,34 +28,42 @@
 		    <field name="arch" type="xml">
 
 		    	<!-- มันมีสองปุ่มในหน้าใน ขึ้นคนละ state เลยต้องปิดมันสองครั้ง -->
-		    	<button name="action_quotation_send" position="replace"></button>
-		    	<button name="action_quotation_send" position="replace"></button>
-		    	<button name="print_quotation" position="replace"></button>
-		    	<button name="print_quotation" position="replace"></button>
+		    	<button name="action_quotation_send" position="attributes">
+		    		<attribute name="invisible">True</attribute>
+		    	</button>
+		    	<button name="action_quotation_send" position="attributes">
+		    		<attribute name="invisible">True</attribute>
+		    	</button>
+		    	<button name="print_quotation" position="attributes">
+		    		<attribute name="invisible">True</attribute>
+		    	</button>
+		    	<button name="print_quotation" position="attributes">
+		    		<attribute name="invisible">True</attribute>
+		    	</button>
 		    	<button name="cancel" position="before">
                 	<button name="button_mysent" string="Quotation to Order" type="object" states="draft" class="oe_highlight" groups="base.group_user"/>
 				</button>
 	    		<!-- hide "Confirm Sale" in draft state-->
-	    		<button name="action_button_confirm" position="replace"></button> 
+	    		<button name="action_button_confirm" position="attributes">
+		    		<attribute name="invisible">True</attribute></button> 
 	    		
-		    	<label string="Quotation " position="replace">
-					<label string="Quotation " attrs="{'invisible': [('state','not in',('draft'))]}"/>
+		    	<label string="Quotation " position="attributes">
+		    		<attribute name="attrs">{'invisible': [('state','not in',('draft'))]}</attribute>
 		    	</label>
-		    	<label string="Sales Order " position="replace">
-					<label string="Delivery Order " attrs="{'invisible': [('state','in',('draft'))]}"/>
+		    	<label string="Sales Order " position="attributes">
+		    		<attribute name="string">Delivery Order</attribute> 
+					<attribute name="attrs">{'invisible': [('state','in',('draft'))]}</attribute>
 		    	</label>
 
 		    	<!--<field name="payment_term" position="after">-->
 		    	<!--<field name="credit_term_id" />-->
 				<!--<button name="button_mycancel" string="My Cancel" type="object" />-->
-		    	<!--</field>-->
-				<field name="partner_id" position="replace">
-		    		<field name="partner_id" on_change="onchange_partner_id(partner_id, context)" domain="[('customer','=',True)]" 
-		    			context="{'search_default_customer':1, 'show_address': 1}" options="{'always_reload': True,'no_quick_create':True,'no_create_edit':True}"/>
+		    	<!--</field>-->		    	
+				<field name="partner_id" position="attributes">
+		    		<attribute name="options">{'always_reload': True,'no_quick_create':True,'no_create_edit':True}</attribute>
 				</field>
-				<field name="partner_invoice_id" position="replace">
-                	<field name="partner_invoice_id" groups="sale.group_delivery_invoice_address" 
-                		context="{'default_type':'invoice'}" options="{'no_quick_create':True,'no_create_edit':True}"/>
+				<field name="partner_invoice_id" position="attributes">
+		    		<attribute name="options">{'no_quick_create':True,'no_create_edit':True}</attribute>
                 </field>
                 <field name="order_policy" position="replace"></field>                
                 <field name="partner_shipping_id" position="after">
@@ -82,8 +90,9 @@
 		    	</field>
 		    	
 		    	
-		    	<field name="client_order_ref" position="replace" >
-		    		<field name="client_order_ref" string="อ้างอิงPOลูกค้า" attrs="{'invisible':[('state','in',('draft'))]}"/>
+		    	<field name="client_order_ref" position="attributes">
+		    		<attribute name="string">อ้างอิงPOลูกค้า"</attribute> 
+		    		<attribute name="attrs">{'invisible':[('state','in',('draft'))]}</attribute>
 		    	</field>
 
 		    	<field name="pricelist_id" position="after">
@@ -109,12 +118,12 @@
                     <field name="source_id" position="attributes">
                     	<attribute name="invisible">True</attribute>
 		    	    </field>
-		    		<field name="user_id" position="replace">
-		    			<field name="user_id" 
-		    				context="{'default_groups_ref': ['base.group_sale_salesman']}"
-		    				required="True"/>
+	
+	<!-- OTHER INFORMATION PAGE-->		    	    
+		    		<field name="user_id" position="attributes">
+                    	<attribute name="context">{'default_groups_ref': ['base.group_sale_salesman']}</attribute>
+		    			<attribute name="required">True</attribute>
 		    			<!--<field name="user_id" context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'account.group_account_invoice', 'base.group_sale_salesman_all_leads']}"/> -->
-		    			
 		    		</field>
 		    	
 		    	
@@ -126,29 +135,8 @@
 				</field>
 				
 <!-- Delete editable = "bottom" -->
-				<tree string="Sales Order Lines" position="replace">
-					 <tree string="Sales Order Lines">
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="state" invisible="1"/>
-                                    <field name="th_weight" invisible="1"/>
-                                    <field name="product_id"
-                                        context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}"
-                                        groups="base.group_user"
-                                        on_change="product_id_change(parent.pricelist_id, product_id, product_uom_qty, False, product_uos_qty, False, name, parent.partner_id, False, True, parent.date_order, False, parent.fiscal_position, False, context)"/>
-                                    <field name="name"/>
-                                    <field name="product_uom_qty"
-                                        context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}"
-                                        on_change="product_id_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, False, False, parent.date_order, False, parent.fiscal_position, True, context)"/>
-                                    <field name="product_uom"
-                                        on_change="product_uom_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, False, False, parent.date_order, context)"
-                                        groups="product.group_uom" options='{"no_open": True}'/>
-                                    <field name="product_uos_qty" groups="product.group_uos" invisible="1"/>
-                                    <field name="product_uos" string="UoS" groups="product.group_uos" invisible="1"/>
-                                    <field name="price_unit"/>
-                                    <field name="tax_id" widget="many2many_tags" domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]"/>
-                                    <field name="discount" groups="sale.group_discount_per_so_line"/>
-                                    <field name="price_subtotal"/>
-                	</tree>               
+				<tree string="Sales Order Lines" position="attributes">
+					<attribute name="editable"></attribute>               
 				</tree>
 				
 				
