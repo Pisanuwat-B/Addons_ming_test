@@ -55,7 +55,7 @@ class product_template(models.Model):
         help='ใส่ข้อระวังในขณะรับสินค้า เช่น สินค้าเป็นกรด สินค้าห้ามกระแทก')
     deliver_warning = fields.Text('ข้อระวังส่งสินค้า (Deliver Warning)',
         help='แสดงผลที่ DOP ใส่ข้อระวังและการเตรียมส่งสินค้า เช่น ต้องเคาะดูว่าแข็งไหม ต้องติดสติกเกอร์ก่อนส่ง')
-    
+        
     @api.onchange('type')
     def onchange_typetrack(self):
         type=self.type
@@ -64,7 +64,7 @@ class product_template(models.Model):
         if type=="consu":
             self.track_all=False
         if type=="service":
-            self.track_all=False    
+            self.track_all=False             
 
 class product_product(models.Model):
 

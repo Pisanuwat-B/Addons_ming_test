@@ -26,11 +26,9 @@
                 <button name="rereserve_pick" position="attributes">
                     <attribute name="groups">stock.group_stock_user</attribute>                    
                 </button>                
-                <button name="force_assign" position="replace">    
-                    <button name="force_assign" states="confirmed,waiting,partially_available" 
-                    string="Force Availability" type="object" 
-                    invisible="True"
-                    groups="stock.group_stock_user"/>                
+                
+                <button name="force_assign" position="attributes">
+                    <attribute name="groups">stock.group_stock_user</attribute>               
                 </button>
                 <button name="do_enter_transfer_details" position="replace">
                     <button name="do_enter_transfer_details" states="assigned,partially_available" 
@@ -44,19 +42,17 @@
                     	groups="stock.group_stock_manager,base.group_erp_manager,stock.group_office_inventory_controller" 
                     	type="object" class="oe_highlight"/>                 
                 </button>
-                <button name="do_print_picking" position="replace">
-                    <button name="do_print_picking" string="Print Picking List" groups="stock.group_stock_user" type="object" attrs="{'invisible': ['|', ('picking_type_code', '=', 'outgoing'), ('state', '!=', 'assigned')]}"/>                
-                </button>               
-  			
+ 			
                 <button name="action_cancel" position="attributes">
                     <attribute name="string">Cancel Transfer(ไม่ส่งหรือเลื่อนส่ง)</attribute>
                     <attribute name="groups">base.group_erp_manager,stock.cancel_transfer_group</attribute>
                     <attribute name="confirm">คุณแน่ใจที่จะ "ยกเลิก" เอกสารนี้ใช่หรือไม่</attribute>                
                 </button>
-                <button name="do_unreserve" position="replace">
-                  <!--<button name="do_unreserve" string="Unreserve" groups="base.group_user" type="object" attrs="{'invisible': [('quant_reserved_exist', '=', False)]}"/> -->   
-                    <button name="do_unreserve" string="Unreserve(ยกเลิกเตรียมส่ง)" groups="stock.group_stock_user, base.group_sale_salesco" type="object" attrs="{'invisible': [('quant_reserved_exist', '=', False)]}"/>
-            	</button>
+
+                <button name="do_unreserve" position="attributes">
+                	<attribute name="groups">stock.group_stock_user, base.group_sale_salesco</attribute>
+                	<attribute name="string">Unreserve(เลิกเตรียมส่ง)</attribute>
+				</button>                  	
             	            	
             
 		    	<field name="backorder_id" position="after">
@@ -141,12 +137,13 @@
             <field name="arch" type="xml">
 					<!--                 
                         <button name="action_confirm" states="draft" string="Confirm" type="object" groups="base.group_user"/>
- 					-->
- 						<button name="force_assign" position="replace">
- 							<button name="force_assign" states="confirmed" string="Force Availability" type="object" groups="base.group_erp_manager"/>
+ 					--> 					
+ 						<button name="force_assign" position="attributes">
+ 							<attribute name="groups">base.group_erp_manager</attribute>
                         </button>
-                        <button name="do_unreserve" position="replace">
-                        	<button name="do_unreserve" states="assigned" string="Cancel Availability" type="object" groups="base.group_erp_manager,base.group_sale_salesco"/>
+                        <button name="do_unreserve" position="attributes">
+                        	<attribute name="groups">base.group_erp_manager,base.group_sale_salesco</attribute>
+                        	<attribute name="string">Unreserve(เลิกจอง)</attribute>
 						</button>          
  			</field>
  		</record>
@@ -157,18 +154,20 @@
 			<field name="model">stock.picking</field>
 			<field name="inherit_id" ref="stock.vpicktree"/>            
 			<field name="arch" type="xml">
-				<field name="date" position="replace">
-					<field name="date" invisible="1"/>
+				<field name="date" position="attributes">
+					<attribute name="invisible">True</attribute>
 				</field>
-				<field name="min_date" position="replace">
-					<field name="min_date" invisible="0"/>
+				<field name="min_date" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</field>
+				<field name="min_date" position="after">
 					<field name="picking_type_code" invisible="1"/>
 					<field name="state_confirm_receive"/>
 					<field name="product_type"/>
 				</field>
 				<!-- <tree string="Picking list" position="attributes"> -->
 				<tree position="attributes">
-					<attributes name="default_order">min_date asc</attributes>
+					<attribute name="default_order">min_date asc</attribute>
 				</tree>
 				
 				                 
@@ -201,9 +200,8 @@
 		    <field name="inherit_id" ref="stock.view_inventory_form"/>            
             <field name="arch" type="xml">
 <!-- แก้เพิ่มสิทธิให้ปุ่ม Start inventory ให้ -->
-            		<button name="prepare_inventory" position="replace">			
-                    	<button name="prepare_inventory" states="draft" string="Start Inventory" type="object" class="oe_highlight" 
-                    		groups="stock.group_stock_user,stock.group_office_inventory_controller"/>
+            		<button name="prepare_inventory" position="attributes">
+                    	<attribute name="groups">stock.group_stock_user,stock.group_office_inventory_controller</attribute>
                     </button>	
 <!--                     <button name="action_done" states="confirm" string="Validate Inventory" type="object" class="oe_highlight" groups="stock.group_stock_manager"/>
                     <button name="action_cancel_draft" states="cancel" string="Set to Draft" type="object"/>
