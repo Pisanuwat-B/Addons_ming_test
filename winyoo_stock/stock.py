@@ -42,7 +42,7 @@ class stock_picking(models.Model):
         help="Reference Invoice Number ใส่เลข invoice สำหรับเอกสารชุดนี้")
     picker_name = fields.Char('Picker Name(ชื่อคนรับสินค้าออก)',size=30, translate=True,
         help="Picker Name(ชื่อคนรับสินค้าออก) เช่น คนขับรถของเรา หรือชื่อเซลที่มาเอาของไปเอง")
-    state_confirm_receive = fields.Selection([('1_estimate','A วันที่ประมาณเอง'),('2_sup_confirm','B วันผู้ขายแจ้งกลับ'),('3_sure','C วันแน่นอน(ผู้ส่งบอก)'),('5_done','D รับของแล้ว'),('4_return','X วันที่ของตีกลับ')], string="State Confirm Receive(ของเข้า)",
+    state_confirm_receive = fields.Selection([('1_estimate','A วันที่ประมาณเอง'),('2_sup_confirm','B วันผู้ขายแจ้งกลับ'),('3_sure','C วันแน่นอน(ชิปปิ้ง/ผู้ขนสินค้า แจ้ง)'),('5_done','D รับของแล้ว'),('4_return','X วันที่ของตีกลับ')], string="State Confirm Receive(ของเข้า)",
         help="วันที่ของเข้าแน่ใจได้แค่ไหน")  
     product_type= fields.Selection(related='product_id.type', string="Type of product")
 

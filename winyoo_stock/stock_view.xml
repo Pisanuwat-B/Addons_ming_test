@@ -65,7 +65,10 @@
 		    			    	
 		    	<field name="origin" position="after">
 		    		<field name="state_confirm_receive" attrs="{'invisible': [('picking_type_code','!=','incoming')],'required': [('picking_type_code','=','incoming')]}"/><!-- รอเติมว่าและตัง้ default เป็น X ด้วย ถ้าstatusเป็น transfer น่าจะมาเปลี่ยนตรงนี้เป็นส่งแล้วด้วย (หรือจะละไว้ก่อนได้) -->
-		    		<br/><br/>
+		    		<div attrs="{'invisible': [('picking_type_code','!=','incoming')]}">
+		    			<h6>Remark:<br/>"Cวันแน่นอน(ชิ้ปปิ้ง/ผู้ขนสินค้าแจ้ง)"<br/>เข้าสถานะนี้เมื่อ Shipping/ผู้ขนสินค้า แจ้งของเข้า ปกติจะไม่เกิด 10 วันก่อนของเข้าจริง</h6>
+		    			<br/><br/>
+		    		</div>
 		    		<h3 attrs="{'invisible': [('picking_type_code','!=','outgoing')]}"><font color='blue'>เอกสารสำคัญขาออก</font></h3><br/>
 		    		<field name="dop_ref" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}" />
 		    		<field name="invoice_ref" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}" />
