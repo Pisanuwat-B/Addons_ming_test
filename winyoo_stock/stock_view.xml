@@ -196,7 +196,7 @@
 					<attribute name="invisible">True</attribute>
 				</field>
 				<field name="min_date" position="attributes">
-					<attribute name="invisible">True</attribute>
+					<attribute name="invisible">False</attribute>
 				</field>
 				<field name="min_date" position="after">
 					<field name="picking_type_code" invisible="1"/>
