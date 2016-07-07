@@ -96,14 +96,14 @@ class purchase_order(models.Model):
         help="Shipping company (Customs Broker) ชื่อบริษัทที่เคลียสินค้า")
     freight_company = fields.Char('Freight Company',size=20, translate=True,
         help="Freight company ชื่อบริษัทผู้ขนส่งสินค้าข้ามประเทศ")    
-    
-    @api.one
-    @api.constrains('po_name')
-    def _po_number(self):
-        if(self.env['purchase.order'].search([('po_name','=',self.po_name.rstrip()),('id','!=',self.id)]).name)!=False:
-            raise ValidationError("PO ซ้ำ : this PO number is already existed.")
-        # else:
-        #     self.po_name = self.po_name.rstrip()    
+
+#   ตรวจสอบการซ้ำ เลข PO แต่มันไปขัดกับ purchase_order_revision เพราะตอกด revision มันจะสร้างชื่อเดิมซ้ำ เลยไม่ยอม
+#     @api.one
+#     @api.constrains('po_name')
+#     def _po_number(self):
+#         if(self.env['purchase.order'].search([('po_name','=',self.po_name.rstrip()),('id','!=',self.id)]).name)!=False:
+#             raise ValidationError("PO ซ้ำ : this PO number is already existed.")
+
     
     
 class PurchaseOrderLine(models.Model):
