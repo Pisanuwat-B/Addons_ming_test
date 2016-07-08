@@ -109,7 +109,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">purchase.order</field>
             <field name="view_mode">tree,form,graph,calendar</field>
-            <field name="context">{'search_default_not_shipped': 1}</field>
+            <field name="context">{'search_default_not_shipped': 1,'default_po_type':'a'}</field>
             <field name="domain">[('state','not in',('draft','sent','bid', 'confirmed')),('po_type','=','a')]</field>
             <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
             <field name="help" type="html">
@@ -128,7 +128,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">purchase.order</field>
             <field name="view_mode">tree,form,graph,calendar</field>
-            <field name="context">{'search_default_not_shipped': 1}</field>
+            <field name="context">{'search_default_not_shipped': 1,'default_po_type':'b'}</field>
             <field name="domain">[('state','not in',('draft','sent','bid', 'confirmed')),('po_type','=','b')]</field>
             <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
             <field name="help" type="html">
