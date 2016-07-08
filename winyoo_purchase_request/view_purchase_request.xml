@@ -44,7 +44,33 @@
             action="purchase_request_line_approver_action"
             groups="purchase_request.group_purchase_request_manager"
             />
-
+            
+        <record model="ir.ui.view" id="view_purchase_request_form_winyoo">
+            <field name="name">winyoo_purchase.request.form</field>
+            <field name="model">purchase.request</field>
+            <field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
+            <field name="arch" type="xml">
+            	<field name="requested_by" position="attributes">
+                	<attribute name="options">{"no_open":True,"no_create_edit":True}</attribute>
+                </field>
+             	<field name="assigned_to" position="attributes">
+                	<attribute name="options">{"no_open":True,"no_create_edit":True}</attribute>
+                </field>
+                <field name="picking_type_id" position="attributes">
+                	<attribute name="options">{"no_open":True,"no_create_edit":True}</attribute>
+                	<attribute name="domain">[('code','=','incoming')]</attribute>
+                </field>    
+                
+                <xpath expr="//notebook/page/field/form/sheet/group/group/field[@name='product_id']" position="attributes">
+                	<attribute name="options">{"no_open":True,"no_create_edit":True}</attribute>
+                </xpath>
+                <xpath expr="//notebook/page/field/form/sheet/group/group/div/field[@name='product_uom_id']" position="attributes">
+                	<attribute name="options">{"no_open":True,"no_create_edit":True}</attribute>
+                </xpath>
+                
+         	</field>
+        </record>
+        
     </data>
 </openerp>
 

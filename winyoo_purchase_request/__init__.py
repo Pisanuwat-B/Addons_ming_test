@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-#import res_partner
+# import purchase_request
 #import crm_lead
 
 

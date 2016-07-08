@@ -11,7 +11,7 @@
             <field name="model">stock.picking</field>
             <field name="priority" eval="2"/>
             <field name="arch" type="xml">
-                <calendar string="Calendar View" date_start="min_date" color="state_confirm_receive" quick_add="True">
+                <calendar string="Calendar View" date_start="min_date" color="partner_id" quick_add="True">
                 <!-- quick_add="True" ทำให้ Error แต่ก็ช่วยให้ไม่สามารถกด Quick Add ได้เหมือนกัน เราอาจะเอาออกในอนาคต -->
                     <field name="origin"/>
                     <field name="partner_id"/>
@@ -48,6 +48,7 @@
             <field name="model">stock.picking</field>
             <field name="priority" eval="2"/>
             <field name="arch" type="xml">
+            	<!-- ต้องระวัง color= "state_confirm_receive" ถ้าไม่มีค่าใน state_confirm_receive มันจะ error -->
                 <calendar string="Calendar View" date_start="min_date" date_stop="max_date" color="state_confirm_receive" quick_add="True">
                     <field name="origin"/>
                     <field name="state_confirm_receive"/><!-- ติดปัญหาอยากให้มัดึงเป็น name ไว้แสดงแทน ไม่ใช่ id -->
