@@ -3,14 +3,26 @@
     <data>
     
  <!-- Insert Menu Calendar Receive in Purchase  -->
+         <record model="ir.ui.view" id="purchase_stock_picking_calendar_recei">
+            <field name="name">Receive calendar ready</field>
+            <field name="model">stock.picking</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+            	<!-- ต้องระวัง color= "state_confirm_receive" ถ้าไม่มีค่าใน state_confirm_receive มันจะ error -->
+                <calendar string="Calendar View" date_start="min_date" date_stop="max_date" color="state_confirm_receive" quick_add="True">
+                    <field name="origin"/>
+                    <field name="state_confirm_receive"/><!-- ติดปัญหาอยากให้มัดึงเป็น name ไว้แสดงแทน ไม่ใช่ id -->
+                    <!-- <field name="product_id"/>  เหมือนกับข้างบนได้แต่ชื่ออันดับแรก และอยากจะใส่จำนวนด้วย-->
+                </calendar>
+            </field>
+        </record>
         <record id="action_receive_calendar_ready_purchase" model="ir.actions.act_window">
             <field name="name">Receive Calendar Ready</field>
             <field name="res_model">stock.picking</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">calendar</field>
-            <!-- <field name="view_id" ref="view_warehouse_orderpoint_tree"/> -->
-            <field name="view_id" ref="sale_stock_picking_calendar_recei"/> <!-- ไม่ใส่ก็ได้ แต่ถ้าใส่ก็จะไปเรียกวิวที่เราต้องการ ซึ่งทำให้เราสามารถสร้างและแก้ไขวิวเองได้ -->
+            <field name="view_id" ref="purchase_stock_picking_calendar_recei"/> <!-- ไม่ใส่ก็ได้ แต่ถ้าใส่ก็จะไปเรียกวิวที่เราต้องการ ซึ่งทำให้เราสามารถสร้างและแก้ไขวิวเองได้ -->
             <field name="domain">[('picking_type_id.code', '=','incoming'),('state','in',('confirmed', 'waiting','assigned', 'partially_available'))]</field>
             <field name="context">{}</field>
             <field name="search_view_id" ref="stock.view_picking_internal_search"/>
@@ -19,19 +31,48 @@
 		<menuitem id="menu_calendar_receive_purchase" 
 			name="Calendar Receive" parent="base.menu_purchase_root" 
 			sequence="3"/>
-		<menuitem action="action_receive_calendar_ready_purchase" id="calendar_receive_purchase" 
-			name="Calendar Receive" parent="menu_calendar_receive_purchase" 
+		<menuitem id="calendar_receive_purchase" name="Calendar Receive"
+			action="action_receive_calendar_ready_purchase" 
+			parent="menu_calendar_receive_purchase" 
 			sequence="1"/> 
  
  
  
 <!--Receive Product by office-->
+		<record id="winyoo_picktree" model="ir.ui.view">
+            <field name="name">winyoo.picking.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';grey:state == 'cancel';red:state not in ('cancel', 'done') and min_date &lt; current_date" 
+                		string="Picking list" 
+                		create="false" default_order="min_date asc">
+                    <field name="name"/>
+                    <field name="location_dest_id"/>
+                    <field name="partner_id"/>
+                    <field name="date" invisible="1"/>
+                    <field name="min_date" invisible="0"/>
+					<field name="picking_type_code" invisible="1"/>
+					<field name="state_confirm_receive"/>
+					<field name="product_type"/>
+                    <field name="wave_id"/>
+                    <field name="origin"/>
+                    <field name="group_id" invisible="1"/>
+                    <field name="backorder_id"/>
+                    <field name="invoice_state" groupts="account.group_account_invoice"/>
+                    <field name="state"/>
+                    <field name="priority" invisible="1"/>
+                    <field name="picking_type_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="action_receiving_product_office_ready" model="ir.actions.act_window">
             <field name="name">Office Receive : Ready Transfers จัดซื้อรับของได้</field>
             <field name="res_model">stock.picking</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="winyoo_picktree"/>
             <field name="domain">[('picking_type_id.code', '=','incoming'),('picking_type_id.warehouse_id', '!=',1),('state','in',('assigned', 'partially_available'))]</field>
             <field name="context">{}
             </field>
@@ -50,18 +91,20 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="winyoo_picktree"/>
             <field name="domain">[('picking_type_id.code', '=','incoming'),('picking_type_id.warehouse_id', '=',1),('state','in',('assigned', 'partially_available'))]</field>
-            <field name="context">{}
-            </field>
+            <!-- <field name="context">{'search_default_confirmed':True}</field> -->
             <field name="search_view_id" ref="stock.view_picking_internal_search"/>
         </record>                    
             
       	<menuitem id="menu_receive_product_purchase" 
       		name="Receive Product" parent="base.menu_purchase_root" sequence="4"/>
-     	<menuitem action="action_receiving_product_office_ready" id="menu_action_receipt_stock_picking__office"
+     	<menuitem id="menu_action_receipt_stock_picking__office" 
+     		action="action_receiving_product_office_ready" 
      		name="Receive by Office (รับของโดยออฟฟิส)"
             parent="menu_receive_product_purchase" sequence="1"/>
-     	<menuitem action="action_receiving_product_warehouse_ready" id="menu_action_receipt_stock_picking__warehouse"
+     	<menuitem id="menu_action_receipt_stock_picking__warehouse"
+     		action="action_receiving_product_warehouse_ready"
      		name="Receive by Warehouse (รับของโดยโกดัง)"
             parent="menu_receive_product_purchase" sequence="2"/>
     

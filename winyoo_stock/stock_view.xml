@@ -126,7 +126,9 @@
             <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
             <field name="priority" eval="6"/>
             <field name="arch" type="xml">
-            	
+            	<tree string="Moves" position="attributes">
+            		<attribute name="create">false</attribute>
+            	</tree>
 				<field name="date_expected" position="attributes">
 					<attribute name="invisible">True</attribute>
 				</field>
@@ -160,7 +162,17 @@
 
             </field>
         </record>   
- 
+        <record id="winyoo_view_move_form" model="ir.ui.view">
+            <field name="name">winyoo.stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <form string="Stock Moves" position="attributes">
+            		<attribute name="create">false</attribute>
+            	</form>
+            </field>
+  		</record>
+  		
 <!-- +++++++++++++++++++++++STOCK INCOTERMS+++++++++++++++++++++++ -->
         <record id="winyoo_view_incoterms_tree" model="ir.ui.view">
             <field name="name">winyoo.stock.incoterms.tree</field>
@@ -187,35 +199,7 @@
             </field>	
         </record>
 
-
- 		
- 		 <!-- Bam: แก้ให้หน้า stock picking เรียงตาม schedule date  ตอนนี้ใช้งานไม่ได้ไม่รู้ทำไม-->
- 		 <record id="stock_vpicktree_winyoo" model="ir.ui.view">
-			<field name="name">stock.vpicktree.winyoo</field>
-			<field name="model">stock.picking</field>
-			<field name="inherit_id" ref="stock.vpicktree"/>            
-			<field name="arch" type="xml">
-				<field name="date" position="attributes">
-					<attribute name="invisible">True</attribute>
-				</field>
-				<field name="min_date" position="attributes">
-					<attribute name="invisible">False</attribute>
-				</field>
-				<field name="min_date" position="after">
-					<field name="picking_type_code" invisible="1"/>
-					<field name="state_confirm_receive"/>
-					<field name="product_type"/>
-				</field>
-				<!-- <tree string="Picking list" position="attributes"> -->
-				<tree position="attributes">
-					<attribute name="default_order">min_date asc</attribute>
-				</tree>
-				
-				                 
-			</field>
-		</record>
-
-
+<!-- +++++++++++++++++++++++STOCK INVENTORY+++++++++++++++++++++++ -->
              
          <record id="winyoo_view_inventory_form" model="ir.ui.view">
             <field name="name">winyoo.stock.inventory.form</field>
@@ -231,7 +215,32 @@
                     <button name="action_cancel_inventory" states="confirm" string="Cancel Inventory" type="object"/>
  -->
             </field>
-        </record>
+        </record>        
+
+<!-- +++++++++++++++++++++++STOCK PICKING+++++++++++++++++++++++ -->
+ 		 <record id="stock_vpicktree_winyoo" model="ir.ui.view">
+			<field name="name">stock.vpicktree.winyoo</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.vpicktree"/>            
+			<field name="arch" type="xml">
+				<!-- <tree string="Picking list" position="attributes"> -->
+				<tree position="attributes">
+					<attribute name="default_order">min_date asc</attribute>
+				</tree>			
+				<field name="date" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</field>
+				<field name="min_date" position="attributes">
+					<attribute name="invisible">False</attribute>
+				</field>
+				<field name="min_date" position="after">
+					<field name="picking_type_code" invisible="1"/>
+					<field name="state_confirm_receive"/>
+					<field name="product_type"/>
+				</field>
+			</field>
+		</record>
+
 
 <!-- เพิ่มเมนุ Wait to delivery -->
 
