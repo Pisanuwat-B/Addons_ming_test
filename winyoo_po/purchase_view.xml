@@ -157,13 +157,15 @@
 	      	<field name="inherit_id" ref="purchase.purchase_order_tree"/>            
             <field name="arch" type="xml">
             	<tree string="Purchase Order" position="attributes">
-            		<attribute name="default_order">minimum_planned_date</attribute>	
+            		<attribute name="default_order">minimum_planned_date</attribute>
+            		<attribute name="create">false</attribute>
             	</tree>
 	        	<field name="name" position="after">
 	        		<field name="po_name" />
 	        	</field>                    
             </field>
-        </record>                         
+        </record>
+                                                 
 
 <!-- Menu for supplier name -->
         <record id="action_partner_supplier_sell_form" model="ir.actions.act_window">
@@ -243,8 +245,7 @@
 
 
  		    </field>
-		</record>
-        
+		</record>  
  
  		<record id="winyoo_purchase_purchase_order_form" model="ir.ui.view">
             <field name="name">winyoo.purchase.purchase_order_form</field>
@@ -252,7 +253,9 @@
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <!--<field name="mode">primary</field>-->
             <field name="arch" type="xml">
-            
+                <form string="Purchase Order" position="attributes">
+            		<attribute name="create">false</attribute>	
+                </form>            
             	<!-- <field name="partner_id" position="replace">
 					<field name="partner_id" on_change="onchange_partner_id(partner_id, context)" 
 						context="{'search_default_supplier':1, 'default_supplier':1, 'default_customer':0}" 
