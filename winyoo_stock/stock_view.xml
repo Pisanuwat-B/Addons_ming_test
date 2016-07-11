@@ -69,7 +69,8 @@
 		    			<h6>Remark:<br/>"Cวันแน่นอน(ชิ้ปปิ้ง/ผู้ขนสินค้าแจ้ง)"<br/>เข้าสถานะนี้เมื่อ Shipping/ผู้ขนสินค้า แจ้งของเข้า ปกติจะไม่เกิด 10 วันก่อนของเข้าจริง</h6>
 		    			<br/><br/>
 		    		</div>
-		    		<h3 attrs="{'invisible': [('picking_type_code','!=','outgoing')]}"><font color='blue'>เอกสารสำคัญขาออก</font></h3><br/>
+		    		<h3 attrs="{'invisible': [('picking_type_code','!=','outgoing')]}"><font color='blue'>เอกสารสำคัญขาออก</font></h3>
+		    		<newline/>
 		    		<field name="dop_ref" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}" />
 		    		<field name="invoice_ref" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}" />
 		    		<field name="picker_name" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}" />		    				    		
