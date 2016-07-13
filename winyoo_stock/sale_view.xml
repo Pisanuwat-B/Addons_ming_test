@@ -28,7 +28,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">calendar</field>
-            <field name="view_id" ref="sale_stock_picking_calendar_deli"/> <!-- ไม่ใส่ก็ได้ แต่ถ้าใส่ก็จะไปเรียกวิวที่เราต้องการ ซึ่งทำให้เราสามารถสร้างและแก้ไขวิวเองได้ -->
+           <field name="view_id" ref="sale_stock_picking_calendar_deli"/> <!-- ไม่ใส่ก็ได้ แต่ถ้าใส่ก็จะไปเรียกวิวที่เราต้องการ ซึ่งทำให้เราสามารถสร้างและแก้ไขวิวเองได้ -->
             <field name="domain">[('picking_type_id.code', '=','outgoing'),('state','in',('confirmed', 'waiting','assigned', 'partially_available'))]</field>
             <field name="context">{}</field>
             <field name="search_view_id" ref="stock.view_picking_internal_search"/>
@@ -132,11 +132,11 @@
 
  
 <!-- *************************  internal transfer on sales *************************-->       
-         <record id="saleInternal_transfer" model="ir.ui.view">
-            <field name="name">saleInternal.transfer</field>
+         <record id="sale_internal_transfer" model="ir.ui.view">
+            <field name="name">sale.internal.transfer</field>
             <field name="model">stock.picking</field>            
             <field name="arch" type="xml">
-                <tree string="saleInternal" default_order="min_date" colors="green:state == 'assigned';red:(state in ('partially_available','confirmed','waiting'))">
+                <tree string="รายการเคลื่อนย้ายภายใน" default_order="min_date" colors="green:state == 'assigned';red:(state in ('partially_available','confirmed','waiting'))">
                     <!-- <field name="name"/>
                     <field name="location_dest_id"/>
                     <field name="partner_id"/>
@@ -158,23 +158,31 @@
             </field>
         </record>        
         
-        <record id="action_saleInternal_transfer" model="ir.actions.act_window">
+        <record id="action_sale_internal_transfer" model="ir.actions.act_window">
             <field name="name">การส่งไปเบิกผลิต</field>
             <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>            
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="saleInternal_transfer"/>
+            <field name="view_id" ref="sale_internal_transfer"/>
             <field name="domain">[('picking_type_code', '=','internal')]</field>
-            <field name="context" eval="{'search_default_confirmed': 1,'search_default_available' : 1}"/>
+            <field name="context" 
+            	eval="{'search_default_confirmed': 1,
+            			'search_default_available' : 1,
+            			'default_picking_type_id':3,
+            			'default_move_type':'one'
+            			}"/>
+<!--             <field name="search_view_id" ref="stock.view_picking_internal_search"/> -->
+
         </record>
-            
+      
 
         <menuitem id="base.menu_sale_internal_control" 
                 name="การผลิต" parent="base.menu_base_partner" 
-                sequence="2"/>
-        <menuitem action="action_saleInternal_transfer" id="menu_sent_to_internal"
-            name="ส่งไปเบิกผลิต" parent="base.menu_sale_internal_control" 
-            sequence="7"/> 
+                sequence="3"/>
+        <menuitem action="action_sale_internal_transfer" id="menu_sent_to_internal"
+            name="ส่งเบิกไปผลิต" parent="base.menu_sale_internal_control" 
+            sequence="10"/> 
  
     </data>
 </openerp>
