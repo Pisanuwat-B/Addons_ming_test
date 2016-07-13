@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "IT problem",
+    'name': "Winyoo Suggestion",
 
     'summary': """
-        รับแจ้งปัญหา ตลอด 24 ชั่วโมง """,
+        ร่วมกันแจ้งปัญหา แก้ปัญหา และพัฒนางาน """,
 
     'description': """
         Long description of module's purpose
     """,
 
-    'author': "solution",
+    'author': "Care and Winyoo",
     'website': "------",
 
     # Categories can be used to filter modules in modules listing
@@ -25,7 +25,7 @@
     'data': [
 #         'security/security.xml',
 #         'ir.model.access.css',
-        'problem_view.xml',
+        'suggestion_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
