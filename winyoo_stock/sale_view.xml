@@ -100,7 +100,50 @@
             parent="menu_delivery_product_sale" sequence="1"/>
 
  
- 
+<!-- *************************  internal transfer on sales *************************-->       
+         <record id="saleInternal_transfer" model="ir.ui.view">
+            <field name="name">saleInternal.transfer</field>
+            <field name="model">stock.picking</field>            
+            <field name="arch" type="xml">
+                <tree string="saleInternal" default_order="min_date" colors="green:state == 'assigned';red:(state in ('partially_available','confirmed','waiting'))">
+                    <!-- <field name="name"/>
+                    <field name="location_dest_id"/>
+                    <field name="partner_id"/>
+                    <field name="date"/>
+                    <field name="min_date" invisible="1"/>
+                    <field name="origin"/>
+                    <field name="group_id" invisible="1"/>
+                    <field name="backorder_id"/>
+                    <field name="state"/>
+                    <field name="priority" invisible="1"/>
+                    <field name="picking_type_id" invisible="1"/> -->
+                    
+                    <field name="min_date"/>
+                    <field name="location_dest_id"/>
+                    <field name="partner_id"/>
+                    <field name="origin"/>
+                    <field name="state"/>
+                </tree>        
+            </field>
+        </record>        
+        
+        <record id="action_saleInternal_transfer" model="ir.actions.act_window">
+            <field name="name">การส่งไปเบิกผลิต</field>
+            <field name="res_model">stock.picking</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="saleInternal_transfer"/>
+            <field name="domain">[('picking_type_code', '=','internal')]</field>
+            <field name="context" eval="{'search_default_confirmed': 1,'search_default_available' : 1}"/>
+        </record>
+            
+
+        <menuitem id="base.menu_sale_internal_control" 
+                name="การผลิต" parent="base.menu_base_partner" 
+                sequence="2"/>
+        <menuitem action="action_saleInternal_transfer" id="menu_sent_to_internal"
+            name="ส่งไปเบิกผลิต" parent="base.menu_sale_internal_control" 
+            sequence="7"/> 
  
     </data>
 </openerp>
