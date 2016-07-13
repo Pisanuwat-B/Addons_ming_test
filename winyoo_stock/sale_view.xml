@@ -77,8 +77,8 @@
 			sequence="3"/>
 
 
-        <record id="deilvery_product_by_office" model="ir.ui.view">
-            <field name="name">deilvery.product.by.office</field>
+        <record id="view_deilvery_product_by_office_tree" model="ir.ui.view">
+            <field name="name">view.deilvery.product.by.office.tree</field>
             <field name="model">stock.picking</field>
             <field name="arch" type="xml">
                 <tree colors="blue:state == 'draft';grey:state == 'cancel';red:state not in ('cancel', 'done') and min_date &lt; current_date" 
@@ -111,7 +111,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar</field>
-            <field name="view_id" ref="deilvery_product_by_office"/>
+            <field name="view_id" ref="view_deilvery_product_by_office_tree"/>
             <field name="domain">[('picking_type_id.code', '=','outgoing'),('picking_type_id.warehouse_id', '!=',1),('state','in',('assigned', 'partially_available'))]</field>
             <field name="context">{}
             </field>
