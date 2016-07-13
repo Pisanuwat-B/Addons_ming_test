@@ -250,7 +250,7 @@
             <field name="name">wait.to.delivery</field>
             <field name="model">stock.picking</field>            
             <field name="arch" type="xml">
-				<tree string="Wait to Delivery" default_order="min_date" colors="green:state == 'assigned';red:(state in ('partially_available','confirmed','waiting'))">
+				<tree string="Wait to Delivery" default_order="min_date" create='false' colors="green:state == 'assigned';red:(state in ('partially_available','confirmed','waiting'))">
                           <field name="min_date"/>
                           <field name="partner_id"/>
                           <field name="origin"/>
