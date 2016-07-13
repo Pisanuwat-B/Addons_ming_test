@@ -159,7 +159,7 @@
         </record>        
         
         <record id="action_sale_internal_transfer" model="ir.actions.act_window">
-            <field name="name">การส่งไปเบิกผลิต</field>
+            <field name="name">ส่งใบเบิกไปผลิต</field>
             <field name="res_model">stock.picking</field>
             <field name="type">ir.actions.act_window</field>            
             <field name="view_type">form</field>
@@ -178,10 +178,12 @@
       
 
         <menuitem id="base.menu_sale_internal_control" 
-                name="การผลิต" parent="base.menu_base_partner" 
-                sequence="3"/>
+        	name="การผลิต" parent="base.menu_base_partner"
+            groups="base.group_sale_salesco,base.group_erp_manager" 
+            sequence="3"/>
         <menuitem action="action_sale_internal_transfer" id="menu_sent_to_internal"
-            name="ส่งเบิกไปผลิต" parent="base.menu_sale_internal_control" 
+            name="ส่งใบเบิกไปผลิต" parent="base.menu_sale_internal_control" 
+            groups="base.group_sale_salesco,base.group_erp_manager"
             sequence="10"/> 
  
     </data>
