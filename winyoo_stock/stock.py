@@ -55,6 +55,7 @@ class stock_picking(models.Model):
     #}
     
     #and self.picking_type_id.code == 'incoming'
+
     @api.one
     @api.constrains('note')
     def _check_note(self):

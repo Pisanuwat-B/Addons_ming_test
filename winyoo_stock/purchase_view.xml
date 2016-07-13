@@ -89,7 +89,7 @@
             <field name="name">Warehouse Receive : Ready Transfers จัดซื้อดูเท่านั้น</field>
             <field name="res_model">stock.picking</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="view_type">tree</field>
+            <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar</field>
             <field name="view_id" ref="winyoo_picktree"/>
             <field name="domain">[('picking_type_id.code', '=','incoming'),('picking_type_id.warehouse_id', '=',1),('state','in',('assigned', 'partially_available'))]</field>
