@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+<!-- ************************Suggestion form view **********************************  -->
+        <record model="ir.ui.view" id="suggestion_form_view">
+            <field name="name">suggestion.form</field>
+            <field name="model">suggestion</field>
+            <field name="arch" type="xml">
+                <form string="แจ้งเสนอแนะ">
+                    <header>
+                        <button string="test" type="object" name="button_suggestion" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"
+                           statusbar_visible="draft,submitted,received,done"
+                           statusbar_colors='{"received":"blue"}'/>
+                    </header>
+                    <sheet>
+                        <!-- <group>
+                            <field name="topic" string="หัวข้อ"/>
+                        </group> -->
+                        <group colspan="4" col="4">
+                             	<field name="main_suggest" string="ประเภทข้อเสนอแนะ/ปัญหา" required="True"/>
+                             	<field name="functional" string="กระบวนการที่เกี่ยวข้อง" 
+                             		attrs="{'invisible':[('main_suggest','=','car')]}"
+                             		required="True"/>
+                             	<field name="name" options='{"no_open": True,"no_create": 1, "no_create_edit": 1}' 
+                             			string="ผู้แจ้งเรื่อง" invisible="True"/>
+                             	<field name="found_date" string="วันที่พบปัญหา"/>
+                             	<!-- <field name="test"/> -->
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="note" 
+                                	placeholder="รายละเอียด ระบุใช้ชัดเจน: ใคร ทำอะไร ที่ไหน อย่างไร เมื่อไหร่" 
+                                	required="True"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!-- ************************Suggestion tree view **********************************    -->
+        <record model="ir.ui.view" id="suggestion_tree_view">
+            <field name="name">suggestion.tree</field>
+            <field name="model">suggestion</field>
+            <field name="arch" type="xml">
+                <tree string="แจ้งปัญหา">
+                     <!-- <field name="topic" string="หัวข้อ"/> -->
+                     <field name="main_suggest" string="ประเภทข้อเสนอแนะ/ปัญหา"/>
+                     <field name="functional" string="กระบวนการ"/>
+                     <field name="name" string="ผู้แจ้งเรื่อง"/>
+                     <field name="found_date" string="วันที่พบปัญหา"/>
+                     <field name="note" placeholder="รายละเอียด"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="suggestion_search_view">
+            <field name="name">suggestion.search</field>
+            <field name="model">suggestion</field>
+            <field name="arch" type="xml">
+                <search>
+                     <!-- <field name="topic" string="หัวข้อ"/> -->
+                     <field name="functional" string="กระบวนการ"/>
+                     <field name="name" string="ผู้แจ้งเรื่อง" />
+                     <field name="found_date" string="วันที่พบปัญหา"/>
+                     <group expand="0" string="Group By...">
+                        <filter string="ประเภท"
+                                domain="[]" context="{'group_by' : 'main_suggest'}" />
+                     </group>
+                </search>
+            </field>
+        </record>
+        
+<!-- ***************** suggestion ******************* -->
+        <record model="ir.actions.act_window" id="suggestion_program_action">
+            <field name="name">Suggestion (เห็นเฉพาะของตัวเองเท่านั้น)</field>
+            <field name="res_model">suggestion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="context" eval="{'search_default_my_courses': 1}"/> -->
+            <!-- <field name="context" eval="{'search_default_name': uid}"/>    -->         
+        </record>
+
+        <!-- top level menu: no parent -->
+        <menuitem id="main_suggestion_menu" name="เสนอแนะ-ปัญหา"/>
+        <menuitem id="topic_suggestion_menu" name="ข้อเสนอแนะ/ปัญหา"
+                  parent="main_suggestion_menu"/>
+        <menuitem id="program_suggestion_menu" name="แจ้งปัญหาโปรแกรม" parent="topic_suggestion_menu"
+                  action="suggestion_program_action"/>
+    </data>
+</openerp>

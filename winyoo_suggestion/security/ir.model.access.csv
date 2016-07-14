@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+problem_manager,problem manager,it_problem.problem,group_manager,1,1,1,1
+problem_user,problem user,it_problem.problem,group_user,1,1,1,1
+manager_solution,problem all,it_problem.problem,,1,1,1,1
+user_write,problem all,it_problem.problem,,1,0,0,0
