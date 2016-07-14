@@ -152,14 +152,16 @@
 <!-- ++ Action and Menu +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     	<record model="ir.actions.act_window" id="sale.action_orders">
             <field name="domain">[('state', 'not in', ('draft', 'cancel'))]</field>
-            <field name="context">{'search_default_my_sale_orders_filter': 1, 
-            	'default_order_policy':'picking',
+            <field name="context">{'default_order_policy':'picking',
             	'default_state':'sent'}</field>
+<!--             <field name="context">{'search_default_my_sale_orders_filter': 1, 
+            	'default_order_policy':'picking',
+            	'default_state':'sent'}</field> -->
             <field name="limit">30</field>                     
         </record>
     	<record model="ir.actions.act_window" id="sale.action_quotations">
             <field name="domain">[('state', 'in', ('draft', 'cancel'))]</field>
-            <field name="context">{'search_default_my_sale_orders_filter': 1,
+            <field name="context">{
             	'default_order_policy':'picking'}</field>
             <field name="limit">30</field>                     
         </record>
@@ -170,8 +172,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar,graph</field>
             <field name="search_view_id" ref="sale.view_sales_order_filter"/>
-            <field name="context">{'search_default_my_sale_orders_filter': 1, 
-            	'default_order_policy':'picking',
+            <field name="context">{'default_order_policy':'picking',
             	'default_state':'sent'}</field>
             <field name="domain">[('state', 'not in', ('draft', 'cancel','done'))]</field>
             <field name="limit">30</field>
