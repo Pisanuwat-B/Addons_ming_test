@@ -117,6 +117,20 @@
             </field>
             <field name="search_view_id" ref="stock.view_picking_internal_search"/>
         </record>
+
+        <record id="action_delivery_product_office_ready_tree" model="ir.actions.act_window.view" >
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="deilvery_product_by_office"/>
+            <field name="act_window_id" ref="action_delivery_product_office_ready"/>
+        </record>
+
+        <record id="action_delivery_product_office_ready_form" model="ir.actions.act_window.view" >
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="winyoo_pickform"/>
+            <field name="act_window_id" ref="action_delivery_product_office_ready"/>
+        </record>   
         <!-- ('picking_type_id', '=',1),('state','in',('assigned', 'partially_available')),('picking_type_id.warehouse_id','!=',1) -->
 
 <!--                'search_default_picking_type_id': 1,

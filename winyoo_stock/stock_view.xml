@@ -270,6 +270,20 @@
             <field name="context" eval="{'search_default_confirmed': 1,'search_default_available' : 1}"/>
             <!-- <field name="context" eval="{'search_default_confirmed': 1,'search_default_available' : 1,'search_default_picking_type_id': 2}"/>-->
         </record>
+
+        <record id="action_action_wait_to_delivery_tree" model="ir.actions.act_window.view" >
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="wait_to_delivery"/>
+            <field name="act_window_id" ref="action_wait_to_delivery"/>
+        </record>
+
+        <record id="action_action_wait_to_delivery_form" model="ir.actions.act_window.view" >
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="winyoo_pickform"/>
+            <field name="act_window_id" ref="action_wait_to_delivery"/>
+        </record>   
         
  		<menuitem id="base.menu_customer_order_work_control" 
 				name="Customers Order Work Control" parent="base.menu_base_partner" 
