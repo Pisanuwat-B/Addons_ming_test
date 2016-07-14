@@ -17,7 +17,7 @@
         </record>
         <!-- เปลี่ยนชื่อ menu จาก SO เป็น DO -->
 		<menuitem action="sale.action_orders" id="sale.menu_sale_order" 
-			name="Delivery Order (DO)" parent="base.menu_sales" 
+			name="Sales Order (SO)" parent="base.menu_sales" 
 			sequence="6" groups="base.group_sale_salesman,base.group_sale_manager,base.group_sale_salesco"/>
     
     <!-- The main object: View name= sale.order.form 		External ID = sale.view_order_form		Object=sale.order-->
