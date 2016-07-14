@@ -243,7 +243,7 @@
             <!-- <field name="context">{'search_default_confirmed':True}</field> -->
             <field name="search_view_id" ref="stock.view_picking_internal_search"/>
         </record>        
-
+        
         <record id="action_product_wharehouse_tree" model="ir.actions.act_window.view" >
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>
