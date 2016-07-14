@@ -25,7 +25,7 @@
 		    		<attribute name="invisible">True</attribute>
 		    	</button>
 		    	<button name="cancel" position="before">
-                	<button name="button_mysent" string="Quotation to Order" type="object" states="draft" class="oe_highlight" groups="base.group_user"/>
+                	<button name="button_mysent" string="Quotation Sent" type="object" states="draft" class="oe_highlight" groups="base.group_user"/>
 				</button>
 	    		<!-- hide "Confirm Sale" in draft state-->
 	    		<button name="action_button_confirm" position="attributes">
@@ -151,7 +151,7 @@
 		
 <!-- ++ Action and Menu +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     	<record model="ir.actions.act_window" id="sale.action_orders">
-            <field name="domain">[('state', 'not in', ('draft', 'cancel'))]</field>
+            <field name="domain">[('state', 'not in', ('draft', 'sent','cancel'))]</field>
             <field name="context">{'default_order_policy':'picking',
             	'default_state':'sent'}</field>
 <!--             <field name="context">{'search_default_my_sale_orders_filter': 1, 
@@ -160,7 +160,7 @@
             <field name="limit">30</field>                     
         </record>
     	<record model="ir.actions.act_window" id="sale.action_quotations">
-            <field name="domain">[('state', 'in', ('draft', 'cancel'))]</field>
+            <field name="domain">[('state', 'in', ('draft','sent', 'cancel'))]</field>
             <field name="context">{
             	'default_order_policy':'picking'}</field>
             <field name="limit">30</field>                     
@@ -174,7 +174,7 @@
             <field name="search_view_id" ref="sale.view_sales_order_filter"/>
             <field name="context">{'default_order_policy':'picking',
             	'default_state':'sent'}</field>
-            <field name="domain">[('state', 'not in', ('draft', 'cancel','done'))]</field>
+            <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel','done'))]</field>
             <field name="limit">30</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
