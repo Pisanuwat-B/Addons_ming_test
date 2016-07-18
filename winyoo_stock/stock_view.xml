@@ -11,7 +11,7 @@
  
 
             	<button name="action_confirm" position="attributes">
-            	    <attribute name="groups">stock.group_stock_user, base.group_sale_salesco</attribute>
+            	    <attribute name="groups">stock.group_stock_user,base.group_sale_salesco</attribute>
             	</button>
 <!-- BEWARE!!!!! -->
              	<xpath expr="//button[@string='Reverse Transfer']" position="attributes">
@@ -50,7 +50,7 @@
                 </button>
 
                 <button name="do_unreserve" position="attributes">
-                	<attribute name="groups">stock.group_stock_user, base.group_sale_salesco</attribute>
+                	<attribute name="groups">stock.group_stock_user,base.group_sale_salesco</attribute>
                 	<attribute name="string">Unreserve(เลิกเตรียมส่ง)</attribute>
 				</button>                  	
             	            	
