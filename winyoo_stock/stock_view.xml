@@ -11,7 +11,7 @@
  
 
             	<button name="action_confirm" position="attributes">
-            	    <attribute name="groups">stock.group_stock_user</attribute>
+            	    <attribute name="groups">stock.group_stock_user, base.group_sale_salesco</attribute>
             	</button>
 <!-- BEWARE!!!!! -->
              	<xpath expr="//button[@string='Reverse Transfer']" position="attributes">
@@ -202,7 +202,7 @@
             </field>
         </record> -->
   		
-<!-- +++++++++++++++++++++++STOCK INCOTERMS+++++++++++++++++++++++ -->
+
         <record id="winyoo_pickform" model="ir.ui.view">
             <field name="name">winyoo.picking.form</field>
             <field name="model">stock.picking</field>
@@ -327,6 +327,8 @@
                 </form>
             </field>
         </record>
+        
+<!-- +++++++++++++++++++++++STOCK INCOTERMS+++++++++++++++++++++++ -->
 
         <record id="winyoo_view_incoterms_tree" model="ir.ui.view">
             <field name="name">winyoo.stock.incoterms.tree</field>
