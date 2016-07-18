@@ -52,9 +52,9 @@
               </p>
             </field>
         </record>    
-       	<menuitem action="action_draft_po" id="purchase.menu_purchase_rfq"
-        	parent="purchase.menu_procurement_management" 
-            name="Draft PO(or RFQ)"
+       	<menuitem id="purchase.menu_purchase_rfq" name="Draft PO(or RFQ)"
+       		action="action_draft_po" 
+        	parent="purchase.menu_procurement_management"
             sequence="0"/>
             
         <!-- <record id="view_purchase_order_filter" model="ir.ui.view">
@@ -100,8 +100,75 @@
                 
             </field>
         </record>
+        
+        <record id="winyoo_purchase_order_tree" model="ir.ui.view">
+            <field name="name">winyoo_purchase_order_tree</field>
+            <field name="model">purchase.order</field>
+	      	<field name="inherit_id" ref="purchase.purchase_order_tree"/>            
+            <field name="arch" type="xml">
+            	<tree string="Purchase Order" position="attributes">
+            		<attribute name="default_order">minimum_planned_date desc</attribute>
+            		<attribute name="create">false</attribute>
+            	</tree>
+	        	<field name="name" position="after">
+	        		<field name="po_name" />
+	        	</field>                    
+            </field>
+        </record>        
+        
+        <record id="action_action_purchase_all" model="ir.actions.act_window.view" >
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="purchase.purchase_order_tree"/>
+            <field name="act_window_id" ref="purchase.purchase_form_action"/>
+        </record>           
 
-
+        <record id="purchase_for_sell_tree" model="ir.ui.view">
+            <field name="name">purchase.for.sell.tree</field>
+            <field name="model">purchase.order</field>
+            <field name="arch" type="xml">
+                <tree fonts="bold:message_unread==True"
+                		string="Purchase Order for Sell"
+                		default_order="minimum_planned_date"
+                		create="false"
+                		colors="grey:state=='cancel';blue:state in ('wait','confirmed');red:state in ('except_invoice','except_picking')">
+                    <field name="message_unread" invisible="1"/>
+                    <field name="name" string="Reference"/>
+                    <field name="po_name" />
+                    <field name="date_order" />
+                    <field name="partner_id"/>
+                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                    <field name="minimum_planned_date" invisible="context.get('quotation_only', False)"/>
+                    <field name="origin"/>
+                    <field name="amount_untaxed" sum="Total Untaxed amount" string="Untaxed"/>
+                    <field name="amount_total" sum="Total amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="purchase_for_use_tree" model="ir.ui.view">
+            <field name="name">purchase.for.use.tree</field>
+            <field name="model">purchase.order</field>
+            <field name="arch" type="xml">
+                <tree fonts="bold:message_unread==True" 
+                		colors="grey:state=='cancel';blue:state in ('wait','confirmed');red:state in ('except_invoice','except_picking')" 
+                		string="Purchase Order for Use"
+                		default_order="minimum_planned_date"
+                		create="false">
+                    <field name="message_unread" invisible="1"/>
+                    <field name="name" string="Reference"/>
+                    <field name="po_name" />
+                    <field name="date_order" />
+                    <field name="partner_id"/>
+                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                    <field name="minimum_planned_date" invisible="context.get('quotation_only', False)"/>
+                    <field name="origin"/>
+                    <field name="amount_untaxed" sum="Total Untaxed amount" string="Untaxed"/>
+                    <field name="amount_total" sum="Total amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
 
 
         <record id="purchase_for_sell_form_action" model="ir.actions.act_window">
@@ -109,7 +176,8 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">purchase.order</field>
             <field name="view_mode">tree,form,graph,calendar</field>
-            <field name="context">{'search_default_not_shipped': 1}</field>
+            <!-- <field name="view_id" ref="purchase_for_sell_tree"/> -->
+            <field name="context">{'search_default_not_shipped': 1,'default_po_type':'a'}</field>
             <field name="domain">[('state','not in',('draft','sent','bid', 'confirmed')),('po_type','=','a')]</field>
             <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
             <field name="help" type="html">
@@ -123,12 +191,19 @@
               </p>
             </field>
         </record>
+        <record id="action_action_purchase_for_sell_form" model="ir.actions.act_window.view" >
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="purchase_for_sell_tree"/>
+            <field name="act_window_id" ref="purchase_for_sell_form_action"/>
+        </record>        
         <record id="purchase_for_use_form_action" model="ir.actions.act_window">
             <field name="name">Purchase Orders For Use</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">purchase.order</field>
             <field name="view_mode">tree,form,graph,calendar</field>
-            <field name="context">{'search_default_not_shipped': 1}</field>
+            <!-- <field name="view_id" ref="purchase_for_use_tree"/> -->
+            <field name="context">{'search_default_not_shipped': 1,'default_po_type':'b'}</field>
             <field name="domain">[('state','not in',('draft','sent','bid', 'confirmed')),('po_type','=','b')]</field>
             <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
             <field name="help" type="html">
@@ -141,8 +216,15 @@
                 the products received and control the supplier invoices.
               </p>
             </field>
-
         </record> 
+        <record id="action_action_purchase_for_use_form" model="ir.actions.act_window.view" >
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="purchase_for_use_tree"/>
+            <field name="act_window_id" ref="purchase_for_use_form_action"/>
+        </record>                 
+
+        
         <menuitem id="purchase.menu_procurement_for_sell" name="PO for sell"
         	action="purchase_for_sell_form_action"        
             parent = "purchase.menu_purchase_form_action"/>
@@ -151,19 +233,8 @@
            	action="purchase_for_use_form_action"
             parent = "purchase.menu_purchase_form_action"/>
 
-        <record id="winyoo_purchase_order_tree" model="ir.ui.view">
-            <field name="name">winyoo_purchase_order_tree</field>
-            <field name="model">purchase.order</field>
-	      	<field name="inherit_id" ref="purchase.purchase_order_tree"/>            
-            <field name="arch" type="xml">
-            	<tree string="Purchase Order" position="attributes">
-            		<attribute name="default_order">minimum_planned_date</attribute>	
-            	</tree>
-	        	<field name="name" position="after">
-	        		<field name="po_name" />
-	        	</field>                    
-            </field>
-        </record>                         
+
+                                                 
 
 <!-- Menu for supplier name -->
         <record id="action_partner_supplier_sell_form" model="ir.actions.act_window">
@@ -186,6 +257,7 @@
               </p>
             </field>
         </record>
+
         <record id="action_partner_supplier_use_form" model="ir.actions.act_window">
             <field name="name">Suppliers</field>
             <field name="type">ir.actions.act_window</field>
@@ -205,7 +277,8 @@
                 documents, etc.
               </p>
             </field>
-        </record>        
+        </record>
+           
 
 
     
@@ -243,8 +316,7 @@
 
 
  		    </field>
-		</record>
-        
+		</record>  
  
  		<record id="winyoo_purchase_purchase_order_form" model="ir.ui.view">
             <field name="name">winyoo.purchase.purchase_order_form</field>
@@ -252,7 +324,9 @@
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <!--<field name="mode">primary</field>-->
             <field name="arch" type="xml">
-            
+                <form string="Purchase Order" position="attributes">
+            		<attribute name="create">false</attribute>	
+                </form>            
             	<!-- <field name="partner_id" position="replace">
 					<field name="partner_id" on_change="onchange_partner_id(partner_id, context)" 
 						context="{'search_default_supplier':1, 'default_supplier':1, 'default_customer':0}" 

@@ -93,7 +93,7 @@
                               				
 				<xpath expr="//field[@name='title']" position="attributes">
              		<attribute name="attrs">{'invisible':[('is_company','=',True)]}</attribute>
-             		<attribute name="options">{"no_open":True,"no_create_edit":True}</attribute>
+             		<attribute name="options">{'o_open':True,'no_create_edit':True}</attribute>
              		
              	</xpath>
              	<field name="comment" position="attributes">
@@ -111,14 +111,16 @@
 
              	<xpath expr="//page[@name='sales_purchases']/group/group[1]//field[@name='user_id']" position="attributes">
              		<attribute name="attrs">{'required':[('customer','=',True)]}</attribute>
+             		<attribute name="options">{'no_open':True,'no_create_edit':True}</attribute>
              	</xpath>      	
              	<!-- 'readonly':[('supplier','=',True)] -->
              	 
              	<xpath expr="//notebook/page/field/form[@string='Contact']/sheet//field[@name='function']" position="before">
              		<!-- <newline/> -->
              		<field name="is_lead"/>
-             		<field name="user_id" attrs="{'required':[('customer','=',True)],
-             			'invisible':[('supplier','=',True)]}"/>
+             		<field name="user_id" 
+             			options="{'no_open':True,'no_create_edit':True}"
+             			attrs="{'required':[('customer','=',True)],	'invisible':[('supplier','=',True)]}"/>
              	</xpath>
       	
              	

@@ -75,19 +75,28 @@
 
 		        <field name="list_price" position="after">
 		    		<field name="manu_short"
-		    			attrs="{'required':[('sale_ok','=',True)],'invisible':[('sale_ok','=',False)]}"  
+		    			attrs="{'required':[('sale_ok','=',True),('type','=','product')],
+		    					'invisible':[('sale_ok','=',False)],
+		    					'readonly':[('type','!=','product')]}"  
 		    			placeholder="เช่น GADOT (ไม่ใช่ชื่อsupplier)"/>		     
 		    		<field name="origin_country"
-		    			attrs="{'required':[('sale_ok','=',True)],'invisible':[('sale_ok','=',False)]}" 
+		    			attrs="{'required':[('sale_ok','=',True),('type','=','product')],
+		    					'invisible':[('sale_ok','=',False)],
+		    					'readonly':[('type','!=','product')]}" 
 		    			placeholder="เช่น Germany" />
 		    		<field name="package" 
-		    			attrs="{'required':[('sale_ok','=',True)],'invisible':[('sale_ok','=',False)]}" 
+		    			attrs="{'required':[('sale_ok','=',True),('type','=','product')],
+		    					'invisible':[('sale_ok','=',False)],
+		    					'readonly':[('type','!=','product')]}" 
 		    			placeholder="เช่น 25 kg/drum"/>
 		    		<field name="pack"
-		    			attrs="{'required':[('sale_ok','=',True)]}"  
+		    			attrs="{'required':[('sale_ok','=',True),('type','=','product')],
+		    					'readonly':[('type','!=','product')]}"  
 		    			placeholder="เช่น drum"/>
 		    		<field name="nperpack" 
-		    			attrs="{'required':[('sale_ok','=',True)],'invisible':[('sale_ok','=',False)]}" 		    		
+		    			attrs="{'required':[('sale_ok','=',True),('type','=','product')],
+		    					'invisible':[('sale_ok','=',False)],
+		    					'readonly':[('type','!=','product')]}" 		    		
 		    			placeholder="เช่น 25"/><br/>
 		    		<h5>ระวัง! สินค้าขนาดถุง 25 kg <br/>ถ้าหน่วยขายเป็น'kg' ขนาดคือ 25<br/>ถ้าหน่วยขายเป็น'ถุง' ขนาดคือ 1</h5>
  		    	</field>
@@ -103,9 +112,9 @@
 					<label for ="description" string="รายละเอียดเกี่ยวกับสินค้า (ใส่ไว้ดูเองภายใน)"/>
 				</field>
 		    	<field name="description" position="after">
-		    		<label for="receive_warning" class="oe_edit_only"/>
+		    		<label for="receive_warning"/>
 		    		<field name="receive_warning" placeholder="เช่น ห้ามโยนสินค้า รับเข้าห้องเย็นทันที สินค้าเป็นสารอันตราย"/>
-		    		<label for="deliver_warning" class="oe_edit_only"/>
+		    		<label for="deliver_warning"/>
 		    		<field name="deliver_warning" placeholder="แสดงใน DOP เช่น ติดสติกเกอร์ด้วย เคาะฟังเสียงข้างถัง"/>
 		    	</field>
 

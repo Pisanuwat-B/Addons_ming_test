@@ -11,11 +11,12 @@
             <field name="model">stock.picking</field>
             <field name="priority" eval="2"/>
             <field name="arch" type="xml">
-                <calendar string="Calendar View" date_start="min_date" color="state_confirm_receive" quick_add="True">
+                <calendar string="Calendar View" date_start="min_date" color="partner_id" quick_add="True">
                 <!-- quick_add="True" ทำให้ Error แต่ก็ช่วยให้ไม่สามารถกด Quick Add ได้เหมือนกัน เราอาจะเอาออกในอนาคต -->
                     <field name="origin"/>
                     <field name="partner_id"/>
-                    <!-- <filed name="min_date" invisible="True" edit="False"/> -->
+<!--                     <field name="move_lines"/> -->
+
                     <!-- <field name="product_id"/> ติดปัญหาเลือกได้แค่สินค้าตัวบนสุด อยากให้จำนวนด้วย-->
                 </calendar>
             </field>
@@ -27,7 +28,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">calendar</field>
-            <field name="view_id" ref="sale_stock_picking_calendar_deli"/> <!-- ไม่ใส่ก็ได้ แต่ถ้าใส่ก็จะไปเรียกวิวที่เราต้องการ ซึ่งทำให้เราสามารถสร้างและแก้ไขวิวเองได้ -->
+           <field name="view_id" ref="sale_stock_picking_calendar_deli"/> <!-- ไม่ใส่ก็ได้ แต่ถ้าใส่ก็จะไปเรียกวิวที่เราต้องการ ซึ่งทำให้เราสามารถสร้างและแก้ไขวิวเองได้ -->
             <field name="domain">[('picking_type_id.code', '=','outgoing'),('state','in',('confirmed', 'waiting','assigned', 'partially_available'))]</field>
             <field name="context">{}</field>
             <field name="search_view_id" ref="stock.view_picking_internal_search"/>
@@ -48,9 +49,11 @@
             <field name="model">stock.picking</field>
             <field name="priority" eval="2"/>
             <field name="arch" type="xml">
+            	<!-- ต้องระวัง color= "state_confirm_receive" ถ้าไม่มีค่าใน state_confirm_receive มันจะ error -->
                 <calendar string="Calendar View" date_start="min_date" date_stop="max_date" color="state_confirm_receive" quick_add="True">
                     <field name="origin"/>
-                    <field name="state_confirm_receive"/><!-- ติดปัญหาอยากให้มัดึงเป็น name ไว้แสดงแทน ไม่ใช่ id -->
+                    <field name="state_confirm_receive"/>
+                    <!-- ติดปัญหาอยากให้มัดึงเป็น name ไว้แสดงแทน ไม่ใช่ id -->
                     <!-- <field name="product_id"/>  เหมือนกับข้างบนได้แต่ชื่ออันดับแรก และอยากจะใส่จำนวนด้วย-->
                 </calendar>
             </field>
@@ -74,6 +77,33 @@
 			sequence="3"/>
 
 
+        <record id="view_delivery_product_by_office_tree" model="ir.ui.view">
+            <field name="name">view.delivery.product.by.office.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';grey:state == 'cancel';red:state not in ('cancel', 'done') and min_date &lt; current_date" 
+                        string="Picking list" 
+                        create="false" default_order="min_date asc">
+                    <field name="name"/>
+                    <field name="location_dest_id"/>
+                    <field name="partner_id"/>
+                    <field name="date" invisible="1"/>
+                    <field name="min_date" invisible="0"/>
+                    <field name="picking_type_code" invisible="1"/>
+                    <field name="state_confirm_receive"/>
+                    <field name="product_type"/>
+                    <field name="wave_id"/>
+                    <field name="origin"/>
+                    <field name="group_id" invisible="1"/>
+                    <field name="backorder_id"/>
+                    <field name="invoice_state" groupts="account.group_account_invoice"/>
+                    <field name="state"/>
+                    <field name="priority" invisible="1"/>
+                    <field name="picking_type_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
 <!--Delivery Product by office-->
         <record id="action_delivery_product_office_ready" model="ir.actions.act_window">
             <field name="name">Office Delivery Ready Transfers</field>
@@ -81,11 +111,26 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_delivery_product_by_office_tree"/>
             <field name="domain">[('picking_type_id.code', '=','outgoing'),('picking_type_id.warehouse_id', '!=',1),('state','in',('assigned', 'partially_available'))]</field>
             <field name="context">{}
             </field>
             <field name="search_view_id" ref="stock.view_picking_internal_search"/>
         </record>
+
+        <record id="action_delivery_product_office_ready_tree" model="ir.actions.act_window.view" >
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_delivery_product_by_office_tree"/>
+            <field name="act_window_id" ref="action_delivery_product_office_ready"/>
+        </record>
+
+        <record id="action_delivery_product_office_ready_form" model="ir.actions.act_window.view" >
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="winyoo_pickform"/>
+            <field name="act_window_id" ref="action_delivery_product_office_ready"/>
+        </record>   
         <!-- ('picking_type_id', '=',1),('state','in',('assigned', 'partially_available')),('picking_type_id.warehouse_id','!=',1) -->
 
 <!--                'search_default_picking_type_id': 1,
@@ -101,22 +146,12 @@
 
  
 <!-- *************************  internal transfer on sales *************************-->       
-         <record id="saleInternal_transfer" model="ir.ui.view">
-            <field name="name">saleInternal.transfer</field>
+         <record id="sale_internal_transfer" model="ir.ui.view">
+            <field name="name">sale.internal.transfer</field>
             <field name="model">stock.picking</field>            
             <field name="arch" type="xml">
-                <tree string="saleInternal" default_order="min_date" colors="green:state == 'assigned';red:(state in ('partially_available','confirmed','waiting'))">
-                    <!-- <field name="name"/>
-                    <field name="location_dest_id"/>
-                    <field name="partner_id"/>
-                    <field name="date"/>
-                    <field name="min_date" invisible="1"/>
-                    <field name="origin"/>
-                    <field name="group_id" invisible="1"/>
-                    <field name="backorder_id"/>
-                    <field name="state"/>
-                    <field name="priority" invisible="1"/>
-                    <field name="picking_type_id" invisible="1"/> -->
+                <tree string="รายการเคลื่อนย้ายภายใน" default_order="min_date" colors="green:state == 'assigned';red:(state in ('partially_available','confirmed','waiting'))">
+
                     
                     <field name="min_date"/>
                     <field name="location_dest_id"/>
@@ -127,23 +162,32 @@
             </field>
         </record>        
         
-        <record id="action_saleInternal_transfer" model="ir.actions.act_window">
-            <field name="name">การส่งไปเบิกผลิต</field>
+        <record id="action_sale_internal_transfer" model="ir.actions.act_window">
+            <field name="name">ส่งใบเบิกไปผลิต</field>
             <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>            
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="saleInternal_transfer"/>
+            <field name="view_id" ref="sale_internal_transfer"/>
             <field name="domain">[('picking_type_code', '=','internal')]</field>
-            <field name="context" eval="{'search_default_confirmed': 1,'search_default_available' : 1}"/>
+            <field name="context" 
+            	eval="{'search_default_confirmed': 1,
+            			'search_default_available' : 1,
+            			'default_picking_type_id':3,
+            			'default_move_type':'one'
+            			}"/>
+
         </record>
-            
+      
 
         <menuitem id="base.menu_sale_internal_control" 
-                name="การผลิต" parent="base.menu_base_partner" 
-                sequence="2"/>
-        <menuitem action="action_saleInternal_transfer" id="menu_sent_to_internal"
-            name="ส่งไปเบิกผลิต" parent="base.menu_sale_internal_control" 
-            sequence="7"/> 
+        	name="การผลิต" parent="base.menu_base_partner"
+            groups="base.group_sale_salesco,base.group_erp_manager" 
+            sequence="3"/>
+        <menuitem action="action_sale_internal_transfer" id="menu_sent_to_internal"
+            name="ส่งใบเบิกไปผลิต" parent="base.menu_sale_internal_control" 
+            groups="base.group_sale_salesco,base.group_erp_manager"
+            sequence="10"/> 
  
     </data>
 </openerp>

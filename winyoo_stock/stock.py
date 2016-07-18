@@ -55,13 +55,15 @@ class stock_picking(models.Model):
     #}
     
     #and self.picking_type_id.code == 'incoming'
+
     @api.one
     @api.constrains('note')
     def _check_note(self):
         #print "---------------------------------------------------------------------------"
         #print "self.picking_type_id.code: ", self.picking_type_id.code
-        if len(self.note)>31 and self.picking_type_id.code == 'incoming':
-            raise ValidationError("คุณใส่ตัวอักษรในหมายเหตุ เกินกำหนด(30 ตัวอักษร)")
+        if self.note:
+            if len(self.note)>31 and self.picking_type_id.code == 'incoming':
+                raise ValidationError("คุณใส่ตัวอักษรในหมายเหตุ เกินกำหนด(30 ตัวอักษร)")
 
     
     
