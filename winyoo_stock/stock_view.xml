@@ -28,7 +28,8 @@
                 </button>                
                 
                 <button name="force_assign" position="attributes">
-                    <attribute name="groups">stock.group_stock_user</attribute>               
+                    <attribute name="groups">base.group_erp_manager</attribute>
+                    <attribute name="string">Force Availability</attribute>                 
                 </button>
                 <button name="do_enter_transfer_details" position="replace">
                     <button name="do_enter_transfer_details" states="assigned,partially_available" 
@@ -96,7 +97,8 @@
                     <attribute name="groups">stock.group_stock_user</attribute>      
                 </button>
                 <button name="force_assign" position="attributes">
-                    <attribute name="groups">stock.group_stock_user</attribute>      
+                    <attribute name="groups">base.group_erp_manager</attribute>
+                    <attribute name="string">Force Availability</attribute>      
                 </button>
                 <button name="action_cancel" position="attributes">
                     <attribute name="groups">stock.group_stock_user</attribute>
@@ -115,7 +117,9 @@
  					--> 					
  						<button name="force_assign" position="attributes">
  							<attribute name="groups">base.group_erp_manager</attribute>
+                            <attribute name="string">Force Availability</attribute>  
                         </button>
+                        
                         <button name="do_unreserve" position="attributes">
                         	<attribute name="groups">base.group_erp_manager,base.group_sale_salesco</attribute>
                         	<attribute name="string">Unreserve(เลิกจอง)</attribute>
