@@ -96,7 +96,20 @@ class purchase_order(models.Model):
         help="Shipping company (Customs Broker) ชื่อบริษัทที่เคลียสินค้า")
     freight_company = fields.Char('Freight Company',size=20, translate=True,
         help="Freight company ชื่อบริษัทผู้ขนส่งสินค้าข้ามประเทศ")    
+    #----------------------
 
+    def action_picking_create(self, cr, uid, ids, context=None):
+        for order in self.browse(cr, uid, ids):
+            picking_vals = {
+                'picking_type_id': order.picking_type_id.id,
+                'partner_id': order.partner_id.id,
+                'date': order.date_order,
+                'po_name': order.po_name,
+                'origin': order.name
+            }
+            picking_id = self.pool.get('stock.picking').create(cr, uid, picking_vals, context=context)
+            self._create_stock_moves(cr, uid, order, order.order_line, picking_id, context=context)
+        return picking_id
 #   ตรวจสอบการซ้ำ เลข PO แต่มันไปขัดกับ purchase_order_revision เพราะตอกด revision มันจะสร้างชื่อเดิมซ้ำ เลยไม่ยอม
 #     @api.one
 #     @api.constrains('po_name')

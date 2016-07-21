@@ -46,6 +46,9 @@ class stock_picking(models.Model):
         help="วันที่ของเข้าแน่ใจได้แค่ไหน")  
     product_type= fields.Selection(related='product_id.type', string="Type of product")
 
+    po_name = fields.Char('PO Number(Print)',size=25,
+    help="PO Number for print to supplier เช่น GADOT07/15")
+
     #tk_delivery_date = fields.Date('Plan Delivery(วันกำหนดส่ง)',
     #    required=True,                           
     #    help="กำหนดวันส่ง โดยจดจาก Delivery Order(DO) ต้องใส่เอง")
@@ -55,7 +58,7 @@ class stock_picking(models.Model):
     #}
     
     #and self.picking_type_id.code == 'incoming'
-
+    
     @api.one
     @api.constrains('note')
     def _check_note(self):
