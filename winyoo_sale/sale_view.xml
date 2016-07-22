@@ -2,23 +2,7 @@
 <openerp>
     <data>
    
-    	<record model="ir.actions.act_window" id="sale.action_orders">
-            <field name="domain">[('state', 'not in', ('draft', 'cancel'))]</field>
-            <field name="context">{'search_default_my_sale_orders_filter': 1, 
-            	'default_order_policy':'picking',
-            	'default_state':'sent'}</field>
-            <field name="limit">30</field>                     
-        </record>
-    	<record model="ir.actions.act_window" id="sale.action_quotations">
-            <field name="domain">[('state', 'in', ('draft', 'cancel'))]</field>
-            <field name="context">{'search_default_my_sale_orders_filter': 1,
-            	'default_order_policy':'picking'}</field>
-            <field name="limit">30</field>                     
-        </record>
-        <!-- เปลี่ยนชื่อ menu จาก SO เป็น DO -->
-		<menuitem action="sale.action_orders" id="sale.menu_sale_order" 
-			name="Sales Order (SO)" parent="base.menu_sales" 
-			sequence="6" groups="base.group_sale_salesman,base.group_sale_manager,base.group_sale_salesco"/>
+
     
     <!-- The main object: View name= sale.order.form 		External ID = sale.view_order_form		Object=sale.order-->
 		 <record id="winyoo_sale_view_order_form" model="ir.ui.view">
@@ -41,7 +25,7 @@
 		    		<attribute name="invisible">True</attribute>
 		    	</button>
 		    	<button name="cancel" position="before">
-                	<button name="button_mysent" string="Quotation to Order" type="object" states="draft" class="oe_highlight" groups="base.group_user"/>
+                	<button name="button_mysent" string="Quotation Sent" type="object" states="draft" class="oe_highlight" groups="base.group_user"/>
 				</button>
 	    		<!-- hide "Confirm Sale" in draft state-->
 	    		<button name="action_button_confirm" position="attributes">
@@ -164,8 +148,56 @@
  				
 		    </field>
 		</record>
+		
+<!-- ++ Action and Menu +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    	<record model="ir.actions.act_window" id="sale.action_orders">
+            <field name="domain">[('state', 'not in', ('draft', 'sent','cancel'))]</field>
+            <field name="context">{'default_order_policy':'picking',
+            	'default_state':'sent'}</field>
+<!--             <field name="context">{'search_default_my_sale_orders_filter': 1, 
+            	'default_order_policy':'picking',
+            	'default_state':'sent'}</field> -->
+            <field name="limit">30</field>                     
+        </record>
+    	<record model="ir.actions.act_window" id="sale.action_quotations">
+            <field name="domain">[('state', 'in', ('draft','sent', 'cancel'))]</field>
+            <field name="context">{
+            	'default_order_policy':'picking'}</field>
+            <field name="limit">30</field>                     
+        </record>
+         <record id="action_orders_not_transferred" model="ir.actions.act_window">
+            <field name="name">Sales Orders (ยังไม่ส่ง)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="context">{'default_order_policy':'picking',
+            	'default_state':'sent'}</field>
+            <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel','done'))]</field>
+            <field name="limit">30</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a quotation that can be converted into a sales
+                    order.
+                </p><p>
+                    Odoo will help you efficiently handle the complete sales flow:
+                    quotation, sales order, delivery, invoicing and payment.
+                </p>
+            </field>
+        </record>
  
  
+ 
+        <!-- เปลี่ยนชื่อ menu จาก SO เป็น DO -->
+		<menuitem id="sale.menu_sale_order" name="Sales Order (SO)" 
+			action="sale.action_orders" 
+			parent="base.menu_sales" 
+			sequence="6" groups="base.group_sale_salesman,base.group_sale_manager,base.group_sale_salesco"/>
+ 		<menuitem id="menu_sale_order_not_transfer" name="Sales Order (ยังไม่ส่ง)" 
+ 			action="action_orders_not_transferred" 
+			parent="sale.menu_sale_order" 
+			sequence="10" groups="base.group_sale_salesman,base.group_sale_manager,base.group_sale_salesco"/>
  
     </data>
 </openerp>
