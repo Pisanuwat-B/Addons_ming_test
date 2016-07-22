@@ -107,9 +107,14 @@
 	      	<field name="inherit_id" ref="purchase.purchase_order_tree"/>            
             <field name="arch" type="xml">
             	<tree string="Purchase Order" position="attributes">
-            		<attribute name="default_order">minimum_planned_date desc</attribute>
-            		<attribute name="create">false</attribute>
-            	</tree>
+                    <attribute name="default_order">minimum_planned_date</attribute>
+                    <attribute name="create">false</attribute>
+                    <attribute name="colors">grey:state=='cancel';
+                        blue:state in ('wait','confirmed');
+                        orange:state in ('except_invoice','except_picking');
+                        red:state not in ('cancel', 'done') and minimum_planned_date &gt; current_date
+                    </attribute>
+                </tree>
 	        	<field name="name" position="after">
 	        		<field name="po_name" />
 	        	</field>                    
@@ -232,27 +237,6 @@
         <menuitem id="purchase.menu_procurement_for_use" name="PO for use"
            	action="purchase_for_use_form_action"
             parent = "purchase.menu_purchase_form_action"/>
-
-        <record id="winyoo_purchase_order_tree" model="ir.ui.view">
-            <field name="name">winyoo_purchase_order_tree</field>
-            <field name="model">purchase.order</field>
-	      	<field name="inherit_id" ref="purchase.purchase_order_tree"/>            
-            <field name="arch" type="xml">
-            	<tree string="Purchase Order" position="attributes">
-            		<attribute name="default_order">minimum_planned_date</attribute>
-            		<attribute name="create">false</attribute>
-                    <attribute name="colors">grey:state=='cancel';
-                        blue:state in ('wait','confirmed');
-                        orange:state in ('except_invoice','except_picking');
-                        red:state not in ('cancel', 'done') and minimum_planned_date &gt; current_date
-                    </attribute>
-            	</tree>
-	        	<field name="name" position="after">
-	        		<field name="po_name" />
-	        	</field>                    
-            </field>
-        </record>
-                                                 
 
 <!-- Menu for supplier name -->
         <record id="action_partner_supplier_sell_form" model="ir.actions.act_window">
