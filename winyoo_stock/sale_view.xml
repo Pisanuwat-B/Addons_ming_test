@@ -150,11 +150,12 @@
             <field name="model">stock.picking</field>            
             <field name="arch" type="xml">
                 <tree string="รายการเคลื่อนย้ายภายใน" default_order="min_date" colors="green:state == 'assigned';red:(state in ('partially_available','confirmed','waiting'))">
-
-                    
+                    <field name="name"/>
                     <field name="min_date"/>
+                    <field name="state_confirm_receive"/>
                     <field name="location_dest_id"/>
                     <field name="partner_id"/>
+                    <field name="po_name"/>
                     <field name="origin"/>
                     <field name="state"/>
                 </tree>        
@@ -187,7 +188,40 @@
             name="ส่งใบเบิกไปผลิต" parent="base.menu_sale_internal_control" 
             groups="base.group_sale_salesco,base.group_erp_manager"
             sequence="10"/> 
- 
+
+<!-- ******************** default state_confirm_receive : 3_sure 
+        not finish error when inherit ************************************** -->
+
+        <record id="view_picking_search_inherit" model="ir.ui.view">
+            <field name="name">state.stock.picking.search</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="before">
+                     <field name="state_confirm_receive"/>
+                     <field name="po_name"/>
+                    <filter string="state: Group C" name="state_group_c" domain="[('state_confirm_receive', '=', '3_sure')]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- ******* inherit action window *************
+        <record id="module_name.record_id" model="record_model">
+            <field name="name">New record name</field>
+        </record> -->
+
+        <record id="stock.action_picking_tree_ready" model="ir.actions.act_window">
+            <field name="name">Ready transfers2</field>
+                    <field name="context">{
+                            'search_default_picking_type_id': [active_id],
+                            'default_picking_type_id': active_id,
+                            'contact_display': 'partner_address',
+                            'search_default_available': 1,
+                            'search_default_state_group_c': 1
+                    }
+                    </field>
+        </record>
+        
     </data>
 </openerp>
 
