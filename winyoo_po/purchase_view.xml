@@ -159,12 +159,19 @@
             	<tree string="Purchase Order" position="attributes">
             		<attribute name="default_order">minimum_planned_date</attribute>
             		<attribute name="create">false</attribute>
+                    <attribute name="colors">grey:state=='cancel';
+                        blue:state in ('wait','confirmed');
+                        orange:state in ('except_invoice','except_picking');
+                        red:state not in ('cancel', 'done') and minimum_planned_date &gt; current_date
+                    </attribute>
             	</tree>
 	        	<field name="name" position="after">
 	        		<field name="po_name" />
 	        	</field>                    
             </field>
         </record>
+
+        <!-- colors="grey:state=='cancel';blue:state in ('wait','confirmed');orange:state in ('except_invoice','except_picking');red:state not in ('cancel', 'done') and minimum_planned_date &gt; current_date" -->
                                                  
 
 <!-- Menu for supplier name -->
@@ -253,6 +260,11 @@
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <!--<field name="mode">primary</field>-->
             <field name="arch" type="xml">
+
+                <button string='Cancel' position='after'>
+                    <button name='late_checking' string='test' type='object'/>
+                </button>
+
                 <form string="Purchase Order" position="attributes">
             		<attribute name="create">false</attribute>	
                 </form>            
