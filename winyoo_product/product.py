@@ -40,16 +40,16 @@ class product_template(models.Model):
                                  ("b","สินค้าซื้อจากในประเทศ"),
                                  ("a_and_b","สินค้าซื้อได้จากในและต่างประเทศ")])        
 
+    manu_short = fields.Char('ชื่อย่อผู้ผลิต (Manufacturing)',size=20,
+        help="Supplier ShortName ชื่อผู้ผลิต สั้นๆ ไม่ใช่ผู้ชาย")
+    origin_country = fields.Char('ประเทศผู้ผลิต (Country of Origin)',size=20,
+        help="The country of origin, ประเทศที่ผลิต")
     package = fields.Char('Package Size',size=20, translate=True,
         help="The size and package ขนาดและชนิดของบรรจุภัณฑ์ เช่น 25 kg/bag")
     pack = fields.Char('ชนิดบรรจุภัณฑ์ (Package)',size=10, translate=True,
         help="package ชนิดของบรรจุภัณฑ์ เช่น drum, bag")
     nperpack = fields.Float('จำนวนขนาด (Quantity per pack)',digits=(8,3),
         help="จำนวนเท่าของหน่วยขายต่อขนาดที่ขาย  เช่น สินค้าถุง25kg ถ้าราคาเป็นต่อ kg ขนาดคือ 25  ถ้าราคาเป็นต่อถุง ขนาดคือ 1")
-    origin_country = fields.Char('ประเทศผู้ผลิต (Country of Origin)',size=20,
-        help="The country of origin, ประเทศที่ผลิต")
-    manu_short = fields.Char('ชื่อย่อผู้ผลิต (Manufacturing)',size=20,
-        help="Supplier ShortName ชื่อผู้ผลิต สั้นๆ ไม่ใช่ผู้ชาย")
     #_order = 'manu_short desc, name asc'
     receive_warning = fields.Text('ข้อระวังรับสินค้า (Receive Warning)',
         help='ใส่ข้อระวังในขณะรับสินค้า เช่น สินค้าเป็นกรด สินค้าห้ามกระแทก')
@@ -63,8 +63,18 @@ class product_template(models.Model):
             self.track_all=True
         if type=="consu":
             self.track_all=False
+            self.manu_short=None
+            self.origin_country=None
+            self.package=None
+            self.pack=None
+            self.nperpack=None            
         if type=="service":
-            self.track_all=False             
+            self.track_all=False
+            self.manu_short=None
+            self.origin_country=None
+            self.package=None
+            self.pack=None
+            self.nperpack=None                         
 
 class product_product(models.Model):
 
