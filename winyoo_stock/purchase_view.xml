@@ -8,7 +8,7 @@
             <field name="model">stock.picking</field>
             <field name="priority" eval="2"/>
             <field name="arch" type="xml">
-            	<!-- ต้องระวัง color= "state_confirm_receive" ถ้าไม่มีค่าใน state_confirm_receive มันจะ error -->
+                <!-- ต้องระวัง color= "state_confirm_receive" ถ้าไม่มีค่าใน state_confirm_receive มันจะ error -->
                 <calendar string="Calendar View" date_start="min_date" date_stop="max_date" color="partner_id" quick_add="True">
                     <field name="origin"/>
                     <field name="state_confirm_receive"/><!-- ติดปัญหาอยากให้มัดึงเป็น name ไว้แสดงแทน ไม่ใช่ id -->
@@ -28,32 +28,32 @@
             <field name="search_view_id" ref="stock.view_picking_internal_search"/>
         </record>
 
-		<menuitem id="menu_calendar_receive_purchase" 
-			name="Calendar Receive" parent="base.menu_purchase_root" 
-			sequence="3"/>
-		<menuitem id="calendar_receive_purchase" name="Calendar Receive"
-			action="action_receive_calendar_ready_purchase" 
-			parent="menu_calendar_receive_purchase" 
-			sequence="1"/> 
+        <menuitem id="menu_calendar_receive_purchase" 
+            name="Calendar Receive" parent="base.menu_purchase_root" 
+            sequence="3"/>
+        <menuitem id="calendar_receive_purchase" name="Calendar Receive"
+            action="action_receive_calendar_ready_purchase" 
+            parent="menu_calendar_receive_purchase" 
+            sequence="1"/> 
  
  
  
 <!--Receive Product by office-->
-		<record id="winyoo_picktree" model="ir.ui.view">
+        <record id="winyoo_picktree" model="ir.ui.view">
             <field name="name">winyoo.picking.tree</field>
             <field name="model">stock.picking</field>
             <field name="arch" type="xml">
                 <tree colors="blue:state == 'draft';grey:state == 'cancel';red:state not in ('cancel', 'done') and min_date &lt; current_date" 
-                		string="Picking list" 
-                		create="false" default_order="min_date asc">
+                        string="Picking list" 
+                        create="false" default_order="min_date asc">
                     <field name="name"/>
                     <field name="location_dest_id"/>
                     <field name="partner_id"/>
                     <field name="date" invisible="1"/>
                     <field name="min_date" invisible="0"/>
-					<field name="picking_type_code" invisible="1"/>
-					<field name="state_confirm_receive"/>
-					<field name="product_type"/>
+                    <field name="picking_type_code" invisible="1"/>
+                    <field name="state_confirm_receive"/>
+                    <field name="product_type"/>
                     <field name="wave_id"/>
                     <field name="origin"/>
                     <field name="group_id" invisible="1"/>
@@ -134,19 +134,18 @@
             <field name="act_window_id" ref="action_receiving_product_warehouse_ready"/>
         </record>            
             
-      	<menuitem id="menu_receive_product_purchase" 
-      		name="Receive Product" parent="base.menu_purchase_root" sequence="4"/>
-     	<menuitem id="menu_action_receipt_stock_picking__office" 
-     		action="action_receiving_product_office_ready" 
-     		name="Receive by Office (รับของโดยออฟฟิส)"
+        <menuitem id="menu_receive_product_purchase" 
+            name="Receive Product" parent="base.menu_purchase_root" sequence="4"/>
+        <menuitem id="menu_action_receipt_stock_picking__office" 
+            action="action_receiving_product_office_ready" 
+            name="Receive by Office (รับของโดยออฟฟิส)"
             parent="menu_receive_product_purchase" sequence="1"/>
-     	<menuitem id="menu_action_receipt_stock_picking__warehouse"
-     		action="action_receiving_product_warehouse_ready"
-     		name="Receive by Warehouse (รับของโดยโกดัง)"
+        <menuitem id="menu_action_receipt_stock_picking__warehouse"
+            action="action_receiving_product_warehouse_ready"
+            name="Receive by Warehouse (รับของโดยโกดัง)"
             parent="menu_receive_product_purchase" sequence="2"/>
     
   
     </data>
     
 </openerp>
-
