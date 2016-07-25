@@ -200,7 +200,9 @@
                 <xpath expr="//field[@name='partner_id']" position="before">
                      <field name="state_confirm_receive"/>
                      <field name="po_name"/>
-                    <filter string="state: Group C" name="state_group_c" domain="[('state_confirm_receive', '=', '3_sure')]"/>
+                    <!-- <filter string="state: Group C" name="state_group_c" domain="[('state_confirm_receive', '=', '3_sure')]"/> -->
+                    <filter string="state: Grouping" name="state_grouping" 
+                        domain="[('state_confirm_receive', '!=', '1_estimate'),('state_confirm_receive', '!=', '2_sup_confirm'),('state_confirm_receive', '!=', '5_done')]"/>
                 </xpath>
             </field>
         </record>
@@ -217,7 +219,7 @@
                             'default_picking_type_id': active_id,
                             'contact_display': 'partner_address',
                             'search_default_available': 1,
-                            'search_default_state_group_c': 1
+                            'search_default_state_grouping': 1
                     }
                     </field>
         </record>
