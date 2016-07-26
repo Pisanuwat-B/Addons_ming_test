@@ -112,7 +112,7 @@
                     <attribute name="colors">grey:state=='cancel';
                         blue:state in ('wait','confirmed');
                         orange:state in ('except_invoice','except_picking');
-                        red:state not in ('cancel', 'done') and minimum_planned_date &gt; current_date
+                        red:state not in ('cancel', 'done') and minimum_planned_date &lt; current_date
                     </attribute>
                 </tree>
 	        	<field name="name" position="after">
@@ -136,7 +136,10 @@
                 		string="Purchase Order for Sell"
                 		default_order="minimum_planned_date"
                 		create="false"
-                		colors="grey:state=='cancel';blue:state in ('wait','confirmed');red:state in ('except_invoice','except_picking')">
+                		colors="grey:state=='cancel';
+                		blue:state in ('wait','confirmed');
+                		orange:state in ('except_invoice','except_picking');
+                		red:state not in ('cancel','done')and minimum_planned_date &lt; current_date">
                     <field name="message_unread" invisible="1"/>
                     <field name="name" string="Reference"/>
                     <field name="po_name" />
@@ -156,7 +159,10 @@
             <field name="model">purchase.order</field>
             <field name="arch" type="xml">
                 <tree fonts="bold:message_unread==True" 
-                		colors="grey:state=='cancel';blue:state in ('wait','confirmed');red:state in ('except_invoice','except_picking')" 
+                		colors="grey:state=='cancel';
+                		blue:state in ('wait','confirmed');
+                		orange:state in ('except_invoice','except_picking');
+                		red:state not in ('cancel','done')and minimum_planned_date &lt; current_date" 
                 		string="Purchase Order for Use"
                 		default_order="minimum_planned_date"
                 		create="false">
