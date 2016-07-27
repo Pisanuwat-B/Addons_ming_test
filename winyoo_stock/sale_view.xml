@@ -152,9 +152,12 @@
                 <tree string="รายการเคลื่อนย้ายภายใน" default_order="min_date" colors="green:state == 'assigned';red:(state in ('partially_available','confirmed','waiting'))">
 
                     
+                    <field name="name"/>
                     <field name="min_date"/>
+                    <field name="state_confirm_receive"/>
                     <field name="location_dest_id"/>
                     <field name="partner_id"/>
+                    <field name="po_name"/>
                     <field name="origin"/>
                     <field name="state"/>
                 </tree>        

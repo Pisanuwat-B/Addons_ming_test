@@ -84,6 +84,74 @@
 
 		    </field>
 		</record>
+                
+        <!-- ***********default state_confirm_receive : 3_sure, 4_return  ******* -->
+
+        <record id="view_picking_search_inherit" model="ir.ui.view">
+            <field name="name">state.stock.picking.search</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="before">
+                     <field name="state_confirm_receive"/>
+                     <field name="po_name"/>
+                    <!-- <filter string="state: Group C" name="state_group_c" domain="[('state_confirm_receive', '=', '3_sure')]"/> -->
+                    <filter string="เข้าแน่นอน(Sure)" name="state_sure_coming" 
+                        domain="[('state_confirm_receive', '!=', '1_estimate'),('state_confirm_receive', '!=', '2_sup_confirm'),('state_confirm_receive', '!=', '5_done')]"/>
+                </xpath>
+            </field>
+        </record>
+        
+<!--         <record id="stock.action_picking_tree_ready" model="ir.actions.act_window">
+            <field name="name">Ready transfers2</field>
+            <field name="context">{
+                            'search_default_picking_type_id': [active_id],
+                            'default_picking_type_id': active_id,
+                            'contact_display': 'partner_address',
+                            'search_default_available': 1,
+                    }
+            </field>
+        </record>   -->      
+
+        <record id="stock.action_picking_tree_ready_receive_onlyFirm" model="ir.actions.act_window">
+            <field name="name">Firm-Receive Transfers(เข้าแน่นอนและของตีกลับ)</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain"></field>
+            <field name="context">{
+                    'search_default_picking_type_id': [active_id],
+                    'default_picking_type_id': active_id,
+                    'contact_display': 'partner_address',
+                    'search_default_available': 1,
+                    'search_default_state_sure_coming': 1
+            }
+            </field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+        </record>
+
+        <record id="winyoo_stock_picking_type_kanban" model="ir.ui.view">
+            <field name="name">winyoo.stock.picking.type.kanban</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.stock_picking_type_kanban"/>
+            <field name="arch" type="xml">
+               <field name="count_picking_backorders" position="after">
+                   <field name="code"/>
+               </field>
+               <xpath expr="//div[@class='oe_items_list oe_kanban_ellipsis']/div[1]" position='after'>
+                   <div t-if="record.code.raw_value == 'incoming'">
+                       <a name="%(stock.action_picking_tree_ready_receive_onlyFirm)d" type="action">
+                           Ready(state:เข้าแน่นอน)
+                       </a>
+                   </div>
+               </xpath>
+           </field>
+           </record>
+           
+       <!-- <a name="%(action_picking_tree_ready)d" type="action">
+           <field name="count_picking_ready"/> Ready
+
  	
 <!-- +++++++++++++++++++++STOCK.MOVE++++++++++++++++++++++++ -->		
         <record id="winyoo_view_move_form" model="ir.ui.view">
