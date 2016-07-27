@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-# import purchase_request
+import purchase_request
 #import crm_lead
 
 

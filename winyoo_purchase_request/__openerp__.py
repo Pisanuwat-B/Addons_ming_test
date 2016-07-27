@@ -30,7 +30,8 @@ Winyoo create 2016
     """,
     'author': 'Winyoo Kongkavitool',
     'depends': ['base','purchase_request'], # depends--> look at folder's name
-    'data': ['security/ir.model.access.csv',
+    'data': ['purchase_request.py',
+             'security/ir.model.access.csv',
              'security/purchase_request_security.xml',
              'view_purchase_request.xml',
              ], #XML File that included in my module
