@@ -65,16 +65,6 @@ class sale_order(models.Model):
 #         ctx=dict(self._context)
 #         return self.with_context(ctx).write({'state':'cancel'})
 
-    @api.one
-    @api.constrains('client_order_ref')
-    def _client_order_ref(self):
-        if (self.client_order_ref==False):
-            pass
-        elif (self.client_order_ref.rstrip()=='-'):
-            pass
-        elif (self.env['sale.order'].search([('client_order_ref','=',self.client_order_ref.rstrip()),('id','!=',self.id)]).name)!=False:
-            raise ValidationError("PO ลูกค้าออกแล้ว : this PO number is already existed.")
-
 #++++ Check Client_order_ref ไม่ให้ซ้ำ ++++
 
     old_po = fields.Boolean('ใช้เลข PO เดิม(ระบุครั้งที่)', help='กรณีลูกค้าออกPO อันเดียว แต่ให้เราส่งหลายครั้ง', copy=False)
