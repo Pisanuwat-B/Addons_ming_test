@@ -47,7 +47,7 @@ class stock_picking(models.Model):
     product_type= fields.Selection(related='product_id.type', string="Type of product")
 
     po_name = fields.Char('PO Number(Print)',size=25,
-    help="PO Number for print to supplier เช่น GADOT07/15")
+        help="PO Number for print to supplier เช่น GADOT07/15")
 
     #tk_delivery_date = fields.Date('Plan Delivery(วันกำหนดส่ง)',
     #    required=True,                           
