@@ -150,8 +150,6 @@
             <field name="model">stock.picking</field>            
             <field name="arch" type="xml">
                 <tree string="รายการเคลื่อนย้ายภายใน" default_order="min_date" colors="green:state == 'assigned';red:(state in ('partially_available','confirmed','waiting'))">
-
-                    
                     <field name="name"/>
                     <field name="min_date"/>
                     <field name="state_confirm_receive"/>
@@ -190,7 +188,10 @@
             name="ส่งใบเบิกไปผลิต" parent="base.menu_sale_internal_control" 
             groups="base.group_sale_salesco,base.group_erp_manager"
             sequence="10"/> 
- 
+
+
+
+        
     </data>
 </openerp>
 

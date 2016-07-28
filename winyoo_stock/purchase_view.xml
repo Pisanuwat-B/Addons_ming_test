@@ -56,6 +56,7 @@
                     <field name="product_type"/>
                     <field name="wave_id"/>
                     <field name="origin"/>
+                    <field name="po_name"/>
                     <field name="group_id" invisible="1"/>
                     <field name="backorder_id"/>
                     <field name="invoice_state" groupts="account.group_account_invoice"/>
