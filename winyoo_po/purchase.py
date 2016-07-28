@@ -118,6 +118,82 @@ class purchase_order(models.Model):
 #         if(self.env['purchase.order'].search([('po_name','=',self.po_name.rstrip()),('id','!=',self.id)]).name)!=False:
 #             raise ValidationError("PO ซ้ำ : this PO number is already existed.")
 
+    @api.multi
+    @api.onchange('order_line')
+    def check_last_record(self):
+        show_warning = False
+        str_var = 'ราคาต่อหน่วย(unit price)ครั้งล่าสุดของ \n'
+        str1 = 'ราคาต่อหน่วย(unit price) เปลี่ยนแปลงไปจากครั้งล่าสุด \n'
+        str2 = 'the unit price is different from the most recent record \n'
+        str3 = "\n ตรวจสอบความถูกต้องด้วย ระวังพลาดนะจ๊ะ!!"
+        
+        print ('++')
+        print ('++')
+ 
+        for rec in self.order_line:
+            print ('  ')
+            print '-- type product_id'
+            print type(rec.product_id)
+            print ('-- rec.product_id')
+            print rec.product_id
+            print ('-- rec.price_unit')
+            print rec.price_unit
+            print '-- type rec.id'
+            print type(rec.id)
+            
+            if type(rec.id) != int:
+                print '++++++++++++++++++++++++++ create ++++++++++++++++++++++++++++'
+                print '  '
+            
+                if len(self.env['purchase.order.line'].search([('product_id','=',rec.product_id.id)])) != 0:
+                    print ('-- try search price_unit from last record')
+                    print self.env['purchase.order.line'].search([('product_id','=',rec.product_id.id)])[-1].price_unit
+                    print ('-- try search all record')
+                    print self.env['purchase.order.line'].search([('product_id','=',rec.product_id.id)])
+                    last_unit_price = self.env['purchase.order.line'].search([('product_id','=',rec.product_id.id)])[-1].price_unit
+                    if last_unit_price != rec.price_unit:
+                        show_warning = True
+                        unicode_name = rec.product_id.name
+                        str_name = unicode_name.encode('utf-8')
+                        str_price = str(last_unit_price)
+                        str_var += str_name+' คือ '+str_price+'\n'
+                        print str_var
+                        print ('  ')
+                        print ('--')
+                        print (r'the unit price is different from the most recent record')
+                        print ('  ')
+                        print ('--')
+            else:
+                print '=============== EDIT ================='
+                print ('  ')
+                if len(self.env['purchase.order.line'].search([('product_id','=',rec.product_id.id),('id','!=',rec.id)])) != 0:
+                    print ('-- try search price_unit from last record')
+                    print self.env['purchase.order.line'].search([('product_id','=',rec.product_id.id),('id','!=',rec.id)])[-1].price_unit
+                    print ('-- try search all record')
+                    print self.env['purchase.order.line'].search([('product_id','=',rec.product_id.id),('id','!=',rec.id)])
+                    last_unit_price = self.env['purchase.order.line'].search([('product_id','=',rec.product_id.id),('id','!=',rec.id)])[-1].price_unit
+                    if last_unit_price != rec.price_unit:
+                        show_warning = True
+                        unicode_name = rec.product_id.name
+                        str_name = unicode_name.encode('utf-8')
+                        str_price = str(last_unit_price)
+                        str_var += str_name+' คือ '+str_price+'\n'
+                        print str_var
+                        print ('  ')
+                        print ('--')
+                        print (r'the unit price is different from the most recent record')
+                        print ('  ')
+                        print ('--') 
+ 
+        
+        if show_warning == True :
+            warning = {
+                'title': 'Warning!',
+                'message' : str1+str2+'\n'+str_var+str3}
+            return {'warning': warning}
+        print ('  ')
+        print ('--xx--')
+        print ('  ')  
     
     
 class PurchaseOrderLine(models.Model):
